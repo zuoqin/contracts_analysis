@@ -1,0 +1,19 @@
+/*Import component styles*/
+@import
+"components/normalize",
+"components/mixins",
+"components/fonts",
+"components/var",
+"components/base",
+"components/typography",
+"components/icon";
+
+/*Import page styles*/
+@import
+"page/header";
+// "page/personal",
+// "page/auth",
+// "page/header",
+// "page/online",
+// "page/events",
+// "page/tracks";
