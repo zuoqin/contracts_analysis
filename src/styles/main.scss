@@ -1,4 +1,6 @@
 /*Import component styles*/
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 @import
 "components/normalize",
 "components/mixins",
@@ -6,12 +8,13 @@
 "components/var",
 "components/base",
 "components/typography",
+"components/forms",
 "components/icon";
 
 /*Import page styles*/
 @import
-"page/header";
-// "page/personal",
+"page/header",
+"page/search";
 // "page/auth",
 // "page/header",
 // "page/online",

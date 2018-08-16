@@ -1,0 +1,38 @@
+.search-form{
+    background: rgba(216,216,216,0.35);
+    padding: 17px 0;
+    font-size: 18px;
+    font-family: 'Avenir Next';
+
+    &__row{
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 35px;
+    }
+    &__left{
+        width: 100%;
+        max-width: 56.3%;
+    }
+    &__right{
+        width: 100%;
+        max-width: 35.2%;
+    }
+    &__search{
+        display: flex;
+        &__select{
+            width: 32%;
+            cursor: pointer;
+        }
+        &__query{
+            padding-left: 10px;
+            input{
+                width: 100%;
+                @extend .styled-input;
+                @extend .styled-input--search;
+            }
+            flex-grow: 1;
+        }
+    }
+  
+}

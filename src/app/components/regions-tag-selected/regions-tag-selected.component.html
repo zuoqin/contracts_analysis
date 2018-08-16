@@ -1,0 +1,20 @@
+ <div>
+    <ng-select #selectRegions [items]="regions"
+            [selectOnTab]="true"
+            bindLabel="name"
+            [clearable]="false"
+            (ngModelChange)="changeRegions(selectRegions)"
+            bindValue="id"
+            placeholder="Выберите регион"
+            notFoundText="Регион не найден"
+            loadingText="Загрузка.."
+            [(ngModel)]="regionsSelectedModel"
+            >
+    </ng-select>
+    <div *ngIf="regionsSelected.length>1" class="region-tag-list">
+        <div *ngFor="let region of regionsSelected" class="region-tag-list__item">
+            {{region.name}}
+            <span class="region-tag-list__close" (click)="deleteRegion(region.id)"></span>
+        </div>
+    </div>
+</div>

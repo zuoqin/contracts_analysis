@@ -1,0 +1,178 @@
+.styled-label{
+    color: #b32520;
+    font-size: 13.5px;
+    line-height: 24px;
+    font-weight: 700;
+    margin-bottom: 11px;
+    display: inline-block;
+}
+.styled-input{
+    padding: 10px 16px;
+    margin: 0;
+    border-radius: 5px;
+    height: 35px;
+    min-height: 35px;
+    border: 1px solid #c2c2c2;
+    outline: none !important;
+    box-shadow: none;
+    font-family: 'Avenir Next';
+    color: $text-color;
+    font-size: 18px;
+    &--search{
+        background: white url(/assets/images/icons/search.svg) center right 10px no-repeat;
+        background-size: 14px;
+        padding-right: 30px;
+    }
+}
+
+.ng-select{
+
+    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container{
+        box-shadow: none;
+        border: 1px solid #c2c2c2;
+    }
+    .ng-arrow-wrapper{
+        padding-right: 10px;
+        .ng-arrow{
+            border-width: 8px 5px 2.5px;
+            border-color: #d8d8d8 transparent transparent;
+        }
+    }
+    &.ng-select-opened>.ng-select-container .ng-arrow{
+        border-width: 2.5px 5px 8px; 
+    }
+    &.ng-select-single{
+        .ng-select-container{
+            cursor: pointer;
+            @extend .styled-input;
+            padding-right: 0;
+            .ng-value-container{
+                padding-left: 0;
+                .ng-input{
+                    padding-left: 16px;
+                }
+            }
+        }
+    }
+    &.ng-select-opened>.ng-select-container .ng-arrow{
+        border-color:  transparent transparent #d8d8d8;
+    }
+}
+
+.ng-dropdown-panel{
+    .ng-dropdown-panel-items{
+        .ng-option{
+            padding: 6px 16px;
+            color: #6c6b6b;
+            font-family: 'Avenir Next';
+            font-weight: 400;
+            font-size: 16.5px;
+            &.ng-option-selected .ng-option-label{
+                font-weight: 400;
+            }
+            &.ng-option-marked{
+                background: #e2eef2;
+             
+            }
+        }
+    }
+}
+
+.completer-holder{
+    position: relative;
+    .completer-dropdown-holder{
+        width: 100%;
+        .completer-dropdown{
+            border: 1px solid #c2c2c2;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-top: -3px;
+            border-top-color: #e6e6e6;
+            padding: 0;
+            width: 100%;
+          
+                .completer-row,.completer-no-results,.completer-searching{
+                    background: none;
+                    padding: 6px 16px;
+                    width: 100%;
+                    margin-bottom: 0;
+                    font-family: 'Avenir Next';
+                    font-weight: 400;
+                    font-size: 16.5px;
+                    color: $text-color;
+                }
+                .completer-row{
+                    &:hover{
+                        background: #e2eef2;
+                        color: $text-color;
+                    }
+                    border-bottom-right-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+               
+        
+            
+        }
+    }
+}
+
+.field-3-column{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input{
+        width: 112px;
+    }
+    &__line{
+        border-top: 1px solid #979797;
+        width: 13.5px;
+        display: block;
+        font-size: 0;
+        height: 0;
+        margin: 0 3px;
+    }
+    &__last{
+        width: 110px;
+        margin-left: 10px;
+    }
+}
+.region-tag-list{
+    &__item{
+        border-radius: 43px;
+        height: 34px;
+        background: rgba(216, 216, 216, 0.5);
+        display: inline-block;
+        line-height: 34px;
+        padding: 0 45px 0 15px;
+        margin-right: 25px;
+        color: #6c6b6b;
+        font-family: 'Avenir Next';
+        font-size: 15px;
+        font-weight: 400;
+        position: relative;
+        margin-top: 20px;
+    }
+    &__close{
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        right: 7px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        &:after,&:before{
+            content: "";
+            display: block;
+            width: 15px;
+            height: 1px;
+            background: #979797;
+            position: absolute;
+            top:50%;
+            left: 15%;
+            transform: rotate(45deg)
+        }
+        &:after{
+            transform: rotate(-45deg)
+        }
+    }
+}
