@@ -1,0 +1,109 @@
+<div class="search-form">
+    <div class="container">
+        <form [formGroup]="searchForm" novalidate >
+            <div class="search-form__row">
+                <fieldset class="search-form__left">
+                    <label class="styled-label">ПОИСК</label>
+                    <div class="search-form__search">
+                        <ng-select 
+                            class="search-form__search__select" 
+                            [searchable]="false" 
+                            formControlName="type" 
+                            [clearable]="false"
+                            (change)="changeType()"
+                            >
+                            <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
+                        </ng-select>
+                        <ng2-completer 
+                            class="search-form__search__query"
+                            [(ngModel)]="queryStr" 
+                            formControlName="query" 
+                            [datasource]="dataService" 
+                            [minSearchLength]="3" 
+                            placeholder="Поиск по продукту"
+                            [clearUnselected]="false"
+                            textNoResults="Нет результатов"
+                            textSearching="Загрузка.."
+                            openOnClick="true"
+                            (selected)="selectProduct()"
+                            pause="1000"
+                            >
+                        </ng2-completer>
+                    </div>
+                </fieldset>
+                <fieldset  class="search-form__right">
+                        <label class="styled-label">ОБЪЕМ</label>
+                        <div class="field-3-column">
+                            <input type="text" formControlName="volumeFrom"  class="styled-input" placeholder="От" OnlyNumber="true"/>
+                            <span class="field-3-column__line">-</span>
+                            <input type="text" formControlName="volumeTo"  class="styled-input" placeholder="До" OnlyNumber="true"/>
+                            <ng-select [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last">
+                                <ng-option value="1">Кг.</ng-option>
+                                <ng-option value="2">Литр</ng-option>
+                                <ng-option value="3">Упаковка</ng-option>
+                            </ng-select>
+                        </div>
+                </fieldset>
+            </div>
+            <div class="search-form__row">
+                <fieldset class="search-form__left">
+                    <label class="styled-label">РЕГИОН</label>
+                    <regions-tag-selected></regions-tag-selected>
+                </fieldset>
+                <fieldset   class="search-form__right">
+                    <label class="styled-label">СРОК ПОСТАВКИ</label>
+                    <div class="field-3-column">
+                        <input type="text" formControlName="deliveryFrom" class="styled-input" placeholder="От"  OnlyNumber="true">
+                        <span class="field-3-column__line">-</span>
+                        <input type="text" formControlName="deliveryTo" class="styled-input" placeholder="До" OnlyNumber="true">
+                        <span class="field-3-column__last">дней</span>
+                    </div>
+                </fieldset>
+              
+            </div>
+            <ng-container *ngIf="ifLoadData">
+                <div class="search-form__row">
+                    <fieldset>
+                        <label class="styled-label">ХАРАКТЕРИСТИКИ</label>
+                        <div class="search-form__character">
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Питьевой
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Густой
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Фруктовый
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Обогащенный бифидобактериями
+                            </label>
+                        </div>
+                    
+                    </fieldset>    
+                </div>
+                <div class="search-form__row search-form__row--border-top">
+                    <fieldset>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="switch__slider"></span>
+                            <div class="switch__text">
+                                    Учитывать при расчете рисковых поставщиков
+                            </div>
+                    
+                        </label>
+                        
+                    </fieldset> 
+                </div>
+            </ng-container>
+        </form>
+    </div>
+</div>

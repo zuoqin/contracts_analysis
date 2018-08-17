@@ -1,34 +1,45 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import { Router } from '@angular/router';
+import { CONFIG } from '../../../config';
 
 @Component({
-    selector:'search-form',
-    templateUrl:'./search-form.component.html'
+    selector:'search-filter-spgz',
+    templateUrl:'./search-filter-spgz.component.html'
 })
 
-export class SearchFormComponent implements OnInit{
-    searchProductForm: FormGroup;
+export class SearchFilterSpgz implements OnInit{
+    searchForm: FormGroup;
     
     queryStr: string;
     dataService: CompleterData;
+    ifLoadData:boolean = false;
+    seacrhType = CONFIG.seacrhType;
 
     queryhData = [
         { name: 'ЙОГУРТЫ', value: '1' }
-
     ];
 
     constructor(
         private formBuilder: FormBuilder,
+        private router: Router,
         private completerService: CompleterService){
             this.dataService = completerService.local(this.queryhData, 'name', 'name');
         }
     ngOnInit() {
         this.initForm();
     }
+    changeType(){
+        this.router.navigate([this.searchForm.controls.type.value]);
+        
+    }
+    selectProduct(){
+        this.ifLoadData = true;
+    }
     initForm(){
-        this.searchProductForm = this.formBuilder.group({
-            type: ['product', [Validators.required]],
+        this.searchForm = this.formBuilder.group({
+            type: ['spgz', [Validators.required]],
             query: ['', [Validators.required]],
             volumeFrom: ['', [Validators.required]],
 			volumeTo: ['', [Validators.required]],

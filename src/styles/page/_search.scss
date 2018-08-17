@@ -8,20 +8,22 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        margin-bottom: 35px;
+        margin-bottom: 29px;
+        &--border-top{
+            border-top:2px solid rgba(216,216,216,0.5);
+            padding-top: 30px;
+        }
     }
     &__left{
-        width: 100%;
-        max-width: 56.3%;
+       width: 56%;
     }
     &__right{
-        width: 100%;
-        max-width: 35.2%;
+        width: 36.5%;
     }
     &__search{
         display: flex;
         &__select{
-            width: 32%;
+            width: 30%;
             cursor: pointer;
         }
         &__query{
@@ -32,6 +34,14 @@
                 @extend .styled-input--search;
             }
             flex-grow: 1;
+        }
+    }
+    &__character{
+        .styled-checkbox{
+            &:not(:first-child){
+                margin-left: 111px;
+            }
+           
         }
     }
   
