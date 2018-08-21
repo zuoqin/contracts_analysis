@@ -52,9 +52,14 @@ export class RegionsTagSelectedComponent implements OnInit{
     }
     deleteRegion(id:string){
         this.regionsSelected.splice(this.regionsSelected.findIndex(region => region.id === id),1);
-        let getCurrentIndex = this.regionsSelected.findIndex(region => region.id === this.regionsSelectedModel);
-        if(getCurrentIndex<0){
-            this.regionsSelectedModel = this.regionsSelected[this.regionsSelected.length-1].id
+        if(this.regionsSelected.length){
+            let getCurrentIndex = this.regionsSelected.findIndex(region => region.id === this.regionsSelectedModel);
+            if(getCurrentIndex<0){
+                this.regionsSelectedModel = this.regionsSelected[this.regionsSelected.length-1].id
+            }
+        }else{
+            this.regionsSelectedModel = null;
         }
+        
     }
 }
