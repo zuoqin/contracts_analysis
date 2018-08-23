@@ -25,3 +25,7 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
+
+.highcharts-tooltip>span {
+    padding: 0 10px;
+}

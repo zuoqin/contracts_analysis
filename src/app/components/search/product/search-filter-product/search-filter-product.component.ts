@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,Output,EventEmitter,Input } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Router } from '@angular/router';
-import { CONFIG } from '../../../config';
+import { CONFIG } from './../../../../config';
 
 @Component({
     selector:'search-filter-product',
@@ -16,6 +16,11 @@ export class SearchFilterProduct implements OnInit{
     dataService: CompleterData;
     ifLoadData:boolean = false;
     seacrhType = CONFIG.seacrhType;
+    @Input() loadData: boolean;
+   // @Output() loadData = new EventEmitter<boolean>();
+   @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
+
+
 
     queryhData = [
         { name: 'ЙОГУРТЫ', value: '1' }
@@ -35,6 +40,7 @@ export class SearchFilterProduct implements OnInit{
     }
     selectProduct(){
         this.ifLoadData = true;
+        this.onLoadData.emit(true);
     }
     initForm(){
         this.searchForm = this.formBuilder.group({

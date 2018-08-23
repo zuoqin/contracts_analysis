@@ -248,6 +248,7 @@
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
         }
+        
     }
     input[type="checkbox"]{
         position: absolute;
@@ -257,6 +258,12 @@
             border-color:#25ce77;
             &:after {
                 display: block;
+            }
+        }
+        &:not(:checked) ~ .checkmark{
+            &--color{
+                border-color: #c2c2c2 !important;
+                background: #ffffff !important;
             }
         }
     }

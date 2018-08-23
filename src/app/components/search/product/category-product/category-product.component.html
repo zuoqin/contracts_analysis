@@ -1,0 +1,67 @@
+<div class="catergory-select">
+    <div class="container">
+
+        <div class="catergory-select__block catergory-select__block--category">
+            <div 
+                class="catergory-select__item"
+                (click)="openSubCategories()">
+                    <div>
+                        {{selectedCategory.name}} 
+                        <ng-container *ngIf="selectedCategory.subcategory && selectedCategory.subcategory.length">
+                            ({{selectedCategory.subcategory.length}})
+                        </ng-container>
+                    </div>
+            </div>
+            <div 
+                class="catergory-select__tooltip"
+                [class.active]="isOpenSubcategory"
+               >
+                <div 
+                    class="catergory-select__tooltip__item catergory-select__tooltip__item--subcategory"
+                    *ngFor="let subcategory of selectedCategory.subcategory"
+                    (click)="selectSubCategory(subcategory)"
+                    [class.active]="selectedSubCategory && subcategory.id==selectedSubCategory.id"
+                    [class.no-child]="!subcategory.product || !subcategory.product.length">
+                   
+                        {{subcategory.name}}
+                        <ng-container *ngIf="subcategory['product'] && subcategory['product'].length">
+                                ({{subcategory['product'].length}})
+                        </ng-container>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedSubCategory" class="catergory-select__block">
+            <div 
+                class="catergory-select__item"
+                (click)="openProducts()">
+                    <div>
+                        {{selectedSubCategory.name}} 
+                        <ng-container *ngIf="selectedSubCategory.subcategory && selectedSubCategory.subcategory.length">
+                            ({{selectedSubCategory.subcategory.length}})
+                        </ng-container>
+                    </div>
+            </div>
+            <div 
+                class="catergory-select__tooltip"  
+                *ngIf="selectedSubCategory.product && selectedSubCategory.product.length"
+                [class.active]="isOpenProduct">
+                    <div 
+                        class="catergory-select__tooltip__item"
+                        *ngFor="let product of selectedSubCategory.product"
+                        [class.active]="selectedProduct && product.id==selectedProduct.id"
+                        (click)="selectProduct(product)"
+                        >
+                        {{product.name}}
+                    </div>
+            </div>
+        
+        </div>
+        <div 
+            *ngIf="selectedProduct" 
+            class="catergory-select__block catergory-select__block--product">
+            <div class="catergory-select__item"><div>{{selectedProduct.name}}</div></div>
+        </div>
+    </div>
+</div>

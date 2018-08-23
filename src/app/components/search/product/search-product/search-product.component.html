@@ -1,0 +1,6 @@
+<search-filter-product  (onLoadData)="onLoadData()"  [loadData]="loadData"></search-filter-product>
+<ng-container *ngIf="loadData">
+        <category-product></category-product>
+        <price-product></price-product>
+</ng-container>
+<br><br><br><br><br><br><br>

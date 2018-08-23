@@ -25,3 +25,12 @@
 	font-weight: normal;
 	font-style: normal;
 }
+@font-face {
+	font-family: 'Avenir Next';
+	src: url('/assets/fonts/AvenirNextCyr-Medium.eot');
+	src: url('/assets/fonts/AvenirNextCyr-Medium.eot?#iefix') format('embedded-opentype'),
+	url('/assets/fonts/AvenirNextCyr-Medium.woff') format('woff'),
+	url('/assets/fonts/AvenirNextCyr-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}

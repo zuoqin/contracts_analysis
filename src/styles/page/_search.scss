@@ -46,3 +46,166 @@
     }
   
 }
+.catergory-select{
+    border-bottom: 2px solid #c2c2c2;
+    .container{
+        display: flex;
+        justify-content: start;
+        width: 900px;
+        margin: 0 auto;
+        min-height: 120px;
+        align-items: center;
+    }
+    &__block{
+        width: 29.5%;
+        position: relative;
+        &:nth-child(1){
+            width: 32.5%;
+        }
+        &:nth-child(2){
+            width: 38%;
+        }
+        &--product{
+            .catergory-select__item{
+                cursor: default;
+            }
+        }
+      
+            &:not(:first-child):after{
+                content: "";
+                position: absolute;
+                display: block;
+                border: 10px solid transparent;
+                border-left-width: 19px;
+                border-left-color: #d8d8d8;
+                left: 0;
+                top:50%;
+                transform: translateY(-50%)
+            }
+        
+    }
+    &__item{
+        cursor: pointer;
+        font-family: 'Avenir Next';
+        font-size: 18px;
+        line-height: 24px;
+        div{
+            padding-left: 102px;
+            padding-right: 21px;
+         }
+    }
+    &__tooltip{
+        display: none;
+        position: absolute;
+        z-index: 1;
+        width: 390px;
+        box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.5);
+        background: white;
+        border: 1px solid #979797;
+        top: 100%;
+        margin-top: 11px;
+        padding: 7px 0;
+        &.active{
+            display: block;
+        }
+        &:after{
+            content: "";
+            display: block;
+            position: absolute;
+            border: 1px solid transparent;
+            background: white;
+            padding: 6px;
+            border: 1px solid #979797;
+            border-left: none;
+            border-bottom: none;
+            top: -7px;
+            transform: rotate(-45deg);
+            left: 99px;
+        }
+        
+        &__item{
+            @extend .transition;
+            border: 1px solid transparent;
+            border-left: 0;
+            border-right: 0;
+            padding: 2px 20px;
+            color: #6c6b6b;
+            font-family: 'Avenir Next';
+            font-size: 16px;
+            line-height: 16px;
+            min-height: 22px;
+            position: relative;
+            z-index: 1;
+            &--subcategory:not(.no-child):after{
+                content: "";
+                display: block;
+                @extend .transition;
+                position: absolute;
+                right: 0;
+                top:50%;
+                transform: translateY(-50%);
+                border: 5px solid transparent;
+                border-left-width: 10px;
+                border-left-color:#d8d8d8;
+            }
+            
+            &.no-child{
+                background: rgba(216,216,216,0.35);
+              
+            }
+            &.active{
+                border-color: #979797;
+                background: #e2eef2;
+                font-weight: 500;
+                &:after{
+                    border-left-color: #979797;
+                }
+            }
+            &:hover{
+                cursor: pointer;
+                background: #e2eef2;
+                &:after{
+                    border-left-color: #979797;
+                }
+            }
+        }
+     
+    }
+}
+.chart-legend{
+    display: flex;
+    color: #6c6b6b;
+	font-family: 'Avenir Next';
+    font-size: 18px;
+    line-height: 21px;
+    &__left,&__right{
+        display: flex;
+        flex-direction: column;
+    }
+    &__left{
+        width: 204px;
+        padding-right: 10px;
+    }
+    &__right{
+        width: 300px;
+    }
+    &__item{
+        margin-bottom: 17px;
+    }
+    .styled-checkbox{
+        padding-left: 25px;
+    
+        .checkmark{
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            &:after{
+                left: 4px;
+                top: 1px;
+                width: 3px;
+                height: 7px;
+                border-width: 0 1px 1px 0;
+            }
+        }
+    }
+}
