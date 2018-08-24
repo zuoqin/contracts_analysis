@@ -1,37 +1,131 @@
 <div class="container">
-    <div>
-        <div [chart]="chart"></div>
-    </div>
-    <!-- <div>
-        <div></div>
-        <div class="chart-legend">
+    <price-chart></price-chart>
+
+    <div class="product-price">
+        <div class="product-price__left">
+            <div class="title-red text-center mb18 product-price__left__shift-title">ЦЕНА, <span class="lowercase">руб.</span></div>
+            <div class="price-table">
+                <div class="price-table__row price-table__row--head">
+                    <div class="price-table__title"></div>
+                    <div class="price-table__price">
+                        <div>Рыночная</div>
+                        <div>Закупочная</div>
+                    </div>
+                </div>
+                <div
+                    *ngFor="let year of pricesDynamics; let i = index" 
+                    [class.current-year]="year.year==currentDate.year"
+                    [class.current-year-arrow]="year.year==currentDate.year && year.data.length>2"
+                    [class.previous-year]="year.year!=currentDate.year"
+                    (click)="toggleYearsPrice(year);" >
+                        <div 
+                            *ngIf="year.year!=currentDate.year"
+                            class="price-table__year"
+                            [class.active]="year.active">
+                            {{year.year}}
+                        </div>
+                
+                        <div 
+                            *ngFor="let price of year.data" 
+                            class="price-table__row"
+                            [class.active]="year.active"
+                            >
+                            <div class="price-table__title"> {{price.monthText}}</div>
+                            <div class="price-table__price">
+                                <div>
+                                    {{price.market}}
+                                    <span 
+                                        [class.down]="price.diffMarket<0" 
+                                        [class.up]="price.diffMarket>0" 
+                                        >
+                                        <ng-container *ngIf="price.diffMarket>0">+</ng-container>
+                                        {{price.diffMarket}}
+                                    </span>
+                                </div>
+                                <div>
+                                    {{price.purchase}}
+                                    <span 
+                                        [class.down]="price.diffPurchase<0" 
+                                        [class.up]="price.diffPurchase>0" 
+                                    >
+                                        <ng-container *ngIf="price.diffPurchase>0">+</ng-container>
+                                        {{price.diffPurchase}}
+                                </span>
+                                </div>
+                               
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
+            <div class="price-table ">
+                <div class="price-table__row price-table__row--head">
+                    <div class="price-table__title"></div>
+                    <div class="price-table__price price-table__price--center">Средняя</div>
+                </div>
+                <div class="price-table__row">
+                    <div class="price-table__title">Год</div>
+                    <div class="price-table__price">
+                        <div>34</div>
+                        <div>33</div>
+                    </div>
+                </div>
+                <div class="price-table__row">
+                    <div class="price-table__title">Весь период</div>
+                    <div class="price-table__price">
+                        <div>29</div>
+                        <div>30</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center forecast-price mt20 product-price__left__shift-title">
+                <div  class="forecast-price__title">Прогнозируемая цена на {{currentDate.monthText}}</div>
+                <div class="forecast-price__item">34 рубля</div>
+                <div class="forecast-price__item">(На основе анализа  2645 КП)</div>
+            </div>
+            
+        </div>
+     
+        <form class="chart-legend product-price__right" [formGroup]="priceChartLegendForm" novalidate >
             <div class="chart-legend__left">
-                <label class="styled-checkbox chart-legend__item">
-                    <input type="checkbox">
-                    <span class="checkmark checkmark--color"  style="background: #fe1b1b;border-color: #fe1b1b;"></span> 
-                    Рынок в Москве 
-                </label>
-                <label class="styled-checkbox chart-legend__item">
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                    Закупки в Москве
-                </label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Рынок ЦФО</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Рынок вне ЦФО</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Закупки вне ЦФО</label>
+                <ng-container *ngFor="let data of priceChartsData" >
+                        <label 
+                            *ngIf="data.type=='left'"
+                            class="styled-checkbox chart-legend__item"
+                            >
+                            <input 
+                                formControlName="{{data.id}}"
+                                (change)="onChangeLegend()" 
+                                type="checkbox">
+                            <span class="checkmark checkmark--color"  
+                            [style.background]="data.color"
+                            [style.borderColor]="data.color"
+                            ></span> 
+                            {{data.name}}
+                        </label>
+                </ng-container>
+                
             </div>
             <div class="chart-legend__right">
-                <label class="styled-checkbox chart-legend__item">
-                    <input type="checkbox">
-                    <span class="checkmark  checkmark--color" style="background: #33953c;border-color: #33953c;"></span>
-                    Рынок выбранной территории
-                </label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Закупки выбранной территории</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Федералы в Москве</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Федералы вне Москвы</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Муниципалы в Москве</label>
-                <label class="styled-checkbox chart-legend__item"><input type="checkbox"><span class="checkmark"></span>Муниципалы вне Москвы</label>
+                <ng-container *ngFor="let data of priceChartsData" >
+                    <label 
+                        *ngIf="data.type=='right'"
+                        class="styled-checkbox chart-legend__item"
+                        >
+                        <input 
+                            formControlName="{{data.id}}"
+                            (change)="onChangeLegend()" 
+                            type="checkbox">
+                        <span class="checkmark checkmark--color"
+                        [style.background]="data.color"
+                        [style.borderColor]="data.color"></span> 
+                        {{data.name}}
+                    </label>
+                </ng-container>
             </div>
-        </div>
-    </div> -->
+        </form>
+
+    </div>
 </div>

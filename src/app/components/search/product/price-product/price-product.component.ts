@@ -1,28 +1,13 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ProductServices } from '@services/product.services';
-import { Chart } from 'angular-highcharts';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import { CONFIG } from '../../../../config';
 
-declare var require: any;
-const Highcharts = require('highcharts');
-Highcharts.setOptions({
-    lang: {
-        loading: 'Загрузка...',
-        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-        weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
-        shortMonths: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек'],
-        exportButtonTitle: "Экспорт",
-        printButtonTitle: "Печать",
-        rangeSelectorFrom: "С",
-        rangeSelectorTo: "По",
-        rangeSelectorZoom: "Период",
-        downloadPNG: 'Скачать PNG',
-        downloadJPEG: 'Скачать JPEG',
-        downloadPDF: 'Скачать PDF',
-        downloadSVG: 'Скачать SVG',
-        printChart: 'Напечатать график'
-    }
-});
+/*Services */
+import { ProductServices } from '@services/product.services';
+
 
 @Component({
     selector:"price-product",
@@ -32,150 +17,146 @@ Highcharts.setOptions({
 
 
 
-export class PriceProductComponent implements OnInit{
+export class PriceProductComponent  implements OnInit{
     priceChartsData;
+    pricesDynamics;
+    priceChartLegendForm: FormGroup;
+    currentDate = {};
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
     constructor(
+        private formBuilder: FormBuilder,
         private productServices:ProductServices
-    ){
-        this.priceChartsData = this.productServices.price;
-    }
+        ){
+            this.priceChartsData=this.productServices.priceData;
+            let date = new Date()
+            this.currentDate["month"] = date.getMonth();
+            this.currentDate["monthText"] = CONFIG.months[date.getMonth()];
+            this.currentDate["year"] = date.getFullYear()
 
-    chart = new Chart({    
-        chart: {
-            type: 'spline',
-            backgroundColor: '#fff',
-            plotBackgroundColor: '#f5f5f5',
-        },
-        legend: {
-            enabled: false
-        },
-        title: {
-          text: ''
-        },
-        plotOptions: {
-            series: {
-                marker: {
-                    enabled: false,
-                    lineWidth: 1,
-                    lineColor: null // inherit from series
-                },
-                states: {
-                    hover: {
-                        enabled: true,
-                        halo: {
-                            size: 0
-                        }
-                    }
-                }
-            }
-        },
-        yAxis: {     
-            allowDecimals: false,
-            lineWidth: 0, 
-            labels: {
-                format: '{value} р.',
-                style: {
-                    color: '#6c6b6b',
-                    fontSize:"18px",
-                    fontFamily: 'Avenir Next, sans-serif',
-                }  
-            },
-            title:{
-                text:""
-            },
-            gridLineColor: '#b7b7b7'
-        },
-        xAxis: {
-            lineWidth: 0,
-            type: 'datetime',
-            alternateGridColor: '#eeeeee',
-            dateTimeLabelFormats: { // don't display the dummy year
-                month: '%b',
-                year: '%b'
-            },
-            labels: {
-                style: {
-                    color: '#6c6b6b',
-                    fontSize:"18px",
-                    fontFamily: 'Avenir Next, sans-serif',
-                }  
-            },
-            
-            plotLines: [{
-                color: '#979797',
-                width:1.5,
-                value: Date.UTC(2018, 0, 0),  
-                label: {
-                     y: -15,
-                  //  x:3,
-                    useHTML: true,
-                    text: '2017 год&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2018 год',
-                    textAlign: 'center',
-                    verticalAlign:"bottom",
-                    rotation: 0,
-                    style: {
-                        color: '#6c6b6b',
-                        fontSize:"13px",
-                        fontFamily: 'Avenir Next, sans-serif',
-                    }  
-                    
-                }
-            }],
-        },
-        tooltip:{
-            backgroundColor: '#fffdfd',
-            borderRadius:5,
-            borderColor:"gray",
-            crosshairs: [{
-                width: 1,
-                dashStyle: 'solid',
-                color: 'rgba(71, 71, 71, 0.89)'
-            },
-            {
-                width: 1,
-                dashStyle: 'solid',
-                color: 'rgba(71, 71, 71, 0.89)'
-            }],
-            formatter: function() {
-                return this.y + ' р.';// +this.series.name ;
-            },
-            positioner: function(labelWidth, labelHeight, point) {
-                var tooltipX = point.plotX + 20;
-                var tooltipY = point.plotY - 10;
-                return {
-                    x: 0,
-                    y: tooltipY
-                };
-            },
-            useHTML: true,
-            borderWidth: 0,
-            style:{
-                padding: 0,
-                color: '#6c6b6b',
-                fontSize:"18px",
-                fontFamily: 'Avenir Next, sans-serif',
-            }
-        },
-        credits: {
-          enabled: false
-        },
-        series: []
-      });
+
+            console.log(this.priceChartsData)
+            this.productServices.changePricesDynamicsObservable
+                .takeUntil(this.ngUnsubscribe)
+                .subscribe((data)=>{
+                 
+                    this.setPriceDifference(data)
+                })
+
+
+        }
+   
   
-      ngOnInit(){
-        
-        this.priceChartsData.map((series)=>{
-           // console.log(series)
-            this.chart.addSerie({
-                name:series.name,
-                data: (function () {
-                  let data = [];
-                    data.push(series.data)
-                    return data[0];
-                }()) 
-            }) 
-        })
-        
-      }
+    ngOnInit(){
+ 
+        this.initForm();
+    }
+    ngOnDestroy() {
+		this.ngUnsubscribe.next();
+		this.ngUnsubscribe.complete();
+    }
+    setMonthPricesDynamics(data){
+        let priceArrayTemp = [];
+        data.map(item=>{
+            let date = new Date(item.date);
+            let year = date.getFullYear().toString();
+   
+            item["monthText"] = CONFIG.months[date.getMonth()];
+            item["month"] = date.getMonth();
+            item["year"] = date.getFullYear();
+
      
+         
+            if(priceArrayTemp.filter(item2=>item2.year==year).length){
+          
+                    let index;
+                    
+                    priceArrayTemp.map((item3,i)=>{
+                        if(item3.year==year){
+                            index = i;
+                        }
+                    })
+
+                    console.log(index)
+                    priceArrayTemp[index].data.push(item)
+            }  else{
+                console.log(2)
+                let newarray = {};
+           
+               
+                newarray["active"] = false;
+            
+                newarray["year"] = year;
+           
+                newarray["data"] =  []
+                newarray["data"].push(item)
+                priceArrayTemp.push(newarray)
+            }
+        })
+        this.pricesDynamics = priceArrayTemp;
+        console.log(this.pricesDynamics)
+
+    }
+    setPriceDifference(data){
+        data.map((item,index)=>{
+            if(data[index+1]){
+                item['diffMarket'] = data[index].market - data[index+1].market;
+                item['diffPurchase'] = data[index].purchase - data[index+1].purchase
+            }else{
+                item['diffMarket'] = 0;
+                item['diffPurchase'] = 0;
+            }
+        })
+        this.setMonthPricesDynamics(data)
+    }
+    toggleYearsPrice(value){
+        value.active =!value.active;
+        if(value.year!=this.currentDate["year"]){
+           
+        }else{
+            console.log(value)
+        }
+       
+    }
+    initForm(){
+        this.priceChartLegendForm = this.formBuilder.group({
+            marketMoscow: [true],
+            purchasesMoscow: [false],
+            marketCFO: [false],
+            purchasesCFO: [false],
+            marketOutCFO: [false],
+            purchasesOutCFO: [false],
+            marketSelect: [true],
+            purchasesSelect: [false],
+            federalsMoscow: [false],
+            federalsOutMoscow: [false],
+            municipalsMoscow: [false],
+            municipalsOutMoscow: [false],
+        });
+        this.onChangeLegend()
+
+
+    }
+    onChangeLegend(){
+        let activeGraphs = [];
+        for(let control in this.priceChartLegendForm.controls) {
+            let id = control;
+            let value = this.priceChartLegendForm.controls[control].value;
+
+            if(value){
+                activeGraphs.push(id)
+               
+            }
+        }
+        this.selectActiveGraph(activeGraphs)
+     
+    }
+    selectActiveGraph(activeGraphs){
+        let activeGraphDataArray = [];
+
+        activeGraphs.map(graph=>{
+            activeGraphDataArray.push(this.priceChartsData.filter(data=>data.id==graph)[0])
+        })
+
+        this.productServices.changeGraphData.next(activeGraphDataArray)
+    }
 }

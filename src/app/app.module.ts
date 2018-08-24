@@ -12,7 +12,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SearchProductComponent } from './components/search/product/search-product/search-product.component';
 import { CategoryProductComponent } from './components/search/product/category-product/category-product.component';
 import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
-
+import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
 
@@ -42,6 +42,7 @@ import { ChartModule } from 'angular-highcharts';
 		SearchProductComponent,
 		CategoryProductComponent,
 		PriceProductComponent,
+		PriceChartComponent,
 		OnlyNumber
 	],
 	imports: [
