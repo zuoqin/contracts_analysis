@@ -370,3 +370,83 @@
         margin-bottom: 18px;
     }
 }
+
+.styled-table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    color: #222121;
+    font-family: 'Avenir Next';
+    .w95{
+        width: 95px;
+        min-width: 95px;;
+    }
+    .w275{
+        width: 275px;
+        min-width: 275px;
+    }
+    .w90{
+        width: 90px;
+        min-width: 90px;
+    }
+    .w75{
+        width: 75px;
+        min-width: 75px;
+    }
+    .w100{
+        width: 100px;
+        min-width: 100px;
+    }
+    .w110{
+        width: 110px;
+        min-width: 110px;
+    }
+    th{
+        background: #f9f9f9;
+        color: #787878;
+    
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        text-align: center;
+        vertical-align: middle;
+        height: 105px;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: relative;
+    }
+    td,th{
+        border: 1px solid #979797;
+    }
+    td{
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 500;
+        padding: 10px;
+        a{
+            color: #52abff;
+            text-decoration: none;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+    .red-bg{
+        background: #f4dede;
+    }
+    .red-color{
+        color: #bb3a36;
+    }
+    .green-color{
+        color: #12904f;
+    }
+    .yellow-color{
+        color: #c0bf2f;
+    }
+    &__bottom-filter{
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        display: flex;
+        align-items: center;
+    }
+}

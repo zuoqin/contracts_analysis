@@ -28,26 +28,21 @@ export class PriceProductComponent  implements OnInit{
         private productServices:ProductServices
         ){
             this.priceChartsData=this.productServices.priceData;
+
             let date = new Date()
             this.currentDate["month"] = date.getMonth();
             this.currentDate["monthText"] = CONFIG.months[date.getMonth()];
             this.currentDate["year"] = date.getFullYear()
 
-
-            console.log(this.priceChartsData)
             this.productServices.changePricesDynamicsObservable
                 .takeUntil(this.ngUnsubscribe)
                 .subscribe((data)=>{
-                 
                     this.setPriceDifference(data)
                 })
-
-
         }
    
   
     ngOnInit(){
- 
         this.initForm();
     }
     ngOnDestroy() {
@@ -67,16 +62,12 @@ export class PriceProductComponent  implements OnInit{
      
          
             if(priceArrayTemp.filter(item2=>item2.year==year).length){
-          
                     let index;
-                    
                     priceArrayTemp.map((item3,i)=>{
                         if(item3.year==year){
                             index = i;
                         }
                     })
-
-                    console.log(index)
                     priceArrayTemp[index].data.push(item)
             }  else{
                 console.log(2)

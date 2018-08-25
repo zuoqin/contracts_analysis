@@ -37,3 +37,22 @@ input[type="search"]::-webkit-search-results-decoration {
     line-height: 16.5px;
     text-transform: uppercase;
 }
+.title-with-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &__right{
+        display: flex;
+        align-items: center;
+        >*{
+            margin-left: 35px;
+        }
+    }
+}
+h2{
+    color: #b32520;
+	font-family: 'FiraSans';
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+}

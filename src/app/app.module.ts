@@ -13,8 +13,14 @@ import { SearchProductComponent } from './components/search/product/search-produ
 import { CategoryProductComponent } from './components/search/product/category-product/category-product.component';
 import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
 import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
+import { PurchaseProductComponent } from './components/search/product/purchase-product/purchase-product.component';
+
+
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
+import { TriggerActiveDirective } from './directives/triggerActive.directive';
+
+
 
 /*Services*/
 import { ProductServices } from '@services/product.services';
@@ -22,7 +28,8 @@ import { ProductServices } from '@services/product.services';
 /*Moduls*/
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import {DataTableModule} from "angular-6-datatable";
 
 /*Plugins */
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -43,7 +50,9 @@ import { ChartModule } from 'angular-highcharts';
 		CategoryProductComponent,
 		PriceProductComponent,
 		PriceChartComponent,
-		OnlyNumber
+		PurchaseProductComponent,
+		OnlyNumber,
+		TriggerActiveDirective
 	],
 	imports: [
 		BrowserModule,
@@ -52,7 +61,8 @@ import { ChartModule } from 'angular-highcharts';
 		NgSelectModule,
 		ReactiveFormsModule,
 		Ng2CompleterModule,
-		ChartModule
+		ChartModule,
+		DataTableModule
 	],
 	providers: [
 		ProductServices

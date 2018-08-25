@@ -1,0 +1,177 @@
+<div class="container">
+    <div class="title-with-button">
+            <h2>ЗАКУПКИ</h2>
+            <div class="title-with-button__right">
+                <a class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
+                <div 
+                    class="cursor popup-form popup-form--290 toggle-class">
+                    <div trigger-active>
+                        <img src="/assets/images/icons/gear.svg" width="20"/>
+                    </div>
+                    
+                    <div class="popup-form__container">
+                        <label class="popup-form__checkbox styled-checkbox">
+                            <input type="checkbox"/>
+                            <span class="checkmark"></span>
+                            Дата заключения контракта
+                        </label>
+                        <label class="popup-form__checkbox styled-checkbox">
+                            <input type="checkbox"/>
+                            <span class="checkmark"></span>
+                            Заказчик
+                        </label>
+                        <label class="popup-form__checkbox styled-checkbox">
+                            <input type="checkbox"/>
+                            <span class="checkmark"></span>
+                            Объем
+                        </label>
+                        <label class="popup-form__checkbox styled-checkbox">
+                            <input type="checkbox"/>
+                            <span class="checkmark"></span>
+                            Цена, руб
+                        </label>
+                        <div class="popup-form__bottom-btn">
+                            <div class="btn">Сбросить</div>
+                            <div class="btn">Подтвердить</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <table class="styled-table"  [mfData]="purchaseData" #mf="mfDataTable">
+        <tr>
+            <th class="w95">
+                Дата заключения контракта
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="date.value">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                    <div class="filter popup-form popup-form--290 toggle-class">
+                        <div class="filter__icon" trigger-active></div>
+                        <div class="popup-form__container">
+                            
+                            <div class="popup-form__bottom-btn">
+                                <div class="btn">Сбросить</div>
+                                <div class="btn">Подтвердить</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </th>
+            <th class="w275">
+                Заказчик
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="customer.name">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                    <div class="filter popup-form popup-form--290 toggle-class">
+                        <div class="filter__icon" trigger-active></div>
+                        <div class="popup-form__container">
+                            <input 
+                                type="text" 
+                                placeholder="Введите имя заказчика"
+                                class="popup-form__input"
+                                />
+                            <div class="popup-form__bottom-btn">
+                                <div class="btn">Сбросить</div>
+                                <div class="btn">Подтвердить</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th class="w90">
+                Объем
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="valume.value">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+            <th class="w75">
+                Цена, руб.
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="price">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+            <th class="w75">
+                Срок исполнения
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="term.value">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+      
+            <th class="w100">
+                Цена контракта
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="priceContract">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+            <th class="w110">
+                Статус контракта, руб.
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="status.value">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+            <th class="w110">
+                Дата окончания контракта
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="dateEnd.value">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+            <th class="w75">
+                Наличие жалоб
+                <div class="styled-table__bottom-filter">
+                    <div class="sorting">
+                        <mfDefaultSorter by="complaint">
+                            <span class="sorting__default"></span>
+                        </mfDefaultSorter>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <tr *ngFor="let purchase of mf.data">
+                <td class="text-center">{{purchase.date.text}}</td>
+                <td><a href="">{{purchase.customer.name}}</a></td>
+                <td>{{purchase.valume.value}} {{purchase.valume.unit}}</td>
+                <td class="text-center"><span class="yellow-color">{{purchase.price}}</span></td>
+                <td class="text-center">{{purchase.term.value}} {{purchase.term.unit}}</td>
+                <td>{{purchase.priceContract}}</td>
+                <td>{{purchase.status.text}}</td>
+                <td>{{purchase.dateEnd.text}}</td>
+                <td class="text-center">
+                    <ng-container *ngIf="purchase.complaint">да</ng-container>
+                    <ng-container *ngIf="!purchase.complaint">нет</ng-container>
+                </td>
+        </tr>
+    </table>
+
+</div>
