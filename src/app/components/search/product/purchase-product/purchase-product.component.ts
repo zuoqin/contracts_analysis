@@ -1,11 +1,64 @@
-import { OnInit } from '@angular/core';
+import { OnInit,ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
+
 
 @Component({
     selector:"purchase-product",
     templateUrl:"./purchase-product.component.html"
 })
 export class PurchaseProductComponent{
+    @ViewChild('selectedRangeDate') selectedRangeDate;
+
+    purchaseColumns=[
+        {
+            id:"date",
+            text:"Дата заключения контракта",
+            active:true
+        },
+        {
+            id:"customer",
+            text:"Заказчик",
+            active:true
+        },
+        {
+            id:"volume",
+            text:"Объем",
+            active:true
+        },
+        {
+            id:"price",
+            text:"Цена, руб.",
+            active:true
+        },
+        {
+            id:"term",
+            text:"Срок исполнения",
+            active:true
+        },
+        {
+            id:"priceContract",
+            text:"Цена контракта",
+            active:true
+        },
+        {
+            id:"status",
+            text:"Статус контракта",
+            active:true
+        },
+        {
+            id:"dateEnd",
+            text:"Дата окончания контракта",
+            active:true
+        },
+        {
+            id:"complaint",
+            text:"Наличие жалоб",
+            active:true
+        },
+    ]
+        
+    
+
     purchaseData = [
         {
             date:{
@@ -16,11 +69,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ГБУЗ "ГБК № 31 ДЗМ"'
             },
-            valume:{
+            volume:{
                 value:3781,
                 unit:"кг"
             },
-            price:98,
+            price:{
+                value:98,
+                status:1
+            },
             term:{
                 value:90,
                 unit:"дней"
@@ -34,7 +90,8 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 0, 9),
                 text:"09.01.2018",
             },
-            complaint:true
+            complaint:true,
+            safety:false
         },
         {
             date:{
@@ -45,11 +102,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ГБУЗ "ГБК № 31 ДЗМ" КОНЧАЛОВСКОГО ДМЗ'
             },
-            valume:{
+            volume:{
                 value:14000,
                 unit:"кг"
             },
-            price:126,
+            price:{
+                value:126,
+                status:1
+            },
             term:{
                 value:365,
                 unit:"дней"
@@ -63,7 +123,8 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 0, 28),
                 text:"28.01.2018",
             },
-            complaint:false
+            complaint:false,
+            safety:true
         },
         {
             date:{
@@ -74,11 +135,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ГБУЗ "ГБК № 31 ДЗМ"'
             },
-            valume:{
+            volume:{
                 value:2500,
                 unit:"кг"
             },
-            price:17,
+            price:{
+                value:17,
+                status:2
+            },
             term:{
                 value:23,
                 unit:"дня"
@@ -92,7 +156,8 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 4, 21),
                 text:"21.05.2018",
             },
-            complaint:false
+            complaint:false,
+            safety:true
         },
         {
             date:{
@@ -103,11 +168,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ГБУЗ МКНЦ имени А.С. Логинова ДМЗ'
             },
-            valume:{
+            volume:{
                 value:18500,
                 unit:"кг"
             },
-            price:19,
+            price:{
+                value:19,
+                status:2
+            },
             term:{
                 value:20,
                 unit:"дней"
@@ -121,7 +189,8 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 6, 22),
                 text:"22.07.2018",
             },
-            complaint:false
+            complaint:false,
+            safety:true
         },
         {
             date:{
@@ -132,11 +201,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ГБУЗ "ГБК № 31 ДЗМ" КОНЧАЛОВСКОГО ДМЗ'
             },
-            valume:{
+            volume:{
                 value:250,
                 unit:"кг"
             },
-            price:40,
+            price:{
+                value:40,
+                status:3
+            },
             term:{
                 value:3,
                 unit:"дня"
@@ -150,7 +222,8 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 0, 16),
                 text:"16.01.2018",
             },
-            complaint:false
+            complaint:false,
+            safety:true
         },
         {
             date:{
@@ -161,11 +234,14 @@ export class PurchaseProductComponent{
                 id:4234,
                 name:'ААА ГУП "МЕДИЦИНСКИЙ ЦЕНТР"'
             },
-            valume:{
+            volume:{
                 value:2200,
                 unit:"кг"
             },
-            price:21,
+            price:{
+                value:21,
+                status:1
+            },
             term:{
                 value:10,
                 unit:"дней"
@@ -179,11 +255,28 @@ export class PurchaseProductComponent{
                 value: new Date(2018, 5, 21),
                 text:"21.06.2018",
             },
-            complaint:false
+            complaint:false,
+            safety:true
         }
    ]
   
-
+   onSelectedDate(value){
+       if(value){
+        console.log(value.beginDate)
+        console.log(value.endDate)
+       }else{
+           console.log('сбросить')
+       }
+ 
+   }
+   onSelectedDateEnd(value){
+    if(value){
+        console.log(value.beginDate)
+        console.log(value.endDate)
+       }else{
+           console.log('сбросить')
+       }
+   }
     
 
 

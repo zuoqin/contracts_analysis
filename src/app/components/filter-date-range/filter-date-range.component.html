@@ -1,0 +1,37 @@
+
+  <div class="filter popup-form popup-form--225 popup-form--calendar toggle-class">
+        <div class="filter__icon" trigger-active></div>
+        <div class="popup-form__container">
+                <div 
+                    class="date-range-input"
+                    [class.active]="dateRangeModel"
+                    (click)="selectNewDate()"
+                    >
+                    <div class="date-range-input__item">
+                        <div class="icon icon--calendar"></div>
+                        <ng-container *ngIf="beginDate">{{beginDate.formatted}}</ng-container>
+                        <ng-container *ngIf="!beginDate">Начало</ng-container>
+                    </div>
+                    <div class="date-range-input__item">
+                        <div class="icon icon--calendar"></div>
+                        <ng-container *ngIf="endDate">{{endDate.formatted}}</ng-container>
+                        <ng-container *ngIf="!endDate">Конец</ng-container>
+                    </div>
+                </div>
+                <ng-container *ngIf="!dateRangeModel">
+                    <my-date-range-picker 
+                    (dateRangeChanged)="onDateRangeChanged($event)"
+                    (dateSelected)="onDateSelected($event)"
+                    [options]="myDateRangePickerOptions"
+                    [(ngModel)]="dateRangeModel"></my-date-range-picker>
+                </ng-container>
+            <div class="popup-form__bottom-btn" *ngIf="dateRangeModel">
+                <div class="btn" (click)="clear($event)">Сбросить</div>
+                <div class="btn" (click)="save($event)">Подтвердить</div>
+            </div>
+        </div>
+    </div>
+
+
+
+

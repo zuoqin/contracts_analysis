@@ -282,12 +282,16 @@
     font-weight: 400;
     padding: 0 10px;
     display: inline-block;
+    transition:all .2s linear;
     &--icon{
         display: flex;
         align-items: center;
         .icon{
             margin: 0 12px 0 3px;
         }
+    }
+    &:hover{
+        background: #d5d5d5;
     }
 }
 
@@ -300,7 +304,7 @@
         z-index: 1;
         right: 0;
         top:100%;
-        border: 1px solid #989898;
+        border: 1px solid #c2c2c2;
         background: #ffffff;
         padding: 5px 18px 0;
         color: #6c6b6b;
@@ -342,8 +346,192 @@
             width: 290px;
         }
     }
+    &--270{
+        .popup-form__container{
+            width: 270px;
+        }
+    }
+    &--225{
+        .popup-form__container{
+            width: 225px;
+        }
+    }
+    &--calendar{
+        .popup-form__container{
+            padding: 0;
+            .date-range-input{
+                display: flex;
+                &__item{
+                    position: relative;
+                    height: 28px;
+                    width: 50%;
+                    min-width: 50%;
+                    background: #e2eef2;
+                    color: #6c6b6b;
+                    font-family: 'Avenir Next';
+                    font-size: 12px;
+                    font-weight: 400;
+                    line-height: 28px;
+                    padding-left: 6px;
+                    padding-right: 9px;
+                    border-bottom: 1px solid #979797;
+                    display: flex;
+                    align-items: center;
+                    &:not(:first-child){
+                        border-left: 1px solid #979797;
+                    }
+                    .icon{
+                        margin-right: 5px;
+                    }
+                   
+                }
+                &.active{
+                    cursor: pointer;
+                    .date-range-input__item{
+                        border-bottom: none;
+                        &:after{
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            right: 4px;
+                            top: 9px;
+                            width: 4px;
+                            height: 4px;
+                            border: 1px solid #979797;
+                            border-right: none;
+                            border-top: none;
+                            transform: rotate(-45deg);
+                        }
+                    }
+                }
+            }
+            .mydrp{
+                display: block;
+                width: 100% !important;
+                .selector{
+                    width: 100% !important;
+                    height: auto !important;
+                    border: 0;
+                    margin-left: 0;
+                    margin-top: 0;
+                }
+                .daycell{
+                  
+                    font-family: 'Avenir Next';
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 18px;
+                    padding: 5px 4px;
+                    outline: none;
+                }
+                .datevalue{
+                    line-height: 23px;
+                }
+                .prevmonth,.nextmonth{
+                    color: #c2c2c2;
+                    
+                }
+                .currmonth{
+                  
+                    background-color: transparent;
+                    &:not(.range):hover{
+                        background-color: #DDD;
+                    }
+                
+                }
+                .selecteddaybegin,.currmonth{
+                    color: #6c6b6b;
+                    background: transparent;
+                }
+                .range{
+                    background-color: #D9F2E6;
+                    *{
+                        background: none !important;
+                    }
+                }
+                .header{
+                    border-bottom: 1px solid #c2c2c2;
+                    td{
+                        padding-top: 3px;
+                    }
+                }
+                .headermonthtxt, .headeryeartxt{
+                    width: 70px;
+                    max-width: 100%;
+                    &.headeryeartxt{
+                        width: 40px;
+                    }
+                    .monthlabel,.headerlabelbtn{
+                        color: #b32520;
+                        font-family: 'FiraSans';
+                        font-size: 14px;
+                        line-height: 16px;
+                    }
+                }
+                .mydrpicon{
+                    color: #c2c2c2;
+                    font-size: 14px;
+                    &.headerbtndisabled{
+                        opacity: 0.2;
+                    }
+                }
+                .markcurrday{
+                    color: #b32520;
+                }
+                .weekdaytitle{
+                    background: none;
+                    color: #989898;
+                    font-family: 'Avenir Next';
+                    font-size: 12px;
+                    font-style: normal;
+                    font-stretch: normal;
+                    font-weight: 500;
+                    line-height: 16px;
+                    text-align: left;
+                    padding-top: 12px;
+                    text-align: center;
+                    padding-bottom: 6px;
+                }
+                .disabled{
+                    *{
+                        color: #c2c2c2;
+                        background: none !important;
+                    }
+                }
+            }
+        }
+        .popup-form__bottom-btn{
+            margin: 0;
+            .btn{
+                font-size: 14px;
+            }
+        }
+    }
+    &__input-2-column{
+        display: flex;
+        justify-content: space-between;
+        input{
+            width: 100px;
+            margin: 6px 5px 14px;
+        }
+
+    }
+    &__input-label{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0px 17px;
+        input{
+            margin: 0;
+            width: 135px;
+            margin-right: 20px;
+        }
+        label{
+
+        }
+    }
     &__input{
-        padding: 8px 20px;
+        padding: 8px 10px;
         border-radius: 7px;
         width:100%;
         height: 30px;
@@ -441,4 +629,8 @@
             display: none;
         }
     }
+}
+
+.mydrp .headerclearbtn, .mydrp .headerokbtn{
+    display: none !important;
 }

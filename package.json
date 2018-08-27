@@ -25,6 +25,7 @@
 		"angular-highcharts": "^6.2.6",
 		"core-js": "^2.5.4",
 		"highcharts": "^6.1.1",
+		"mydaterangepicker": "^4.2.1",
 		"ng2-completer": "^2.0.8",
 		"rxjs": "^6.2.2",
 		"rxjs-compat": "^6.2.0",

@@ -14,7 +14,7 @@ import { CategoryProductComponent } from './components/search/product/category-p
 import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
 import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
 import { PurchaseProductComponent } from './components/search/product/purchase-product/purchase-product.component';
-
+import { FilterDateRangeComponent } from './components/filter-date-range/filter-date-range.component';
 
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
@@ -35,7 +35,7 @@ import {DataTableModule} from "angular-6-datatable";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2CompleterModule } from "ng2-completer";
 import { ChartModule } from 'angular-highcharts';
-
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 @NgModule({
 	declarations: [
@@ -51,6 +51,7 @@ import { ChartModule } from 'angular-highcharts';
 		PriceProductComponent,
 		PriceChartComponent,
 		PurchaseProductComponent,
+		FilterDateRangeComponent,
 		OnlyNumber,
 		TriggerActiveDirective
 	],
@@ -62,7 +63,8 @@ import { ChartModule } from 'angular-highcharts';
 		ReactiveFormsModule,
 		Ng2CompleterModule,
 		ChartModule,
-		DataTableModule
+		DataTableModule,
+		MyDateRangePickerModule
 	],
 	providers: [
 		ProductServices
