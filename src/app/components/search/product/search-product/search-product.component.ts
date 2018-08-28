@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
     templateUrl:"./search-product.component.html"
 })
 export class SearchProductComponent{
-    loadData:boolean = true;
+    loadData:boolean = false;
     onLoadData(){
         this.loadData = true;
     }

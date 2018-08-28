@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
-import { CONFIG } from '../../../../config';
+import { CONFIG } from '@config';
 
 /*Services */
 import { ProductServices } from '@services/product.services';

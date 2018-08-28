@@ -18,6 +18,7 @@
 		],
 		"paths": {
 			"@services/*": ["app/services/*"],
+			"@config": ["app/config.ts"],
 		  }
 	}
 }

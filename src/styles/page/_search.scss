@@ -376,17 +376,22 @@
     border-collapse: collapse;
     color: #222121;
     font-family: 'Avenir Next';
+    width: 100%;
     .w95{
         width: 95px;
         min-width: 95px;;
     }
-    .w275{
-        width: 275px;
-        min-width: 275px;
+    .w280{
+        width: 280px;
+        min-width: 280px;
     }
-    .w90{
-        width: 90px;
-        min-width: 90px;
+    .w87{
+        width: 87px;
+        min-width: 87px;
+    }
+    .w70{
+        width: 70px;
+        min-width: 70px;
     }
     .w75{
         width: 75px;
@@ -396,6 +401,10 @@
         width: 100px;
         min-width: 100px;
     }
+    .w107{
+        width: 107px;
+        min-width: 107px;
+    }
     .w110{
         width: 110px;
         min-width: 110px;
@@ -403,7 +412,7 @@
     tbody>tr>th{
         background: #f9f9f9;
         color: #787878;
-    
+        padding-bottom: 10px;
         font-size: 14px;
         font-weight: 400;
         line-height: 18px;
@@ -417,11 +426,12 @@
     td,th{
         border: 1px solid #979797;
     }
+
     td{
-        font-size: 15px;
+      font-size: 15px;
         line-height: 20px;
         font-weight: 500;
-        padding: 10px;
+        padding: 13px 6px;
         a{
             color: #52abff;
             text-decoration: none;

@@ -14,14 +14,14 @@ import { CategoryProductComponent } from './components/search/product/category-p
 import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
 import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
 import { PurchaseProductComponent } from './components/search/product/purchase-product/purchase-product.component';
-import { FilterDateRangeComponent } from './components/filter-date-range/filter-date-range.component';
-
+import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
+import { ColumnsFilterComponent } from './components/filters/columns-filter/columns-filter.component'
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
 import { TriggerActiveDirective } from './directives/triggerActive.directive';
 
-
-
+/*Pipes */
+import { ThousandsSpacePipe } from './pipes/thousands.pipe';
 /*Services*/
 import { ProductServices } from '@services/product.services';
 
@@ -36,6 +36,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2CompleterModule } from "ng2-completer";
 import { ChartModule } from 'angular-highcharts';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import {TooltipModule} from 'ng2-tooltip-directive';
+
 
 @NgModule({
 	declarations: [
@@ -51,9 +53,11 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 		PriceProductComponent,
 		PriceChartComponent,
 		PurchaseProductComponent,
-		FilterDateRangeComponent,
+		DateRangeFilterComponent,
+		ColumnsFilterComponent,
 		OnlyNumber,
-		TriggerActiveDirective
+		TriggerActiveDirective,
+		ThousandsSpacePipe
 	],
 	imports: [
 		BrowserModule,
@@ -64,7 +68,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 		Ng2CompleterModule,
 		ChartModule,
 		DataTableModule,
-		MyDateRangePickerModule
+		MyDateRangePickerModule,
+		TooltipModule
 	],
 	providers: [
 		ProductServices

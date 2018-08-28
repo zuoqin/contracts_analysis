@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { Router } from '@angular/router';
-import { CONFIG } from '../../../config';
+import { CONFIG } from '@config';
 
 @Component({
     selector:'search-filter-supplier',

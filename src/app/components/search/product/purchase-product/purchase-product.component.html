@@ -3,45 +3,12 @@
             <h2>ЗАКУПКИ</h2>
             <div class="title-with-button__right">
                 <a class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
-                <div 
-                    class="cursor popup-form popup-form--290 toggle-class">
-                    <div trigger-active>
-                        <img src="/assets/images/icons/gear.svg" width="20"/>
-                    </div>
-                    
-
-                    <div class="popup-form__container">
-                        <label 
-                            *ngFor="let item of purchaseColumns"
-                            class="popup-form__checkbox styled-checkbox">
-                            <input 
-                                type="checkbox"
-                                checked="{{item.active}}"
-                                />
-                            <span class="checkmark"></span>
-                            {{item.text}}
-                        </label>
-                        <label 
-                          
-                            class="popup-form__checkbox styled-checkbox">
-                            <input 
-                                type="checkbox"
-                                
-                                />
-                            <span class="checkmark"></span>
-                            Выделить все
-                        </label>
-                        <div class="popup-form__bottom-btn">
-                            <div class="btn">Сбросить</div>
-                            <div class="btn">Подтвердить</div>
-                        </div>
-                    </div>
-                </div>
+                <columns-filter (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
             </div>
     </div>
     <table class="styled-table"  [mfData]="purchaseData" #mf="mfDataTable">
         <tr>
-            <th class="w95">
+            <th *ngIf="isColumnActive('date')" class="w95" >
                 Дата заключения контракта
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -49,10 +16,10 @@
                             <span class="sorting__default"></span>
                         </mfDefaultSorter>
                     </div>
-                    <filter-date-range (onSelectedDate)="onSelectedDate($event)"></filter-date-range>
+                    <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
                 </div>
             </th>
-            <th class="w275">
+            <th *ngIf="isColumnActive('customer')" class="w280">
                 Заказчик
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -76,7 +43,7 @@
                     </div>
                 </div>
             </th>
-            <th class="w90">
+            <th *ngIf="isColumnActive('volume')" class="w87">
                 Объем
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -110,7 +77,7 @@
                     </div>
                 </div>
             </th>
-            <th class="w75">
+            <th *ngIf="isColumnActive('price')" class="w75">
                 Цена, руб.
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -144,8 +111,8 @@
                     </div>
                 </div>
             </th>
-            <th class="w75">
-                Срок исполнения
+            <th *ngIf="isColumnActive('term')" class="w70">
+                Срок испол- нения
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
                         <mfDefaultSorter by="term.value">
@@ -173,8 +140,8 @@
                 </div>
             </th>
       
-            <th class="w100">
-                Цена контракта
+            <th *ngIf="isColumnActive('priceContract')" class="w110">
+                Цена контракта, руб.
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
                         <mfDefaultSorter by="priceContract">
@@ -207,7 +174,7 @@
                     </div>
                 </div>
             </th>
-            <th class="w110">
+            <th *ngIf="isColumnActive('status')" class="w107">
                 Статус контракта
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -247,7 +214,7 @@
                     </div>
                 </div>
             </th>
-            <th class="w110">
+            <th *ngIf="isColumnActive('dateEnd')" class="w107">
                 Дата окончания контракта
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -255,10 +222,10 @@
                             <span class="sorting__default"></span>
                         </mfDefaultSorter>
                     </div>
-                    <filter-date-range (onSelectedDate)="onSelectedDateEnd($event)"></filter-date-range>
+                    <date-range-filter (onSelectedDate)="onSelectedDateEnd($event)"></date-range-filter>
                 </div>
             </th>
-            <th class="w75">
+            <th *ngIf="isColumnActive('complaint')" class="w75">
                 Наличие жалоб
                 <div class="styled-table__bottom-filter">
                     <div class="sorting">
@@ -293,23 +260,57 @@
             *ngFor="let purchase of mf.data"
             [class.red-bg]="!purchase.safety"
             >
-                <td class="text-center">{{purchase.date.text}}</td>
-                <td><a href="">{{purchase.customer.name}}</a></td>
-                <td>{{purchase.volume.value}} {{purchase.volume.unit}}</td>
-                <td class="text-center">
+                <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
+                <td *ngIf="isColumnActive('customer')">
+                   
+                    <a href="">
+                        <span   
+                            *ngIf="!purchase.safety"   
+                            tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.customer.name}}
+                        </span>
+                        <ng-container   
+                            *ngIf="purchase.safety">
+                            {{purchase.customer.name}}
+                        </ng-container>
+                    </a>
+                </td>
+                <td *ngIf="isColumnActive('volume')">{{purchase.volume.value | thousandsSpace}} {{purchase.volume.unit}}</td>
+                <td *ngIf="isColumnActive('price')" class="text-center">
                     <span 
-                    [class.red-color]="purchase.price.status == 1"
-                    [class.green-color]="purchase.price.status == 2"
-                    [class.yellow-color]="purchase.price.status == 3"
-                    >
+                        *ngIf="purchase.price.status == 1" 
+                        class="red-color cursor"
+                        tooltip="Значительное отклонение" 
+                        [options]="tooltipOptions"
+                        show-delay="500">
                         {{purchase.price.value}}
                     </span>
+
+                    <span 
+                        *ngIf="purchase.price.status == 2"
+                        class="green-color cursor"
+                        tooltip="Цена на рынке"
+                        [options]="tooltipOptions"
+                        show-delay="500">
+                        {{purchase.price.value}}
+                    </span>
+                    <span 
+                        *ngIf="purchase.price.status == 3" 
+                        class="yellow-color cursor"
+                        tooltip="Незначительное отклонение"
+                        [options]="tooltipOptions"
+                        show-delay="500">
+                        {{purchase.price.value}}
+                    </span>
+                    
                 </td>
-                <td class="text-center">{{purchase.term.value}} {{purchase.term.unit}}</td>
-                <td>{{purchase.priceContract}}</td>
-                <td>{{purchase.status.text}}</td>
-                <td>{{purchase.dateEnd.text}}</td>
-                <td class="text-center">
+                <td *ngIf="isColumnActive('term')" class="text-center">{{purchase.term.value}} {{purchase.term.unit}}</td>
+                <td *ngIf="isColumnActive('priceContract')">{{purchase.priceContract | thousandsSpace}}</td>
+                <td *ngIf="isColumnActive('status')">{{purchase.status.text}}</td>
+                <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd.text}}</td>
+                <td *ngIf="isColumnActive('complaint')" class="text-center">
                     <ng-container *ngIf="purchase.complaint">да</ng-container>
                     <ng-container *ngIf="!purchase.complaint">нет</ng-container>
                 </td>

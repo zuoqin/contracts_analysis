@@ -1,6 +1,7 @@
+
 import { OnInit,ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
-
+import { CONFIG } from '@config';
 
 @Component({
     selector:"purchase-product",
@@ -8,6 +9,11 @@ import { Component } from '@angular/core';
 })
 export class PurchaseProductComponent{
     @ViewChild('selectedRangeDate') selectedRangeDate;
+    tooltipOptions;
+    constructor(){
+        this.tooltipOptions = CONFIG.tooltipOptions;
+    }
+
 
     purchaseColumns=[
         {
@@ -258,26 +264,31 @@ export class PurchaseProductComponent{
             complaint:false,
             safety:true
         }
-   ]
+    ]
   
-   onSelectedDate(value){
-       if(value){
-        console.log(value.beginDate)
-        console.log(value.endDate)
-       }else{
-           console.log('сбросить')
-       }
- 
-   }
-   onSelectedDateEnd(value){
-    if(value){
-        console.log(value.beginDate)
-        console.log(value.endDate)
-       }else{
-           console.log('сбросить')
-       }
-   }
-    
+    onSelectedDate(value){
+        if(value){
+            console.log(value.beginDate)
+            console.log(value.endDate)
+        }else{
+            console.log('сбросить')
+        }
+    }
+    onSelectedDateEnd(value){
+        if(value){
+            console.log(value.beginDate)
+            console.log(value.endDate)
+        }else{
+            console.log('сбросить')
+        }
+    }
 
+    isColumnActive(columnId){
+        return this.purchaseColumns.filter(item=>item.id==columnId)[0].active
+    }
+    onSelectedColumns(value){
+        this.purchaseColumns = value;
+    }
+   
 
 }

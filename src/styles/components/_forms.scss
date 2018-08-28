@@ -1,3 +1,8 @@
+hr.red{
+    border: none;
+    border-top: 2px solid #b32520;
+    margin: 52px 0 20px;
+}
 .styled-label{
     color: #b32520;
     font-size: 13.5px;
@@ -574,11 +579,12 @@
         background-size: contain;
     }
     .popup-form__container{
+        transform: translateX(50%);
         margin-top: 3px;
     }
 }
 .sorting{
-
+    margin-right: 3px;
     &__default,
     .glyphicon{
         &:after,&:before{

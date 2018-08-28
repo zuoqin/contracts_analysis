@@ -1,13 +1,13 @@
 import { Component,OnInit,EventEmitter,Output } from '@angular/core';
 import {IMyDrpOptions,IMyDateRangeModel} from 'mydaterangepicker';
-import { CONFIG } from '../../config';
+import { CONFIG } from '@config';
 
 @Component({
-    selector:"filter-date-range",
-    templateUrl:"./filter-date-range.component.html",
-    styleUrls:["./filter-date-range.component.scss"]
+    selector:"date-range-filter",
+    templateUrl:"./date-range-filter.component.html",
+    styleUrls:["./date-range-filter.component.scss"]
 })
-export class FilterDateRangeComponent implements OnInit{
+export class DateRangeFilterComponent implements OnInit{
     myDateRangePickerOptions: IMyDrpOptions = {
         dateFormat: 'dd.mm.yyyy',
         inline:true,
@@ -27,7 +27,7 @@ export class FilterDateRangeComponent implements OnInit{
     private currentDate = null;
     beginDate = null;
     endDate =null;
-    private dateRangeModel =null;
+    dateRangeModel =null;
 
 
     ngOnInit(){

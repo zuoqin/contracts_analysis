@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="text-center forecast-price mt20 product-price__left__shift-title">
+            <div class="text-center forecast-price mt20 product-price__left__shift-title" *ngIf="currentDate">
                 <div  class="forecast-price__title">Прогнозируемая цена на {{currentDate.monthText}}</div>
                 <div class="forecast-price__item">34 рубля</div>
                 <div class="forecast-price__item">(На основе анализа  2645 КП)</div>

@@ -41,12 +41,16 @@ input[type="search"]::-webkit-search-results-decoration {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 45px 0 37px;
     &__right{
         display: flex;
         align-items: center;
         >*{
             margin-left: 35px;
         }
+    }
+    h2{
+        margin: 0;
     }
 }
 h2{
