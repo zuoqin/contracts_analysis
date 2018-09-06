@@ -1,3 +1,4 @@
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 export const CONFIG = {
     seacrhType: [
         {name:"Продукт", id:"product"},
@@ -11,5 +12,53 @@ export const CONFIG = {
     tooltipOptions:{
         'placement': 'bottom',
         'show-delay': 500
-    }
+    },
+    autocompleteProduct:{
+        url:'/search?context=product&query=',
+        titleField:"product_name",
+        searchField:"product_name"
+    },
+    autocompleteSupplier:{
+        url:'/search_supplier?query=',
+        titleField:"supplier_name",
+        searchField:"supplier_name"
+    },
+    maskPhoneSettings:{
+		mask: ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/,'-', /\d/, /\d/],
+		guide:true,
+        showMask:false,
+        placeholder:"+7 (___) ___-__-__"
+    },
+    
+
+    numberDecimalMaskOptions:{
+		mask: createNumberMask({
+            prefix: '',
+            suffix: '',
+            includeThousandsSeparator: true,
+            thousandsSeparatorSymbol: ' ',
+            allowDecimal: true,
+            decimalSymbol: ',',
+            decimalLimit: 2,
+            integerLimit: null,
+            requireDecimal: false,
+            allowNegative: true,
+            allowLeadingZeroes: false
+        })
+    },
+    numberMaskOptions:{
+		mask: createNumberMask({
+            prefix: '',
+            suffix: '',
+            includeThousandsSeparator: true,
+            thousandsSeparatorSymbol: ' ',
+            allowDecimal: false,
+            integerLimit: null,
+            requireDecimal: false,
+            allowNegative: true,
+            allowLeadingZeroes: false
+        }),
+    },
+
+   
 }

@@ -4,10 +4,10 @@ import { Component } from '@angular/core';
 import { CONFIG } from '@config';
 
 @Component({
-    selector:"purchase-product",
-    templateUrl:"./purchase-product.component.html"
+    selector:"purchase-table",
+    templateUrl:"./purchase-table.component.html"
 })
-export class PurchaseProductComponent{
+export class PurchaseTableComponent{
     @ViewChild('selectedRangeDate') selectedRangeDate;
     tooltipOptions;
     constructor(){

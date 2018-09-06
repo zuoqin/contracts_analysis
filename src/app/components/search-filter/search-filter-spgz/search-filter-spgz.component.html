@@ -20,7 +20,7 @@
                             formControlName="query" 
                             [datasource]="dataService" 
                             [minSearchLength]="3" 
-                            placeholder="Поиск по продукту"
+                            placeholder="Поиск по ID СПГЗ"
                             [clearUnselected]="false"
                             textNoResults="Нет результатов"
                             textSearching="Загрузка.."
@@ -104,6 +104,9 @@
                     </fieldset> 
                 </div>
             </ng-container>
+            <div class="search-form__bottom-btn">
+                <div class="btn btn--red btn--40">{{btnText.text}}</div>
+            </div>
         </form>
     </div>
 </div>

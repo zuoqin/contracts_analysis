@@ -1,8 +1,9 @@
 import { Component, OnInit,Output,EventEmitter,Input } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CompleterService, CompleterData } from 'ng2-completer';
 import { Router } from '@angular/router';
 import { CONFIG } from '@config';
+import { environment } from '@environments';
+import { ProductServices } from '@core';
 
 @Component({
     selector:'search-filter-product',
@@ -11,36 +12,40 @@ import { CONFIG } from '@config';
 
 export class SearchFilterProduct implements OnInit{
     searchForm: FormGroup;
-    
-    queryStr: string;
-    dataService: CompleterData;
+    checkRequired:boolean = true;
     ifLoadData:boolean = false;
     seacrhType = CONFIG.seacrhType;
+    selectedProduct = null;
+    product = null;
+    btnText = {
+        text:"Найти",
+        defaultValue:"Найти",
+        load:"Поиск.."
+    }
+    autocompleteProduct= CONFIG.autocompleteProduct;
     @Input() loadData: boolean;
-   // @Output() loadData = new EventEmitter<boolean>();
-   @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
-
-
-
-    queryhData = [
-        { name: 'ЙОГУРТЫ', value: '1' }
-    ];
+    @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(
+        private productServices:ProductServices,
         private formBuilder: FormBuilder,
         private router: Router,
-        private completerService: CompleterService){
-            this.dataService = completerService.local(this.queryhData, 'name', 'name');
-        }
+      ){}
     ngOnInit() {
         this.initForm();
     }
     changeType(){
-        this.router.navigate([this.searchForm.controls.type.value]);
+        console.log(this.searchForm.controls.type.value)
+        this.router.navigate(['search',this.searchForm.controls.type.value]);
     }
-    selectProduct(){
+    selectProduct(selected){
+        console.log(selected)
+        if(selected){
+            this.selectedProduct = selected;
+           console.log( this.selectedProduct)
+        }
         this.ifLoadData = true;
-        this.onLoadData.emit(true);
+        this.checkRequired = true;
     }
     initForm(){
         this.searchForm = this.formBuilder.group({
@@ -53,6 +58,27 @@ export class SearchFilterProduct implements OnInit{
             deliveryFrom:['', [Validators.required]],
             deliveryTo:['', [Validators.required]],
 		});
+    }
+    search(){
+        if(!this.ifLoadData){
+            this.checkRequired = false;
+            return false;
+        }
+        this.btnText.text = this.btnText.load;
+
+        this.productServices.get(this.selectedProduct.kpgzName).subscribe(
+            product => {
+                this.product = product;
+                this.onLoadData.emit(true);
+                this.btnText.text = this.btnText.defaultValue;
+            },
+            err => {
+                this.btnText.text = this.btnText.defaultValue;
+                console.log(err)
+            }
+          );
+
+     
     }
     
 }

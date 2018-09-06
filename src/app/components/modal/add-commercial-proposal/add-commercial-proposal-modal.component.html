@@ -1,0 +1,250 @@
+<bs-modal [animation]="true" [keyboard]="true" [backdrop]="true"
+   #addCommercialProposalModal  [cssClass]="'styled-modal'" (onClose)="onClose()" (onDismiss)="onClose()">
+    <bs-modal-header [showDismiss]="true">
+        <h2 class="modal-title" >Добавить КП</h2>
+    </bs-modal-header>
+    <bs-modal-body>
+        <form [formGroup]="addProposalForm" novalidate>
+            <div class="styled-form">
+
+                <!---->
+                <div class="styled-form__row" *ngFor="let supplier of suppliersArray; index as i;" >
+                    <label class="styled-form__left-label">Поставщик</label>
+                    <div class="styled-form__right-value input-right-icon">
+                        <autocomplete-field 
+                            class="autocomplete-input "
+                            (onSelectedValue)="selectSupplier($event,supplier)"
+                            [urlSearch]="autocompleteSupplier.url"
+                            [searchFields]="autocompleteSupplier.searchField"
+                            [titleField]="autocompleteSupplier.titleField"
+                            [placeholder]="'Поиск по поставщику'"
+                        ></autocomplete-field>
+                        <div *ngIf="i==suppliersArray.length-1" class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
+                        <div *ngIf="i!=suppliersArray.length-1" class="icon icon--circle-remove input-right-icon__icon" (click)="removeSupplier(supplier)"></div>
+                        <div class="input-error" *ngIf="addProposalForm.get('supplier').hasError('required') && addProposalForm.get('supplier').touched" >Выберите поставщика</div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__row">
+                    <label class="styled-form__left-label">Название продукта</label>
+                    <div class="styled-form__right-value">
+                        <div class="styled-form__select-type">
+                                <ng-select 
+                                [searchable]="false" 
+                                [clearable]="false"
+                                formControlName="type" 
+                                (change)="changeType($event)"
+                                class="styled-form__select-type--selected"
+                                >
+                                <ng-option value="product" selected>Продукт</ng-option>
+                                <ng-option value="spgz">ID SPGZ</ng-option>
+                            </ng-select>
+                            <div class="styled-form__select-type--input">
+                                <ng-container *ngIf="this.addProposalForm.controls['type'].value=='product'">
+                                        <autocomplete-field 
+                                        class="autocomplete-input"
+                                            (onSelectedValue)="selectItem($event)"
+                                            [urlSearch]="autocompleteProduct.url"
+                                            [searchFields]="autocompleteProduct.searchField"
+                                            [titleField]="autocompleteProduct.titleField"
+                                            [placeholder]="'Поиск по продукту'"
+                                        ></autocomplete-field>
+                                </ng-container>
+                                <ng-container *ngIf="this.addProposalForm.controls['type'].value=='spgz'">
+                                        <autocomplete-field 
+                                        class="autocomplete-input"
+                                            (onSelectedValue)="selectItem($event)"
+                                            [urlSearch]="autocompleteProduct.url"
+                                            [searchFields]="autocompleteProduct.searchField"
+                                            [titleField]="autocompleteProduct.titleField"
+                                            [placeholder]="'Поиск по ID СПГЗ'"
+                                        ></autocomplete-field>
+                                </ng-container>
+                                <div class="input-error" *ngIf="addProposalForm.get('product').hasError('required') && addProposalForm.get('product').touched" >Выберите продутк</div>
+                            </div>
+                        </div>
+                        <div class="styled-form__character">
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Питьевой
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Густой
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Фруктовый
+                            </label>
+                            <label class="styled-checkbox">
+                                <input type="checkbox"/>
+                                <span class="checkmark"></span>
+                                Обогощенный
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__row">
+                    <label class="styled-form__left-label">Ссылка на искомый товар</label>
+                    <div class="styled-form__right-value">
+                        <input type="text" class="styled-input" formControlName="linkProduct" placeholder="http://" />
+                        <div class="input-error" *ngIf="addProposalForm.get('linkProduct').hasError('required') && addProposalForm.get('linkProduct').touched" >Введите ссылку</div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__two-column">
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Цена товара за нужный объем</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <input 
+                                [textMask]="numberDecimalMaskOptions" 
+                                type="text" 
+                                class="styled-input" 
+                                formControlName="price"/>
+                            <div class="input-error" *ngIf="addProposalForm.get('price').hasError('required') && addProposalForm.get('price').touched" >Введите Цену</div>
+                        </div>
+                    </div>
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Цена за единицу, руб.</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <input 
+                                [textMask]="numberDecimalMaskOptions" 
+                                type="text" 
+                                class="styled-input" 
+                                formControlName="pricePerItem"/>
+                            <div class="input-error" *ngIf="addProposalForm.get('pricePerItem').hasError('required') && addProposalForm.get('pricePerItem').touched" >Введите Цену</div>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__two-column">
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Объем</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <input 
+                                [textMask]="numberDecimalMaskOptions" 
+                                type="text" 
+                                class="styled-input" 
+                                formControlName="volume" 
+                                placeholder="В {{volumeUnitPlaceholder}}"/>
+                            <div class="input-error" *ngIf="addProposalForm.get('volume').hasError('required') && addProposalForm.get('volume').touched" >Введите объем</div>
+                        </div>
+                    </div>
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Еденица</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <ng-select 
+                                [searchable]="false" 
+                                [clearable]="false"
+                                formControlName="volumeUnit" 
+                                class="styled-form__select-type--selected"
+                                (change)="changeVolumeUnit()"
+                                >
+                                <ng-option value="{{unit.id}}" *ngFor="let unit of volumeUnits" >{{unit.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__two-column">
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Срок поставки</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <input 
+                                [textMask]="numberMaskOptions" 
+                                type="text" 
+                                class="styled-input" 
+                                placeholder="В {{termUnitPlaceholder}}" 
+                                formControlName="term"/>
+                            <div class="input-error" *ngIf="addProposalForm.get('term').hasError('required') && addProposalForm.get('term').touched" >Введите срок поставки</div>
+                        </div>
+                    </div>
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label">Еденица измерения</label>
+                        <div class="styled-form__right-value styled-form__right-value--mini">
+                            <ng-select 
+                                [searchable]="false" 
+                                [clearable]="false"
+                                formControlName="termUnit" 
+                                (change)="changeTermUnit()"
+                                class="styled-form__select-type--selected"
+                                >
+                                <ng-option value="{{unit.id}}" *ngFor="let unit of termUnits" >{{unit.name}}</ng-option>
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
+                
+
+                <!---->
+                <div class="styled-form__row">
+                    <label class="styled-form__left-label">Комментарий</label>
+                    <div class="styled-form__right-value">
+                        <textarea 
+                            class="styled-input" 
+                            formControlName="comment" 
+                            autosize 
+                            [minHeight]="35" 
+                            [maxHeight]="260"
+                             placeholder="Укажите ваш комментарий"
+                             ></textarea>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__row">
+                    <label class="styled-form__left-label">Звонок</label>
+                    <div class="styled-form__right-value">
+                        <input 
+                            formControlName="phone" 
+                            [textMask]="maskPhoneSettings" 
+                            type="text" 
+                            class="styled-input styled-input--phone" 
+                            [placeholder]="maskPhoneSettings.placeholder"
+                            (blur)="onBlurMaskPhone()" 
+                            />
+                        <div class="input-error" *ngIf="addProposalForm.get('phone').hasError('required') && addProposalForm.get('phone').touched" >Введите телефон</div>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__row " [hidden]="!this.addProposalForm.controls['document'].value">
+                    <label class="styled-form__left-label">Документ</label>
+                    <div class="styled-form__right-value file-upload">
+                        <input name="file" type="file" (change)="onFileChange($event)" id="document">
+                        <input type="hidden" formControlName="document"/>
+                        <div class="file-upload__item"  >
+                            <div>{{this.addProposalForm.controls['document'].value}}</div>
+                            <div (click)="removeFile()" class="file-upload__close"><div class="icon icon--close"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+               
+            </div>        
+        </form>
+       
+    </bs-modal-body>
+    <bs-modal-footer>
+            <div class="btn btn--icon" (click)="openInput()"><div class="icon icon--type-file"></div>Прикрепить документ</div>
+            <div class="btn btn--icon" (click)="submit()"><div class="icon icon--add"></div>Сохранить</div>
+    </bs-modal-footer>
+</bs-modal>

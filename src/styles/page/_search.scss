@@ -28,21 +28,23 @@
         }
         &__query{
             padding-left: 10px;
-            input{
-                width: 100%;
-                @extend .styled-input;
-                @extend .styled-input--search;
-            }
+            position: relative;
+
             flex-grow: 1;
         }
     }
     &__character{
         .styled-checkbox{
-            &:not(:first-child){
-                margin-left: 111px;
+            &:not(:last-child){
+                margin-right: 111px;
+                margin-bottom: 20px;
             }
            
         }
+    }
+    &__bottom-btn{
+        display: flex;
+        justify-content: flex-end;
     }
   
 }
@@ -389,6 +391,10 @@
         width: 87px;
         min-width: 87px;
     }
+    .w90{
+        width: 90px;
+        min-width: 90px;
+    }
     .w70{
         width: 70px;
         min-width: 70px;
@@ -408,6 +414,26 @@
     .w110{
         width: 110px;
         min-width: 110px;
+    }
+    .w120{
+        width: 120px;
+        min-width: 120px;
+    }
+    .w130{
+        width: 130px;
+        min-width: 130px;
+    }
+    .w125{
+        width: 125px;
+        min-width: 125px;
+    }
+    .w140{
+        width: 145px;
+        min-width: 145px;
+    }
+    .w275{
+        width: 275px;
+        min-width: 275px;
     }
     tbody>tr>th{
         background: #f9f9f9;

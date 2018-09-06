@@ -16,7 +16,11 @@ export class SearchFilterSpgz implements OnInit{
     dataService: CompleterData;
     ifLoadData:boolean = false;
     seacrhType = CONFIG.seacrhType;
-
+    btnText = {
+        text:"Найти",
+        defaultValue:"Найти",
+        load:"Поиск.."
+    }
     queryhData = [
         { name: 'ЙОГУРТЫ', value: '1' }
     ];
@@ -31,7 +35,7 @@ export class SearchFilterSpgz implements OnInit{
         this.initForm();
     }
     changeType(){
-        this.router.navigate([this.searchForm.controls.type.value]);
+        this.router.navigate(['search',this.searchForm.controls.type.value]);
         
     }
     selectProduct(){

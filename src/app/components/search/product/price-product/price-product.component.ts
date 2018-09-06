@@ -5,8 +5,10 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { CONFIG } from '@config';
 
-/*Services */
-import { ProductServices } from '@services/product.services';
+
+import { ProductServices } from '@core';
+
+
 
 
 @Component({

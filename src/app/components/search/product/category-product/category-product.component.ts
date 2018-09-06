@@ -39,10 +39,6 @@ export class CategoryProductComponent{
                     ]
                 },
                 {
-                    name:"Творог и творожные изделия",
-                    id:"22",
-                },
-                {
                     name:"Продукция кисломолочная",
                     id:"23",
                     product:[
@@ -73,6 +69,10 @@ export class CategoryProductComponent{
                     ]
                 },
                 {
+                    name:"Творог и творожные изделия",
+                    id:"22",
+                },
+                {
                     name:"Сыры",
                     id:"24",
                 },
@@ -101,8 +101,8 @@ export class CategoryProductComponent{
         
     ]
     selectedCategory = this.categories[0];
-    selectedSubCategory =  this.categories[0].subcategory[2];
-    selectedProduct = this.categories[0].subcategory[2].product[1];
+    selectedSubCategory =  this.categories[0].subcategory[1];
+    selectedProduct = this.categories[0].subcategory[1].product[1];
 
 
     selectSubCategory(category){

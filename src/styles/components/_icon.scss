@@ -1,18 +1,106 @@
 .icon{
     display: inline-block;
-    &--download{
+    &--add{
         width: 20px;
         height: 20px;
         border-radius: 100%;
-        border: 1px solid red;
-    }
-    &--filter{
-        
+        border: 1px solid #b32520;
+        position: relative;
+        &:after,&:before{
+            content: "";
+            display: block;
+            width: 10px;
+            height: 1px;
+            background: #b32520;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -5px;
+        }
+        &:before{
+            transform: rotate(-90deg)
+        }
     }
     &--calendar{
         background: url('/assets/images/icons/calendar.svg') center no-repeat;
         width: 12px;
         height: 12px;
         background-size:contain; 
+    }
+    &--play{
+        width: 0;
+        height:0;
+        border:5px solid transparent;
+        border-left-width: 10px;
+        border-right-width: 0;
+        border-left-color: #354052;
+    }
+    &--stop{
+        width: 10px;
+        height:10px;
+        background: #354052;
+    }
+    &--pause{
+        width: 8px;
+        height: 10px;
+        border: 2px solid #354052;
+        border-top: none;
+        border-bottom: none;
+    }
+    &--close{
+        width: 8px;
+        height: 8px;
+        position: relative;
+        &:after,&:before{
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            top: 3px;
+            background: #979797;
+            transform: rotate(-45deg)
+        }
+        &:before{
+            transform: rotate(45deg)
+        }
+    }
+    &--circle-add,
+    &--circle-remove{
+        background: url(/assets/images/icons/icon-circle-add.svg) center no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+    &--circle-remove{
+        background: url(/assets/images/icons/icon-circle-remove.svg) center no-repeat;
+        background-size: 20px;
+    }
+    &--type-file{
+        background: url(/assets/images/icons/icon-type-file.svg) center no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        
+    }
+    &--download{
+        background: url(/assets/images/icons/icon-download.svg) center no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        
+    }
+    &--chat{
+        background: url(/assets/images/icons/icon-chat.svg) center no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        
+    }
+    &--letter{
+        background: url(/assets/images/icons/icon-letter.svg) center top no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 18px;
     }
 }

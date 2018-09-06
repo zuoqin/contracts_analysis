@@ -14,21 +14,17 @@
                                 >
                                 <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
                             </ng-select>
-                            <ng2-completer 
-                                class="search-form__search__query"
-                                [(ngModel)]="queryStr" 
-                                formControlName="query" 
-                                [datasource]="dataService" 
-                                [minSearchLength]="3" 
-                                placeholder="Поиск по поставщику"
-                                [clearUnselected]="false"
-                                textNoResults="Нет результатов"
-                                textSearching="Загрузка.."
-                                openOnClick="true"
-                                (selected)="selectProduct()"
-                                pause="1000"
-                                >
-                            </ng2-completer>
+                            <div class="search-form__search__query">
+                                <autocomplete-field 
+                                    (onSelectedValue)="selectSupplier($event)"
+                                    [urlSearch]="autocompleteSupplier.url"
+                                    [searchFields]="autocompleteSupplier.searchField"
+                                    [titleField]="autocompleteSupplier.titleField"
+                                    [placeholder]="'Поиск по поставщику'"
+                                ></autocomplete-field>
+                            </div>
+                        
+                                
                         </div>
                     </fieldset>
                     <fieldset  class="search-form__right">
@@ -57,6 +53,9 @@
                                 </ng-select>
                             </div>
                     </fieldset>
+                </div>
+                <div class="search-form__bottom-btn">
+                    <div class="btn btn--red btn--40">{{btnText.text}}</div>
                 </div>
             </form>
         </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CompleterService, CompleterData } from 'ng2-completer';
+import { CompleterService,RemoteData } from 'ng2-completer';
 import { Router } from '@angular/router';
+import { environment } from '@environments';
 import { CONFIG } from '@config';
 
 @Component({
@@ -14,28 +15,31 @@ export class SearchFilterSupplier implements OnInit{
     searchForm: FormGroup;
     
     queryStr: string;
-    dataService: CompleterData;
+    dataService: RemoteData;
     ifLoadData:boolean = false;
     seacrhType = CONFIG.seacrhType;
-    
-    queryhData = [
-        { name: 'ООО "Регион Продукт"', value: '1' }
-    ];
+    autocompleteSupplier = CONFIG.autocompleteSupplier;
+    btnText = {
+        text:"Найти",
+        defaultValue:"Найти",
+        load:"Поиск.."
+    }
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private completerService: CompleterService){
-            this.dataService = completerService.local(this.queryhData, 'name', 'name');
+            this.dataService = completerService.remote(`${environment.apiUrl}/search_supplier?query=` ,'supplier_name','supplier_name');
+            this.dataService.dataField("suppliers");
         }
     ngOnInit() {
         this.initForm();
     }
     changeType(){
-        this.router.navigate([this.searchForm.controls.type.value]);
+        this.router.navigate(['search',this.searchForm.controls.type.value]);
         
     }
-    selectProduct(){
+    selectSupplier(){
         this.ifLoadData = true;
     }
     initForm(){

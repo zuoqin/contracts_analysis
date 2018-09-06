@@ -3,7 +3,8 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
 /*Services */
-import { ProductServices } from '@services/product.services';
+import { ProductServices } from '@core';
+
 
 /*Plugins*/
 import { Chart } from 'angular-highcharts';
@@ -218,7 +219,7 @@ export class PriceChartComponent{
         })
         for (let i = 0; i < years.length-1; i++) {
             let currentPlotlines = JSON.parse(JSON.stringify(this.plotLines)) ;
-            currentPlotlines.value = Date.UTC(years[i]+1, 0, 0);
+            currentPlotlines.value = Date.UTC(years[i]+1, 0, 1);
             currentPlotlines.label.text =  `${years[i]} год&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${years[i]+1} год`
             this.chart.ref.options.xAxis[0].plotLines.push(currentPlotlines)
         }

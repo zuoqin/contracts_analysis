@@ -8,5 +8,6 @@
 	"exclude": [
 		"src/test.ts",
 		"**/*.spec.ts"
-	]
+	],
+	"include": [ "../node_modules/ng-autosize/**/*.ts", "**/*.ts" ],
 }

@@ -13,23 +13,28 @@ import { SearchProductComponent } from './components/search/product/search-produ
 import { CategoryProductComponent } from './components/search/product/category-product/category-product.component';
 import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
 import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
-import { PurchaseProductComponent } from './components/search/product/purchase-product/purchase-product.component';
+import { PurchaseTableComponent } from './components/search/product/purchase-table/purchase-table.component';
 import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
 import { ColumnsFilterComponent } from './components/filters/columns-filter/columns-filter.component'
+import { SuppliersTableComponent } from './components/search/product/suppliers-table/suppliers-table.copmonent';
+import { AddCommercialProposalModalComponent } from './components/modal/add-commercial-proposal/add-commercial-proposal-modal.component';
+import { AutocompleteFieldComponent } from './components/autocomplete-field/autocomplete-field.components';
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
 import { TriggerActiveDirective } from './directives/triggerActive.directive';
 
 /*Pipes */
 import { ThousandsSpacePipe } from './pipes/thousands.pipe';
-/*Services*/
-import { ProductServices } from '@services/product.services';
+
 
 /*Moduls*/
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import {DataTableModule} from "angular-6-datatable";
+import { DataTableModule } from "angular-6-datatable";
+import { BsModalModule } from 'ng2-bs3-modal';
+import { NgxMaskModule } from 'ngx-mask'
+
 
 /*Plugins */
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -37,7 +42,10 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { ChartModule } from 'angular-highcharts';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import {TooltipModule} from 'ng2-tooltip-directive';
+import { Autosize } from 'ng-autosize/src/autosize.directive';
+import { TextMaskModule } from 'angular2-text-mask';
 
+import { CoreModule } from './core/core.module';
 
 @NgModule({
 	declarations: [
@@ -52,14 +60,19 @@ import {TooltipModule} from 'ng2-tooltip-directive';
 		CategoryProductComponent,
 		PriceProductComponent,
 		PriceChartComponent,
-		PurchaseProductComponent,
+		PurchaseTableComponent,
 		DateRangeFilterComponent,
 		ColumnsFilterComponent,
+		SuppliersTableComponent,
+		AddCommercialProposalModalComponent,
+		AutocompleteFieldComponent,
 		OnlyNumber,
 		TriggerActiveDirective,
-		ThousandsSpacePipe
+		ThousandsSpacePipe,
+		Autosize
 	],
 	imports: [
+		CoreModule,
 		BrowserModule,
 		AppRoutingModule,
 		FormsModule,
@@ -69,11 +82,13 @@ import {TooltipModule} from 'ng2-tooltip-directive';
 		ChartModule,
 		DataTableModule,
 		MyDateRangePickerModule,
-		TooltipModule
+		TooltipModule,
+		BsModalModule,
+		NgxMaskModule.forRoot(),
+		TextMaskModule
+		
 	],
-	providers: [
-		ProductServices
-	],
+	providers: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

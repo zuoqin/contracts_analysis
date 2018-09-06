@@ -14,21 +14,16 @@
                             >
                             <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
                         </ng-select>
-                        <ng2-completer 
-                            class="search-form__search__query"
-                            [(ngModel)]="queryStr" 
-                            formControlName="query" 
-                            [datasource]="dataService" 
-                            [minSearchLength]="3" 
-                            placeholder="Поиск по продукту"
-                            [clearUnselected]="false"
-                            textNoResults="Нет результатов"
-                            textSearching="Загрузка.."
-                            openOnClick="true"
-                            (selected)="selectProduct()"
-                            pause="1000"
-                            >
-                        </ng2-completer>
+                        <div  class="search-form__search__query autocomplete-input">
+                            <autocomplete-field 
+                                (onSelectedValue)="selectProduct($event)"
+                                [urlSearch]="autocompleteProduct.url"
+                                [searchFields]="autocompleteProduct.searchField"
+                                [titleField]="autocompleteProduct.titleField"
+                                [placeholder]="'Поиск по продукту'"
+                                ></autocomplete-field>
+                            <div *ngIf="!checkRequired" class="field-error">Выберите продукт</div>
+                        </div>
                     </div>
                 </fieldset>
                 <fieldset  class="search-form__right">
@@ -61,30 +56,16 @@
                 </fieldset>
               
             </div>
-            <ng-container *ngIf="ifLoadData">
-                <div class="search-form__row">
+            <ng-container *ngIf="product ">
+                <div *ngIf="product.attrs.length && product.attrs[0].values" class="search-form__row" >
                     <fieldset>
                         <label class="styled-label">ХАРАКТЕРИСТИКИ</label>
                         <div class="search-form__character">
-                            <label class="styled-checkbox">
+                            <label class="styled-checkbox"
+                                *ngFor="let attr of product.attrs[0].values">
                                 <input type="checkbox"/>
                                 <span class="checkmark"></span>
-                                Питьевой
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Густой
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Фруктовый
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Обогащенный бифидобактериями
+                                {{attr.name}}
                             </label>
                         </div>
                     
@@ -104,6 +85,10 @@
                     </fieldset> 
                 </div>
             </ng-container>
+            <div class="search-form__bottom-btn">
+                <div class="btn btn--red btn--40" (click)="search()">{{btnText.text}}</div>
+            </div>
+          
         </form>
     </div>
 </div>
