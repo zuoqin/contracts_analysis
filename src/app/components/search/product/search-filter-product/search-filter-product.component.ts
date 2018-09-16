@@ -60,6 +60,7 @@ export class SearchFilterProduct implements OnInit{
 		});
     }
     search(){
+        console.log(this.searchForm)
         if(!this.ifLoadData){
             this.checkRequired = false;
             return false;

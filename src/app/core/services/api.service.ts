@@ -17,8 +17,12 @@ export class ApiService {
     return  throwError(error.error);
   }
 
-  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${path}`, { params })
+  get(path: string, params: HttpParams = new HttpParams(),alternativeUrlApi?:string): Observable<any> {
+    let apiUrl = environment.apiUrl
+    if(alternativeUrlApi){
+      apiUrl = alternativeUrlApi;
+    }
+    return this.http.get(`${apiUrl}${path}`, { params })
       .pipe(catchError(this.formatErrors));
   }
 

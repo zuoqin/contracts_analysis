@@ -1,6 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalComponent } from 'ng2-bs3-modal';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+
+/*Services*/
+import { SuppliersServices } from '@core';
+
 
 import { CONFIG } from '@config';
 
@@ -17,14 +23,14 @@ export class AddCommercialProposalModalComponent implements OnInit{
     autocompleteProduct = CONFIG.autocompleteProduct
     autocompleteSupplier = CONFIG.autocompleteSupplier;
 
-    numberMaskOptions = CONFIG.numberMaskOptions;
-    numberDecimalMaskOptions = CONFIG.numberDecimalMaskOptions;
+    numberSpaceMaskOptions = CONFIG.numberSpaceMaskOptions;
+    numberDecimalSpaceMaskOptions = CONFIG.numberDecimalSpaceMaskOptions;
 
     
     volumeUnitPlaceholder:string;
     termUnitPlaceholder:string;
-
-    suppliersArray = [];
+    initialValueSupplier:string;
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     public volumeUnits = [
         {
@@ -62,8 +68,17 @@ export class AddCommercialProposalModalComponent implements OnInit{
     ]
     constructor(      
         private formBuilder: FormBuilder,
+        private suppliersServices:SuppliersServices
     ){
+        this.suppliersServices.addDynamicSupplierObservable
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(value=>{
+                this.initialValueSupplier = value;
+                this.addProposalForm.controls['supplier'].setValue(value);
+                this.open();
+            })
 
+        
     }
 
     open(){
@@ -77,6 +92,10 @@ export class AddCommercialProposalModalComponent implements OnInit{
     ngOnInit(){
         this.initForm()
     }
+    ngOnDestroy() {
+		this.ngUnsubscribe.next();
+		this.ngUnsubscribe.complete();
+	}
     initForm(){
         this.addProposalForm = this.formBuilder.group({
             supplier: ['', [Validators.required]],
@@ -96,20 +115,12 @@ export class AddCommercialProposalModalComponent implements OnInit{
         this.changeTermUnit()
         this.changeVolumeUnit()
 
-        this.suppliersArray = [];
-        this.addSupplier()
+       
+   
 
     }
-    addSupplier(){
-        this.suppliersArray.push(
-            {
-                id:null,
-            }
-         )
-    }
-    removeSupplier(supplier){
-        this.suppliersArray.splice(this.suppliersArray.indexOf(supplier),1)
-    }
+
+
     onBlurMaskPhone(){
 		if(this.addProposalForm.controls['phone'].value.indexOf('_')>=0 || this.addProposalForm.controls['phone'].value.length==1){
 			this.addProposalForm.controls['phone'].setValue('');
@@ -120,6 +131,15 @@ export class AddCommercialProposalModalComponent implements OnInit{
     }
     selectSupplier(value){
         console.log(value)
+    }
+    addSupplier(){
+        this.addCommercialProposalModal.close();
+        
+        console.log('добавить поставщика')
+        let that = this;
+        setTimeout(()=>{
+            that.suppliersServices.addSupplierFromModal.next(true);
+        },600)
     }
     changeTermUnit(){
         this.termUnitPlaceholder = this.changeUnit(this.termUnits,'termUnit')
@@ -135,7 +155,13 @@ export class AddCommercialProposalModalComponent implements OnInit{
 
     onFileChange($event) {
         let file = $event.target.files[0]; // <--- File Object for future use.
-        this.addProposalForm.controls['document'].setValue(file ? file.name : ''); // <-- Set Value for Validation
+        console.log()
+        if(file.size>1024*1024*100){
+            alert('Максимальный размер файла 100 мб')
+        }else{
+            this.addProposalForm.controls['document'].setValue(file ? file.name : ''); // <-- Set Value for Validation
+        }
+   
         
     }
     removeFile(){

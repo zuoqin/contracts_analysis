@@ -14,7 +14,7 @@
                                 >
                                 <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
                             </ng-select>
-                            <div class="search-form__search__query">
+                            <div  class="search-form__search__query autocomplete-input">
                                 <autocomplete-field 
                                     (onSelectedValue)="selectSupplier($event)"
                                     [urlSearch]="autocompleteSupplier.url"
@@ -43,9 +43,25 @@
                     <fieldset  class="search-form__right">
                             <label class="styled-label">ОБЪЕМ</label>
                             <div class="field-3-column">
-                                <input type="text" formControlName="volumeFrom"  class="styled-input" placeholder="От" OnlyNumber="true"/>
+                                <input 
+                                    type="text" 
+                                    formControlName="volumeFrom"  
+                                    class="styled-input" 
+                                    placeholder="От" 
+                                    OnlyNumber="true"
+                                    [MaxValue]="searchForm.controls['volumeTo'].value" 
+                                    [FormControl]="searchForm.controls['volumeFrom']"
+                                    />
                                 <span class="field-3-column__line">-</span>
-                                <input type="text" formControlName="volumeTo"  class="styled-input" placeholder="До" OnlyNumber="true"/>
+                                <input 
+                                    type="text" 
+                                    formControlName="volumeTo"  
+                                    class="styled-input" 
+                                    placeholder="До" 
+                                    OnlyNumber="true"
+                                    [MinValue]="searchForm.controls['volumeFrom'].value" 
+                                    [FormControl]="searchForm.controls['volumeTo']"
+                                    />
                                 <ng-select [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last">
                                     <ng-option value="1">Кг.</ng-option>
                                     <ng-option value="2">Литр</ng-option>

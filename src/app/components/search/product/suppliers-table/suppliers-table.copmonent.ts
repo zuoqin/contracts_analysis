@@ -6,6 +6,8 @@ import { Component,ViewChild } from '@angular/core';
 })
 export class SuppliersTableComponent{
     @ViewChild('addCommercialProposalModal') addCommercialProposalModal;
+    @ViewChild('addSupplierModal') addSupplierModal;
+    @ViewChild('sentCPModal') sentCPModal;
     suppliersData = [
         {
             date:{
@@ -174,7 +176,12 @@ export class SuppliersTableComponent{
         this.suppliersColumns = value;
     }
     addCommercialProposal(){
-        console.log('click')
         this.addCommercialProposalModal.open()
+    }
+    addSupplier(){
+        this.addSupplierModal.open()
+    }
+    showSentCPModal(){
+        this.sentCPModal.open()
     }
 }

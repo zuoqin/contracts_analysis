@@ -4,25 +4,39 @@ import { NgModule } from '@angular/core';
 /*Components*/
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { SearchFilterProduct }  from './components/search/product/search-filter-product/search-filter-product.component';
-import { SearchFilterSupplier } from './components/search-filter/search-filter-supplier/search-filter-supplier.component';
-import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
 import { RegionsTagSelectedComponent } from './components/regions-tag-selected/regions-tag-selected.component';
 import { SearchComponent } from './components/search/search.component';
-import { SearchProductComponent } from './components/search/product/search-product/search-product.component';
-import { CategoryProductComponent } from './components/search/product/category-product/category-product.component';
-import { PriceProductComponent } from './components/search/product/price-product/price-product.component';
-import { PriceChartComponent } from './components/search/product/price-chart/price-chart.component';
-import { PurchaseTableComponent } from './components/search/product/purchase-table/purchase-table.component';
+import { 
+		SearchProductComponent,
+		CategoryProductComponent,
+		PriceProductComponent,
+		PriceChartComponent,
+		PurchaseTableComponent,
+		SearchFilterProduct,
+		SuppliersTableComponent
+	} from './components/search/product';
+	
+import { SearchFilterSupplier } from './components/search-filter/search-filter-supplier/search-filter-supplier.component';
+import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
+
 import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
 import { ColumnsFilterComponent } from './components/filters/columns-filter/columns-filter.component'
-import { SuppliersTableComponent } from './components/search/product/suppliers-table/suppliers-table.copmonent';
-import { AddCommercialProposalModalComponent } from './components/modal/add-commercial-proposal/add-commercial-proposal-modal.component';
+
+
 import { AutocompleteFieldComponent } from './components/autocomplete-field/autocomplete-field.components';
+
+
+import { 
+		AddCommercialProposalModalComponent,
+		AddSupplierModalComponent,
+		SentCommercialProposalModalComponent
+	} from './components/modal';
+
 /*Directives*/
 import { OnlyNumber } from './directives/onlynumber.directive';
 import { TriggerActiveDirective } from './directives/triggerActive.directive';
-
+import { MaxValue } from './directives/maxValue.directive';
+import { MinValue }from './directives/minValue.directive';
 /*Pipes */
 import { ThousandsSpacePipe } from './pipes/thousands.pipe';
 
@@ -44,6 +58,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import {TooltipModule} from 'ng2-tooltip-directive';
 import { Autosize } from 'ng-autosize/src/autosize.directive';
 import { TextMaskModule } from 'angular2-text-mask';
+import { MyDatePickerModule } from 'mydatepicker';
+
 
 import { CoreModule } from './core/core.module';
 
@@ -66,7 +82,11 @@ import { CoreModule } from './core/core.module';
 		SuppliersTableComponent,
 		AddCommercialProposalModalComponent,
 		AutocompleteFieldComponent,
+		AddSupplierModalComponent,
+		SentCommercialProposalModalComponent,
 		OnlyNumber,
+		MaxValue,
+		MinValue,
 		TriggerActiveDirective,
 		ThousandsSpacePipe,
 		Autosize
@@ -85,7 +105,8 @@ import { CoreModule } from './core/core.module';
 		TooltipModule,
 		BsModalModule,
 		NgxMaskModule.forRoot(),
-		TextMaskModule
+		TextMaskModule,
+		MyDatePickerModule
 		
 	],
 	providers: [],

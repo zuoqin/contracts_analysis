@@ -8,19 +8,20 @@
             <div class="styled-form">
 
                 <!---->
-                <div class="styled-form__row" *ngFor="let supplier of suppliersArray; index as i;" >
+                <div class="styled-form__row" >
                     <label class="styled-form__left-label">Поставщик</label>
                     <div class="styled-form__right-value input-right-icon">
                         <autocomplete-field 
                             class="autocomplete-input "
-                            (onSelectedValue)="selectSupplier($event,supplier)"
+                            (onSelectedValue)="selectSupplier($event)"
                             [urlSearch]="autocompleteSupplier.url"
                             [searchFields]="autocompleteSupplier.searchField"
                             [titleField]="autocompleteSupplier.titleField"
                             [placeholder]="'Поиск по поставщику'"
+                            [initialValue]="initialValueSupplier"
                         ></autocomplete-field>
-                        <div *ngIf="i==suppliersArray.length-1" class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
-                        <div *ngIf="i!=suppliersArray.length-1" class="icon icon--circle-remove input-right-icon__icon" (click)="removeSupplier(supplier)"></div>
+                        <div class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
+
                         <div class="input-error" *ngIf="addProposalForm.get('supplier').hasError('required') && addProposalForm.get('supplier').touched" >Выберите поставщика</div>
                     </div>
                 </div>
@@ -107,7 +108,8 @@
                         <label class="styled-form__left-label">Цена товара за нужный объем</label>
                         <div class="styled-form__right-value styled-form__right-value--mini">
                             <input 
-                                [textMask]="numberDecimalMaskOptions" 
+                                rows="1"
+                                [textMask]="numberDecimalSpaceMaskOptions" 
                                 type="text" 
                                 class="styled-input" 
                                 formControlName="price"/>
@@ -118,7 +120,7 @@
                         <label class="styled-form__left-label">Цена за единицу, руб.</label>
                         <div class="styled-form__right-value styled-form__right-value--mini">
                             <input 
-                                [textMask]="numberDecimalMaskOptions" 
+                                [textMask]="numberDecimalSpaceMaskOptions" 
                                 type="text" 
                                 class="styled-input" 
                                 formControlName="pricePerItem"/>
@@ -134,7 +136,7 @@
                         <label class="styled-form__left-label">Объем</label>
                         <div class="styled-form__right-value styled-form__right-value--mini">
                             <input 
-                                [textMask]="numberDecimalMaskOptions" 
+                                [textMask]="numberDecimalSpaceMaskOptions" 
                                 type="text" 
                                 class="styled-input" 
                                 formControlName="volume" 
@@ -165,7 +167,7 @@
                         <label class="styled-form__left-label">Срок поставки</label>
                         <div class="styled-form__right-value styled-form__right-value--mini">
                             <input 
-                                [textMask]="numberMaskOptions" 
+                                [textMask]="numberSpaceMaskOptions" 
                                 type="text" 
                                 class="styled-input" 
                                 placeholder="В {{termUnitPlaceholder}}" 

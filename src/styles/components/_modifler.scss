@@ -1,11 +1,18 @@
 .w200{
     width: 200px;
 }
+.w115{
+    width: 115px !important;
+}
+
 .transition{
     transition:0.1s all ease-in-out;
 }
 .m2{
     margin: 2px;
+}
+.mb15{
+    margin-bottom: 15px;
 }
 .mb18{
     margin-bottom: 18px;
@@ -13,14 +20,27 @@
 .mt20{
     margin-top: 20px;
 }
+.mr68{
+    margin-right: 68px;
+}
+
+.mb50{
+    margin-bottom: 50px;
+}
 .flex{
     display: flex;
+}
+.align-top{
+    align-items: flex-start;
 }
 .align-center{
     align-items: center;
 }
 .cursor{
     cursor: pointer;
+}
+.align-items-center{
+    align-items: center
 }
 .v-align-top{
     vertical-align: top;

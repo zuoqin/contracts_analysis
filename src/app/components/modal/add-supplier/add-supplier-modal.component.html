@@ -1,0 +1,316 @@
+<bs-modal [animation]="true" [keyboard]="true" [backdrop]="true"
+   #addSupplierModal  [cssClass]="'styled-modal styled-modal--large add-supplier-modal'" (onClose)="onClose()" (onDismiss)="onClose()">
+    <bs-modal-header [showDismiss]="true">
+        <h2 class="modal-title" >Карточка поставщика</h2>
+    </bs-modal-header>
+    <bs-modal-body>
+        <form [formGroup]="addSupplierForm" novalidate *ngIf="addSupplierForm">
+            <div class="styled-form">
+                <div class="styled-form__border mb50">
+                    <!---->
+                    <div class="styled-form__row mb15">
+                        <label class="styled-form__left-label styled-form__left-label--w165"></label>
+                        <div class="styled-form__right-value">
+                            <label class="styled-radio mr68">
+                                <input type="radio" name="typeSupplier" value="1" formControlName="typeSupplier" >
+                                <span class="styled-radio__icon"></span>
+                                Производитель
+                            </label>
+                            <label class="styled-radio">
+                                <input type="radio" name="typeSupplier"  value="2" formControlName="typeSupplier">
+                                <span class="styled-radio__icon"></span>
+                                Поставщик
+                            </label>
+                        </div>
+                    </div>
+                    <!---->
+                    <!---->
+                    <div class="add-supplier-modal__3-column-top">
+                        <div class="styled-form__row">
+                                <label class="styled-form__left-label styled-form__left-label--w165">ИНН</label>
+                                <div class="styled-form__right-value">
+                                    <input 
+                                        formControlName="itn"
+                                        [textMask]="numberMaskOptions" 
+                                        type="text" 
+                                        (blur)="onBulrItn()"
+                                        class="styled-input" 
+                                         />
+                                    <div class="input-error" *ngIf="addSupplierForm.get('itn').hasError('required') && addSupplierForm.get('itn').touched" >Введите ИНН</div>
+                                </div>
+                            </div>
+                            <div class="styled-form__row">
+                                <label class="styled-form__left-label styled-form__left-label--width-auto">КПП</label>
+                                <div class="styled-form__right-value">
+                                    <input 
+                                        formControlName="iec"
+                                        [textMask]="numberMaskOptions"
+                                        type="text" 
+                                        class="styled-input" 
+                                         />
+                                    <div class="input-error" *ngIf="addSupplierForm.get('iec').hasError('required') && addSupplierForm.get('iec').touched" >Введите КПП</div>
+                                </div>
+                            </div>
+                            <div class="styled-form__row align-top">
+                                <label class="switch">
+                                    <input type="checkbox" (change)="changeEdit($event)">
+                                    <span class="switch__slider"></span>
+                                    <div class="switch__text">
+                                            Редактировать данные об организации
+                                    </div>
+                            
+                                </label>
+                            </div>
+                    </div>
+                
+                
+                    <!---->
+                    <!---->
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label styled-form__left-label--w165">Название компании</label>
+                        <div class="styled-form__right-value">
+                            <input 
+                                type="text" 
+                                class="styled-input" 
+                                formControlName="name" 
+                            placeholder="Введите название компании"/>
+                            <div class="input-error" *ngIf="addSupplierForm.get('name').hasError('required') && addSupplierForm.get('name').touched" >Введите ссылку</div>
+                        </div>
+                    </div>
+                    <!---->
+
+                    <!---->
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label styled-form__left-label--w165">Адрес</label>
+                        <div class="styled-form__right-value">
+                            <textarea 
+                                class="styled-input" 
+                                formControlName="addres" 
+                                rows="1"
+                                autosize 
+                                [minHeight]="32" 
+                                [maxHeight]="260"
+                                    placeholder="Укажите адрес"
+                                    ></textarea>
+                            <div class="input-error" *ngIf="addSupplierForm.get('addres').hasError('required') && addSupplierForm.get('addres').touched" >Введите адрес</div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!---->
+                    <div class="styled-form__two-column">
+                        <div class="styled-form__row styled-form__row--w49">
+                            <label class="styled-form__left-label styled-form__left-label--w165">Сайт</label>
+                            <div class="styled-form__right-value styled-form__right-value--pr0">
+                                <input 
+                                    type="text" 
+                                    class="styled-input" 
+                                    formControlName="site"/>
+                            </div>
+                        </div>
+                        <div class="styled-form__row styled-form__row--w51">
+                            <label class="styled-form__left-label styled-form__left-label--w150">Email</label>
+                            <div class="styled-form__right-value ">
+                                <input 
+                                    type="text" 
+                                    class="styled-input " 
+                                    formControlName="email"/>
+                                <div class="input-error" *ngIf="addSupplierForm.get('email').hasError('required') && addSupplierForm.get('email').touched" >Введите email</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!---->
+                    <div class="styled-form__two-column">
+                        <div class="styled-form__row styled-form__row--w49">
+                            <label class="styled-form__left-label styled-form__left-label--w165">Номер телефона</label>
+                            <div class="styled-form__right-value">
+                                    <input 
+                                    formControlName="phone" 
+                                    [textMask]="maskPhoneSettings" 
+                                    type="text" 
+                                    class="styled-input" 
+                                    [placeholder]="maskPhoneSettings.placeholder"
+                                    (blur)="onBlurMaskPhone()" 
+                                    />
+                                    <div class="input-error" *ngIf="addSupplierForm.get('phone').hasError('required') && addSupplierForm.get('phone').touched" >Введите телефон</div>
+                            </div>
+                        </div>
+                        <div class="styled-form__row styled-form__row--w51">
+                            <label class="styled-form__left-label styled-form__left-label--w150">Дата регистрации</label>
+                            <div class="styled-form__right-value">
+                                <div class="w115">
+                                    <my-date-picker name="dataRegistration" [options]="myDatePickerOptions"
+                                    formControlName="dataRegistration"></my-date-picker>
+                                </div>
+<!-- 
+                                <input 
+                                    type="text" 
+                                    class="styled-input w115" 
+                                    formControlName="dataRegistration"/> -->
+                                <div class="input-error" *ngIf="addSupplierForm.get('dataRegistration').hasError('required') && addSupplierForm.get('dataRegistration').touched" >Введите дату</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+
+
+                <div class="styled-form__border">
+                    <!---->
+                    <div class="styled-form__3-column">
+                        <div class="styled-form__row styled-form__row--w47">
+                                <label class="styled-form__left-label styled-form__left-label--w165">Обороты за год</label>
+                                <div class="styled-form__right-value">
+                                    <input 
+                                        [textMask]="numberDecimalSpaceMaskOptions" 
+                                        type="text" 
+                                        class="styled-input" 
+                                        formControlName="turnover" 
+                                        placeholder="В рублях"/>
+                                    <div class="input-error" *ngIf="addSupplierForm.get('turnover').hasError('required') && addSupplierForm.get('turnover').touched" >Введите обороты</div>
+                                </div>
+                        </div>
+                        <div class="styled-form__row styled-form__row--w31">
+                            <label class="styled-form__left-label styled-form__left-label--width-auto">Масштаб</label>
+                            <div class="styled-form__right-value">
+                                <ng-select 
+                                    [searchable]="false" 
+                                    [clearable]="false"
+                                    formControlName="scale" 
+                                    >
+                                        <ng-option value="1">Мелкий</ng-option>
+                                        <ng-option value="2">Средний</ng-option>
+                                        <ng-option value="3">Крупный</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="styled-form__row align-items-center">
+                            <div class="styled-form__right-value ">
+                                    <label class="styled-checkbox">
+                                        <input type="checkbox"  formControlName="stock" />
+                                        <span class="checkmark"></span>
+                                        Наличие склада
+                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!---->
+                    <div class="styled-form__row">
+                        <label class="styled-form__left-label styled-form__left-label--w165">Продукт</label>
+                        <div class="styled-form__right-value">
+                            <div class="styled-form__select-type">
+                                <ng-select 
+                                    [searchable]="false" 
+                                    [clearable]="false"
+                                    formControlName="typeProduct" 
+                                    (change)="changeType($event)"
+                                    class="styled-form__select-type--selected"
+                                    >
+                                    <ng-option value="product" selected>Продукт</ng-option>
+                                    <ng-option value="spgz">ID SPGZ</ng-option>
+                                </ng-select>
+                                <div class="styled-form__select-type--input">
+                                    <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product'">
+                                            <autocomplete-field 
+                                            class="autocomplete-input"
+                                                (onSelectedValue)="selectItem($event)"
+                                                [urlSearch]="autocompleteProduct.url"
+                                                [searchFields]="autocompleteProduct.searchField"
+                                                [titleField]="autocompleteProduct.titleField"
+                                                [placeholder]="'Поиск по продукту'"
+                                            ></autocomplete-field>
+                                    </ng-container>
+                                    <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='spgz'">
+                                            <autocomplete-field 
+                                            class="autocomplete-input"
+                                                (onSelectedValue)="selectItem($event)"
+                                                [urlSearch]="autocompleteProduct.url"
+                                                [searchFields]="autocompleteProduct.searchField"
+                                                [titleField]="autocompleteProduct.titleField"
+                                                [placeholder]="'Поиск по ID СПГЗ'"
+                                            ></autocomplete-field>
+                                    </ng-container>
+                                    <div class="input-error" *ngIf="addSupplierForm.get('product').hasError('required') && addSupplierForm.get('product').touched" >Выберите продутк</div>
+                                </div>
+                            </div>
+                            <div class="styled-form__character">
+                                <label class="styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Питьевой
+                                </label>
+                                <label class="styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Густой
+                                </label>
+                                <label class="styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Фруктовый
+                                </label>
+                                <label class="styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Обогощенный
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+
+                    <!---->
+                    <div class="styled-form__3-column">
+                        <div class="styled-form__row styled-form__row--w39">
+                            <label class="styled-form__left-label styled-form__left-label--w165">Объем</label>
+                            <div class="styled-form__right-value">
+                                <input 
+                                    type="text" 
+                                    class="styled-input" 
+                                    [textMask]="numberDecimalSpaceMaskOptions" 
+                                    formControlName="volume" 
+                                    placeholder="В {{volumeUnitPlaceholder}}"
+                                    />
+                                <div class="input-error" *ngIf="addSupplierForm.get('volume').hasError('required') && addSupplierForm.get('volume').touched" >Введите объем</div>
+                            </div>
+                        </div>
+                        <div class="styled-form__row styled-form__row--w33">
+                            <label class="styled-form__left-label styled-form__left-label--width-auto">Цена&nbsp;за&nbsp;единицу, руб.</label>
+                            <div class="styled-form__right-value">
+                                    <input 
+                                    formControlName="pricePerItem" 
+                                    [textMask]="numberDecimalSpaceMaskOptions" 
+                                    type="text" 
+                                    class="styled-input" 
+                                    
+                                    />
+                                    <div class="input-error" *ngIf="addSupplierForm.get('pricePerItem').hasError('required') && addSupplierForm.get('pricePerItem').touched" >Введите цену</div>
+                            </div>
+                        </div>
+                        <div class="styled-form__row">
+                                <label class="styled-form__left-label styled-form__left-label--width-auto">Единица измерения</label>
+                            <div class="styled-form__right-value ">
+                                <ng-select 
+                                    [searchable]="false" 
+                                    [clearable]="false"
+                                    formControlName="volumeUnit" 
+                                    (change)="changeVolumeUnit()"
+                                    >
+                                    <ng-option value="{{unit.id}}" *ngFor="let unit of volumeUnits" >{{unit.name}}</ng-option>
+                                </ng-select>
+                            </div>
+                                
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </form>
+       
+    </bs-modal-body>
+    <bs-modal-footer>
+            <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
+            <div class="btn btn--icon" (click)="submit()"><div class="icon icon--circle-green-active"></div>Сохранить</div>
+    </bs-modal-footer>
+</bs-modal>

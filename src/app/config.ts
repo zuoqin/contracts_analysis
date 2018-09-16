@@ -31,7 +31,7 @@ export const CONFIG = {
     },
     
 
-    numberDecimalMaskOptions:{
+    numberDecimalSpaceMaskOptions:{
 		mask: createNumberMask({
             prefix: '',
             suffix: '',
@@ -46,7 +46,7 @@ export const CONFIG = {
             allowLeadingZeroes: false
         })
     },
-    numberMaskOptions:{
+    numberSpaceMaskOptions:{
 		mask: createNumberMask({
             prefix: '',
             suffix: '',
@@ -59,6 +59,17 @@ export const CONFIG = {
             allowLeadingZeroes: false
         }),
     },
-
+    numberMaskOptions:{
+		mask: createNumberMask({
+            prefix: '',
+            suffix: '',
+            includeThousandsSeparator: false,
+            allowDecimal: false,
+            integerLimit: null,
+            requireDecimal: false,
+            allowNegative: true,
+            allowLeadingZeroes: true
+        }),
+    },
    
 }

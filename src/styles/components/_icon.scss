@@ -103,4 +103,19 @@
         width: 20px;
         height: 18px;
     }
+    &--circle-green-active{
+        background: url(/assets/images/icons/icon-circle-green-active.svg) center top no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 18px;
+        
+    }
+    &--circle-red-close{
+        background: url(/assets/images/icons/icon-circle-red-close.svg) center top no-repeat;
+        background-size: 20px;
+        width: 20px;
+        height: 18px;
+        
+    }
+    
 }

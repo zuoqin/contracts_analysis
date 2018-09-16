@@ -7,255 +7,257 @@
             </div>
     </div>
     <table class="styled-table"  [mfData]="purchaseData" #mf="mfDataTable">
-        <tr>
-            <th *ngIf="isColumnActive('date')" class="w95" >
-                Дата заключения контракта
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="date.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
+        <thead>
+            <tr>
+                <th *ngIf="isColumnActive('date')" class="w95" >
+                    Дата заключения контракта
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="date.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
                     </div>
-                    <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('customer')" class="w280">
-                Заказчик
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="customer.name">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--290 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <input 
-                                type="text" 
-                                placeholder="Введите имя заказчика"
-                                class="popup-form__input"
-                                />
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
+                </th>
+                <th *ngIf="isColumnActive('customer')" class="w280">
+                    Заказчик
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="customer.name">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <div class="filter popup-form popup-form--290 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <input 
+                                    type="text" 
+                                    placeholder="Введите имя заказчика"
+                                    class="popup-form__input"
+                                    />
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('volume')" class="w87">
-                Объем
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="volume.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <div class="popup-form__input-2-column">
-                                <input 
-                                    type="text" 
-                                    placeholder="Объем от"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
-                                <input 
-                                    type="text" 
-                                    placeholder="Объем до"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
-                            </div>
-                           
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
-                            </div>
+                </th>
+                <th *ngIf="isColumnActive('volume')" class="w87">
+                    Объем
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="volume.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
                         </div>
-                    </div>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('price')" class="w75">
-                Цена, руб.
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="price.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <div class="popup-form__input-2-column">
-                                <input 
-                                    type="text" 
-                                    placeholder="Цена от"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
-                                <input 
-                                    type="text" 
-                                    placeholder="Цена до"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
-                            </div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <div class="popup-form__input-2-column">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Объем от"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Объем до"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                </div>
                             
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('term')" class="w70">
-                Срок испол- нения
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="term.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
+                </th>
+                <th *ngIf="isColumnActive('price')" class="w75">
+                    Цена, руб.
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="price.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <div class="popup-form__input-2-column">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Цена от"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Цена до"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                </div>
+                                
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </th>
+                <th *ngIf="isColumnActive('term')" class="w70">
+                    Срок испол- нения
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="term.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
 
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <div  class="popup-form__input-label">
-                                <input 
-                                    type="text" 
-                                    placeholder="Введите число"
-                                    class="popup-form__input"
-                                    />
-                                    <label>дней</label>
-                            </div>
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <div  class="popup-form__input-label">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Введите число"
+                                        class="popup-form__input"
+                                        />
+                                        <label>дней</label>
+                                </div>
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th>
-      
-            <th *ngIf="isColumnActive('priceContract')" class="w110">
-                Цена контракта, руб.
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="priceContract">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <div class="popup-form__input-2-column">
-                                <input 
-                                    type="text" 
-                                    placeholder="Цена от"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
-                                <input 
-                                    type="text" 
-                                    placeholder="Цена до"
-                                    OnlyNumber="true"
-                                    class="popup-form__input"
-                                    />
+                </th>
+        
+                <th *ngIf="isColumnActive('priceContract')" class="w110">
+                    Цена контракта, руб.
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="priceContract">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <div class="popup-form__input-2-column">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Цена от"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Цена до"
+                                        OnlyNumber="true"
+                                        class="popup-form__input"
+                                        />
+                                </div>
+                                
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </th>
+                <th *ngIf="isColumnActive('status')" class="w107">
+                    Статус контракта
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="status.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                Исполнение
+                                </label>
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Исполнение завершено
+                                </label>
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Исполнение прекращено
+                                </label>
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Аннулированные реестровые записи
+                                </label>
                             
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('status')" class="w107">
-                Статус контракта
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="status.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                               Исполнение
-                            </label>
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Исполнение завершено
-                            </label>
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Исполнение прекращено
-                            </label>
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Аннулированные реестровые записи
-                            </label>
-                        
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
-                            </div>
+                </th>
+                <th *ngIf="isColumnActive('dateEnd')" class="w107">
+                    Дата окончания контракта
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="dateEnd.value">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
                         </div>
+                        <date-range-filter (onSelectedDate)="onSelectedDateEnd($event)"></date-range-filter>
                     </div>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('dateEnd')" class="w107">
-                Дата окончания контракта
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="dateEnd.value">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <date-range-filter (onSelectedDate)="onSelectedDateEnd($event)"></date-range-filter>
-                </div>
-            </th>
-            <th *ngIf="isColumnActive('complaint')" class="w75">
-                Наличие жалоб
-                <div class="styled-table__bottom-filter">
-                    <div class="sorting">
-                        <mfDefaultSorter by="complaint">
-                            <span class="sorting__default"></span>
-                        </mfDefaultSorter>
-                    </div>
-                    <div class="filter popup-form popup-form--270 toggle-class">
-                        <div class="filter__icon" trigger-active></div>
-                        <div class="popup-form__container">
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Да
-                            </label>
-                            <label class="popup-form__checkbox styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Нет
-                            </label>
+                </th>
+                <th *ngIf="isColumnActive('complaint')" class="w75">
+                    Наличие жалоб
+                    <div class="styled-table__bottom-filter">
+                        <div class="sorting">
+                            <mfDefaultSorter by="complaint">
+                                <span class="sorting__default"></span>
+                            </mfDefaultSorter>
+                        </div>
+                        <div class="filter popup-form popup-form--270 toggle-class">
+                            <div class="filter__icon" trigger-active></div>
+                            <div class="popup-form__container">
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Да
+                                </label>
+                                <label class="popup-form__checkbox styled-checkbox">
+                                    <input type="checkbox"/>
+                                    <span class="checkmark"></span>
+                                    Нет
+                                </label>
 
-                            <div class="popup-form__bottom-btn">
-                                <div class="btn">Сбросить</div>
-                                <div class="btn">Подтвердить</div>
+                                <div class="popup-form__bottom-btn">
+                                    <div class="btn">Сбросить</div>
+                                    <div class="btn">Подтвердить</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </th>
-        </tr>
+                </th>
+            </tr>
+        </thead>
         <tr 
             *ngFor="let purchase of mf.data"
             [class.red-bg]="!purchase.safety"

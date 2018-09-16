@@ -11,7 +11,9 @@ export class AutocompleteFieldComponent implements OnInit{
     @Input() searchFields;
     @Input() titleField;
     @Input() formControlName;
+    @Input() initialValue?: string;
     @Output() onSelectedValue = new EventEmitter<any>();
+    
     question = [];
 
     dataService: CompleterData;

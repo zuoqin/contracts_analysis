@@ -39,7 +39,7 @@ export class SearchFilterSupplier implements OnInit{
         this.router.navigate(['search',this.searchForm.controls.type.value]);
         
     }
-    selectSupplier(){
+    selectSupplier(event){
         this.ifLoadData = true;
     }
     initForm(){

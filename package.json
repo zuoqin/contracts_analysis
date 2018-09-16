@@ -26,6 +26,7 @@
 		"angular2-text-mask": "^9.0.0",
 		"core-js": "^2.5.4",
 		"highcharts": "^6.1.1",
+		"mydatepicker": "^2.6.5",
 		"mydaterangepicker": "^4.2.1",
 		"ng-autosize": "^1.1.0",
 		"ng2-bs3-modal": "^0.15.0",
