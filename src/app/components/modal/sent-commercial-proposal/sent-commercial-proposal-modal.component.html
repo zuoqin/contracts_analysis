@@ -1,14 +1,68 @@
 <bs-modal [animation]="true" [keyboard]="true" [backdrop]="true"
-   #sentCommercialProposalModal  [cssClass]="'styled-modal styled-modal--large'" (onClose)="onClose()" (onDismiss)="onClose()">
+   #sentCommercialProposalModal  [cssClass]="'styled-modal styled-modal--small styled-modal--no-space'" (onClose)="onClose()" (onDismiss)="onClose()">
     <bs-modal-header [showDismiss]="true">
         <h2 class="modal-title" >Отправленнные КП</h2>
     </bs-modal-header>
     <bs-modal-body>
-  
+        <table class="styled-table styled-table--send-cp">
+            <thead>
+                <tr>
+                    <th class="w35"></th>
+                    <th class="w105">Дата отправки</th>
+                    <th class="w115">Дата получения цены через КП</th>
+                    <th class="w170">Адрес электронной почты</th>
+                    <th class="w285">Тема письма</th>
+                    <th class="w115">Статус</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let cp of sentCP">
+            
+                    <tr>
+                        <td>
+                            <div 
+                                *ngIf="cp.messages && cp.messages.length" 
+                                [class.active]="cp.active"
+                                (click)="cp.active = !cp.active;" 
+                                class="btn-toggle">
+                            </div>
+                        </td>
+                        <td>{{cp.dateSent}}</td>
+                        <td>{{cp.dateGetPrice}}</td>
+                        <td class="break-word">{{cp.email}}</td>
+                        <td>{{cp.subject}}</td>
+                        <td>{{cp.status}}</td>
+                    </tr>
+                    <tr *ngIf="cp.active">
+                        <td colspan="6" class="p0">
+                            <div class="messages-list" >
+                                <div 
+                                    class="messages-list__item" 
+                                    *ngFor="let message of cp.messages">
+                                        <div class="messages-list__text">
+                                            <div *ngIf="!message.showAll && message.text.length>=250">
+                                                <span [outerHTML]="message.text | slice:0:250"></span>...
+                                            </div>
+
+                                            <div *ngIf="message.showAll || message.text.length<250">
+                                                <div [outerHTML]="message.text"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="messages-list__file" *ngIf="message.file && message.file.name && message.file.link">
+                                            <div class="file-item__text">{{message.file.name}}</div>
+                                            <a href="{{message.file.link}}" target="_blank" class="btn btn--icon"><div class="icon icon--download"></div>Скачать</a>
+                                        </div>
+
+                                        <div *ngIf="message.text.length>250 && !message.showAll" class="triangle-show-more" (click)="message.showAll = true"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
        
     </bs-modal-body>
     <bs-modal-footer>
             <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
-            <div class="btn btn--icon" (click)="submit()"><div class="icon icon--circle-green-active"></div>Сохранить</div>
     </bs-modal-footer>
 </bs-modal>

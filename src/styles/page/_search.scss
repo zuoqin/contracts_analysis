@@ -379,21 +379,9 @@
     color: #222121;
     font-family: 'Avenir Next';
     width: 100%;
-    .w95{
-        width: 95px;
-        min-width: 95px;;
-    }
-    .w280{
-        width: 280px;
-        min-width: 280px;
-    }
-    .w87{
-        width: 87px;
-        min-width: 87px;
-    }
-    .w90{
-        width: 90px;
-        min-width: 90px;
+    .w35{
+        width: 35px;
+        min-width: 35px;
     }
     .w70{
         width: 70px;
@@ -403,9 +391,30 @@
         width: 75px;
         min-width: 75px;
     }
+    .w87{
+        width: 87px;
+        min-width: 87px;
+    }
+    .w90{
+        width: 90px;
+        min-width: 90px;
+    }
+    .w95{
+        width: 95px;
+        min-width: 95px;;
+    }
     .w100{
         width: 100px;
         min-width: 100px;
+    }
+    
+    
+    
+    
+    
+    .w105{
+        min-width: 105px;
+        width: 105px;
     }
     .w107{
         width: 107px;
@@ -414,6 +423,10 @@
     .w110{
         width: 110px;
         min-width: 110px;
+    }
+    .w115{
+        width: 115px;
+        min-width: 115px;
     }
     .w120{
         width: 120px;
@@ -431,13 +444,25 @@
         width: 145px;
         min-width: 145px;
     }
+    .w170{
+        width: 170px;
+        min-width: 170px;
+    }
     .w275{
         width: 275px;
         min-width: 275px;
     }
+    .w280{
+        width: 280px;
+        min-width: 280px;
+    }
+    .w285{
+        width: 285px;
+        min-width: 285px;
+    }
     thead{
         background: #f9f9f9;
-        tr th{
+        th{
         
             color: #787878;
             padding-bottom: 10px;
@@ -452,7 +477,7 @@
             position: relative;
         }
     }
-
+    
     td,th{
         border: 1px solid #979797;
     }
@@ -462,7 +487,7 @@
         line-height: 20px;
         font-weight: 500;
         padding: 13px 6px;
-        a{
+        a:not(.btn){
             color: #52abff;
             text-decoration: none;
             &:hover{
@@ -488,5 +513,20 @@
         right: 2px;
         display: flex;
         align-items: center;
+    }
+    &--send-cp{
+        td{
+            padding: 4px 6px;
+        }
+        thead{
+            th{
+                height: 75px;
+            }
+        }
+        tbody:not(:last-child){
+            .messages-list{
+                padding-bottom: 50px;
+            }
+        }
     }
 }

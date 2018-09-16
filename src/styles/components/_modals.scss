@@ -173,12 +173,21 @@ button.close {
 	&--large{
 		width: 930px;
 	}
+	&--small{
+		width: 830px;
+	}
     label{
         font: 14px/18px 'Avenir Next';
     }
     .modal-title{
         text-align: center;
-    }
+	}
+	&--no-space{
+		.modal-body{
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 }
 .add-supplier-modal{
 	&__3-column-top{

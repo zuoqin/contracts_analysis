@@ -8,6 +8,9 @@
 .transition{
     transition:0.1s all ease-in-out;
 }
+.p0{
+    padding: 0 !important;
+}
 .m2{
     margin: 2px;
 }
@@ -78,4 +81,7 @@ html body .tooltip {
     &.tooltip-bottom::after{
         border-bottom-color: white;
     }
+}
+.break-word{
+    word-break: break-all;
 }

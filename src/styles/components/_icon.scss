@@ -68,51 +68,51 @@
     &--circle-add,
     &--circle-remove{
         background: url(/assets/images/icons/icon-circle-add.svg) center no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 20px;
     }
     &--circle-remove{
         background: url(/assets/images/icons/icon-circle-remove.svg) center no-repeat;
-        background-size: 20px;
+        background-size: contain;
     }
     &--type-file{
         background: url(/assets/images/icons/icon-type-file.svg) center no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 20px;
         
     }
     &--download{
         background: url(/assets/images/icons/icon-download.svg) center no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 20px;
         
     }
     &--chat{
         background: url(/assets/images/icons/icon-chat.svg) center no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 20px;
         
     }
     &--letter{
         background: url(/assets/images/icons/icon-letter.svg) center top no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 18px;
     }
     &--circle-green-active{
         background: url(/assets/images/icons/icon-circle-green-active.svg) center top no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 18px;
         
     }
     &--circle-red-close{
         background: url(/assets/images/icons/icon-circle-red-close.svg) center top no-repeat;
-        background-size: 20px;
+        background-size: contain;
         width: 20px;
         height: 18px;
         
