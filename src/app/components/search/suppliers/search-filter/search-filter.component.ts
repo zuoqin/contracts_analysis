@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,Output,Input,EventEmitter } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService,RemoteData } from 'ng2-completer';
 import { Router } from '@angular/router';
@@ -7,11 +7,10 @@ import { CONFIG } from '@config';
 
 @Component({
     selector:'search-filter-supplier',
-    templateUrl:'./search-filter-supplier.component.html'
+    templateUrl:'./search-filter.component.html'
 })
 
-
-export class SearchFilterSupplier implements OnInit{
+export class SearchFilterSupplierComponent implements OnInit{
     searchForm: FormGroup;
     
     queryStr: string;
@@ -19,6 +18,9 @@ export class SearchFilterSupplier implements OnInit{
     ifLoadData:boolean = false;
     seacrhType = CONFIG.seacrhType;
     autocompleteSupplier = CONFIG.autocompleteSupplier;
+    @Input() loadData: boolean;
+    @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
+
     btnText = {
         text:"Найти",
         defaultValue:"Найти",

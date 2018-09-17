@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchProductComponent }  from './components/search/product/search-product/search-product.component';
-import { SearchFilterSupplier } from './components/search-filter/search-filter-supplier/search-filter-supplier.component';
+import { SearchSuppliersComponent } from './components/search/suppliers';
 import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
 import { SearchComponent } from './components/search/search.component';
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
 			},
 			{ 
 				path: 'supplier', 
-				component: SearchFilterSupplier,
+				component: SearchSuppliersComponent,
 			},
 			{ 
 				path: 'spgz', 

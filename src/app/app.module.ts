@@ -16,7 +16,9 @@ import {
 		SuppliersTableComponent
 	} from './components/search/product';
 	
-import { SearchFilterSupplier } from './components/search-filter/search-filter-supplier/search-filter-supplier.component';
+import { 
+		SearchFilterSupplierComponent,
+		SearchSuppliersComponent } from './components/search/suppliers';
 import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
 
 import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
@@ -69,7 +71,7 @@ import { CoreModule } from './core/core.module';
 		AppComponent,
 		HeaderComponent,
 		SearchFilterProduct,
-		SearchFilterSupplier,
+		SearchFilterSupplierComponent,
 		SearchFilterSpgz,
 		RegionsTagSelectedComponent,
 		SearchComponent,
@@ -86,6 +88,7 @@ import { CoreModule } from './core/core.module';
 		AddSupplierModalComponent,
 		SentCommercialProposalModalComponent,
 		SendingCPModalComponent,
+		SearchSuppliersComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,
