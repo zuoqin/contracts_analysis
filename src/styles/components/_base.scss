@@ -66,3 +66,30 @@ h2{
     font-weight: 700;
     line-height: 22px;
 }
+.bordered-title{
+    span{
+        display: inline-block;
+        color: #B32520;
+        font-family: 'FiraSans';
+        font-size: 18px;
+        line-height: 20px;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-bottom: 1.5px solid #B12726;
+        letter-spacing: 0.8px;
+        padding-bottom: 11px;
+        margin-top: 39px;
+        margin-bottom: 20px;
+    }
+}
+.gray-link{
+    font-family: 'FiraSans';
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 16px;
+    color: #989898;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+    }
+}

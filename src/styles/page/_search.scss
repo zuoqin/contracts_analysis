@@ -602,3 +602,32 @@
     }
 
 }
+.list-info{
+    display: flex;
+    margin-top: 24px;
+    margin-bottom: 20px;
+    &__column{
+        width: 49.5%;
+        
+    }
+    &__item{
+        margin-bottom: 24px;
+        display: flex;
+        color: #6C6B6B;
+        font-size: 16.5px;
+        line-height: 20px;
+        &--less{
+            margin-bottom: 15px;
+        }
+    }
+    &__title{
+        width: 42%;
+        letter-spacing: -0.1px;
+        &--longer{
+            width: 52%;
+        }
+    }
+    &__value{
+        font-weight: bold;
+    }
+}

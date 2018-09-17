@@ -1,0 +1,67 @@
+
+    <div class="container">
+        <div class="d-flex space-between align-items-center">
+            <div class="bordered-title"><span>ИНФОРМАЦИЯ О КОМПАНИИ</span></div>
+            <a href="/" target="_blank" class="gray-link">Посетить сайт организации</a>
+        
+        </div>
+        
+        <div class="list-info">
+
+            <div class="list-info__column">
+                <div class="list-info__item">
+                    <div class="list-info__title">Регионы регистрации: </div>
+                    <div class="list-info__value">{{aboutSuppliers.region}}</div>
+                </div>
+                <div class="list-info__item">
+                    <div class="list-info__title">Дата регистрации:</div>
+                    <div class="list-info__value">{{aboutSuppliers.date}}</div>
+                </div>
+                <div class="list-info__item">
+                    <div class="list-info__title">E-mail поставщика:</div>
+                    <div class="list-info__value">{{aboutSuppliers.email}}</div>
+                </div>
+                <div class="list-info__item">
+                    <div class="list-info__title">Телефон поставщика:</div>
+                    <div class="list-info__value">{{aboutSuppliers.phone}}</div>
+                </div>
+                <div class="list-info__item">
+                    <div class="list-info__title">ИНН / КПП::</div>
+                    <div class="list-info__value">{{aboutSuppliers.itn}} / {{aboutSuppliers.iec}}</div>
+                </div>
+            </div>
+
+            <div class="list-info__column">
+                <div class="list-info__item list-info__item--less ">
+                    <div class="list-info__title list-info__title--longer">Оборот за последний год:</div>
+                    <div class="list-info__value">{{aboutSuppliers.turnover | thousandsSpace}} руб.</div>
+                </div>
+                <div class="list-info__item list-info__item--less">
+                    <div class="list-info__title list-info__title--longer">Распространение продукции:</div>
+                    <div class="list-info__value">{{aboutSuppliers.type}}</div>
+                </div>
+                <div class="list-info__item list-info__item--less">
+                    <div class="list-info__title list-info__title--longer">Участие в закупках:</div>
+                    <div  class="list-info__value" [innerText]="aboutSuppliers.participation ? 'Да' : 'Нет'"></div>
+                </div>
+                <div class="list-info__item list-info__item--less">
+                    <div class="list-info__title list-info__title--longer">Сумма контрактов:</div>
+                    <div class="list-info__value">{{aboutSuppliers.sumOfContracts | thousandsSpace}} руб.</div>
+                </div>
+                <div class="list-info__item list-info__item--less">
+                    <div class="list-info__title list-info__title--longer">Наличие склада:</div>
+                    <div class="list-info__value" [innerText]="aboutSuppliers.warehouse ? 'Да' : 'Нет'"></div>
+                </div>
+                <div class="list-info__item list-info__item--less">
+                    <div class="list-info__title list-info__title--longer">Статус:</div>
+                    <div class="list-info__value">{{aboutSuppliers.status}}</div>
+                </div>
+            </div>
+          
+
+
+           
+            
+           
+        </div>
+    </div>

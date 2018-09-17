@@ -18,7 +18,9 @@ import {
 	
 import { 
 		SearchFilterSupplierComponent,
-		SearchSuppliersComponent } from './components/search/suppliers';
+		SearchSuppliersComponent,
+		AboutSupplierComponent,
+		FoodPricesComponent } from './components/search/suppliers';
 import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
 
 import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
@@ -89,13 +91,14 @@ import { CoreModule } from './core/core.module';
 		SentCommercialProposalModalComponent,
 		SendingCPModalComponent,
 		SearchSuppliersComponent,
+		AboutSupplierComponent,
+		FoodPricesComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,
 		TriggerActiveDirective,
 		ThousandsSpacePipe,
 		Autosize
-		
 	],
 	imports: [
 		CoreModule,

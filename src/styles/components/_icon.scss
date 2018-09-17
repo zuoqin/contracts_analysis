@@ -101,7 +101,8 @@
         background: url(/assets/images/icons/icon-letter.svg) center top no-repeat;
         background-size: contain;
         width: 20px;
-        height: 18px;
+        height: 16px;
+
     }
     &--circle-green-active{
         background: url(/assets/images/icons/icon-circle-green-active.svg) center top no-repeat;
@@ -116,6 +117,12 @@
         width: 20px;
         height: 18px;
         
+    }
+    &--link{
+        background: url(/assets/images/icons/icon-link.svg) center no-repeat;
+        background-size: 13px;
+        width: 20px;
+        height: 20px;
     }
     
 }

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class SearchSuppliersComponent{
     loadData:boolean = true;
-    showCardSupplier:boolean = false;
+    showCardSupplier:boolean = true;
     onLoadData(){
         this.loadData = true;
     }

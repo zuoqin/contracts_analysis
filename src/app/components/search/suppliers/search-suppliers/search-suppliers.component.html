@@ -1,4 +1,5 @@
 <search-filter-supplier  (onLoadData)="onLoadData()"  [loadData]="loadData"></search-filter-supplier>
+
 <div class="title-supplier">
     <div class="container">
         <h1 class="title-supplier__title">ООО «РегионПродукт»</h1>
@@ -9,9 +10,8 @@
         
     </div>
 </div>
-<div 
-    class="toggle-card"
-    >
+
+<div class="toggle-card">
     <div class="container">
         <div 
             [class.active]="showCardSupplier"
@@ -23,8 +23,8 @@
         </div>
     </div>
 </div>
-<div *ngIf="showCardSupplier">
-    <div class="container">
-        Информация о компании
-    </div>
+
+<div [hidden]="!showCardSupplier">
+    <about-supplier ></about-supplier>
+    <food-prices></food-prices>
 </div>

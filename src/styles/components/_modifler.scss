@@ -1,3 +1,25 @@
+
+.w6p{
+    width: 6%;
+}
+.w7-5p{
+    width: 7.5%;
+}
+.w8p{
+    width: 8%;
+}
+.w10p{
+    width: 10%;
+}
+.w11p{
+    width: 11%;
+}
+.w13p{
+    width: 13%;
+}
+.w18p{
+    width: 18%;
+}
 .w200{
     width: 200px;
 }
@@ -45,6 +67,9 @@
 .align-center{
     align-items: center;
 }
+.text-center{
+    text-align: center !important;
+}
 .cursor{
     cursor: pointer;
 }
@@ -53,6 +78,15 @@
 }
 .v-align-top{
     vertical-align: top;
+}
+.v-align-middle{
+    vertical-align: middle;
+}
+.d-flex{
+    display: flex;
+}
+.space-between{
+    justify-content: space-between;
 }
 html body .tooltip {
     border: 1px solid #979797;

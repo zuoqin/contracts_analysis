@@ -1049,3 +1049,54 @@ html body .mydp{
         bottom: 0;
     }
 }
+.no-border-table{
+    width: 100%;
+    border: 0;
+    color: #6C6B6B;
+    font-size: 16.5px;
+    line-height: 20px;
+    padding-bottom: 19px;
+    &,thead{
+        border-bottom: 1.5px solid #979797;
+    }
+    th, td, tr, thead, tbody {
+        display: block;
+    }
+    tr{
+        display: flex;
+    }
+    thead{
+        tr{
+            align-items: center;
+            height: 98px; 
+            th{
+                font-weight: bold;
+                text-align: left;
+            }
+        }
+    }
+
+
+    tbody{
+        height: 120px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 9px 0;
+
+        td{
+            padding: 3.2px 2px;
+        }
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+           
+        &::-webkit-scrollbar-thumb {
+            background: #C2C2C2;
+            border-radius: 7px;
+        }
+          
+        &::-webkit-scrollbar-track {
+            background: rgba(216, 216, 216, 0.5);
+        }
+    }
+}
