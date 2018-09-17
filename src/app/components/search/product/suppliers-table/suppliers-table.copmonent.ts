@@ -8,6 +8,7 @@ export class SuppliersTableComponent{
     @ViewChild('addCommercialProposalModal') addCommercialProposalModal;
     @ViewChild('addSupplierModal') addSupplierModal;
     @ViewChild('sentCPModal') sentCPModal;
+    @ViewChild('sendingCPModal') sendingCPModal;
     suppliersData = [
         {
             date:{
@@ -184,4 +185,8 @@ export class SuppliersTableComponent{
     showSentCPModal(){
         this.sentCPModal.open()
     }
+    showSendingCPModal(){
+        this.sendingCPModal.open()
+    }
+    
 }

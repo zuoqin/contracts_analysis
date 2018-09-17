@@ -1,0 +1,67 @@
+<bs-modal [animation]="true" [keyboard]="false" [backdrop]="true"
+
+   #sendingCommercialProposalModal #modal  [cssClass]="'styled-modal styled-modal--small'" (onClose)="onClose()" (onDismiss)="onClose()">
+    <bs-modal-header [showDismiss]="true">
+        <h2 class="modal-title" >Отправка КП</h2>
+    </bs-modal-header>
+    <bs-modal-body>
+        <div class="styled-form" >
+            <form class="mb30" [formGroup]="commercialProposalForm" novalidate>
+          
+
+                <!---->
+                <div class="styled-form__row styled-form__row--mb15">
+                    <label class="styled-form__left-label styled-form__left-label--w100 styled-form__left-label--f12">Тема письма</label>
+                    <div class="styled-form__right-value styled-form__right-value--pr0">
+                        <input type="text" class="styled-input" formControlName="subject"/>
+                        <div class="input-error" *ngIf="commercialProposalForm.get('subject').hasError('required') && commercialProposalForm.get('subject').touched" >Введите темау письма</div>
+                    </div>
+                </div>
+                <!---->
+                <!---->
+                <div class="styled-form__row styled-form__row--mb15">
+                    <label class="styled-form__left-label styled-form__left-label--w100 styled-form__left-label--f12">Email</label>
+                    <div class="styled-form__right-value styled-form__right-value--pr0 w190">
+                        <input type="text" class="styled-input" formControlName="email"/>
+                    </div>
+                </div>
+                <!---->
+
+                <!---->
+                <div class="styled-form__row styled-form__row--mb15">
+                    <label class="styled-form__left-label styled-form__left-label--w100 styled-form__left-label--f12">От</label>
+                    <div class="styled-form__right-value styled-form__right-value--pr0 w190">
+                        <ng-select 
+                            [searchable]="false" 
+                            [clearable]="false"
+                            formControlName="from" 
+                            >
+                            <ng-option value="{{email}}" *ngFor="let email of emailList" >{{email}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+                <!---->
+
+              
+     
+            </form>
+            <ckeditor
+                [config]="ckeConfig"
+                #ckeditor
+                [(ngModel)]="letterContent"
+                (editorChange)="onEditorChange($event)"
+                 placeholder="Default text here"
+                 (focus)="onFocus($event)"
+                 (blur)="onBlur($event)"
+                debounce="500">
+            </ckeditor>
+            <div class="input-error" *ngIf="commercialProposalForm.get('message').hasError('required') && commercialProposalForm.get('message').touched" >Введите темау письма</div>
+        
+        </div>
+    </bs-modal-body>
+    <bs-modal-footer>
+            <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
+            <div class="btn btn--icon" (click)="submit()"><div class="icon icon--circle-green-active"></div>Отправить</div>
+            <div class="btn btn--icon"><div class="icon icon--add"></div>Добавить КП</div>
+    </bs-modal-footer>
+</bs-modal>

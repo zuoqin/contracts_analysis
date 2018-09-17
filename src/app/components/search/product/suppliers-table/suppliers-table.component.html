@@ -1,6 +1,7 @@
 <add-commercial-proposal-modal #addCommercialProposalModal></add-commercial-proposal-modal>
 <add-supplier-modal #addSupplierModal></add-supplier-modal>
 <sent-commercial-proposal-modal #sentCPModal></sent-commercial-proposal-modal>
+<sending-commercial-proposal-modal #sendingCPModal></sending-commercial-proposal-modal>
 <div class="container">
     <div class="title-with-button">
             <h2>РЫНОЧНЫЕ ПОСТАВЩИКИ</h2>
@@ -263,7 +264,7 @@
                     </td>
                     <td *ngIf="isColumnActive('participation')" class="text-center">{{supplier.participation}}</td>
                     <td *ngIf="isColumnActive('commercialProposal')"class="text-center" >
-                        <div class="icon icon--chat cursor v-align-top m2"></div>
+                        <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal()"></div>
                         <div *ngIf="supplier.commercialProposal.send" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal()"></div>
 
                     </td>

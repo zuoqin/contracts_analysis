@@ -707,11 +707,12 @@ textarea.styled-input{
             min-width: 50%;
             width: 50%;
         }
-    }
-    &__row{
         margin-bottom: 30px;
         display: flex;
-       
+        &--mb15{
+            margin-bottom: 15px;
+        }
+
     }
     &__left-label{
         min-width: 195px;
@@ -725,6 +726,10 @@ textarea.styled-input{
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        &--w100{
+            min-width: 100px;
+            width:100px;
+        }
         &--w165{
             min-width: 165px;
             width:165px;
@@ -736,6 +741,9 @@ textarea.styled-input{
         &--width-auto{
             min-width: auto;
             width: auto;
+        }
+        &--f12{
+            font-size: 12px !important;
         }
     }
     &__right-value{
@@ -1023,6 +1031,7 @@ html body .mydp{
     width: 20px;
     height: 20px;
     cursor: pointer;
+    cursor: se-resize;
     right: 1px;
     bottom: 1px;
     border-bottom-right-radius: 3px;

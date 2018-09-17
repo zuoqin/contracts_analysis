@@ -29,7 +29,8 @@ import { AutocompleteFieldComponent } from './components/autocomplete-field/auto
 import { 
 		AddCommercialProposalModalComponent,
 		AddSupplierModalComponent,
-		SentCommercialProposalModalComponent
+		SentCommercialProposalModalComponent,
+		SendingCPModalComponent
 	} from './components/modal';
 
 /*Directives*/
@@ -59,8 +60,8 @@ import {TooltipModule} from 'ng2-tooltip-directive';
 import { Autosize } from 'ng-autosize/src/autosize.directive';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
-
-
+import { NgxEditorModule } from 'ngx-editor';
+import { CKEditorModule } from 'ng2-ckeditor';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
@@ -84,12 +85,14 @@ import { CoreModule } from './core/core.module';
 		AutocompleteFieldComponent,
 		AddSupplierModalComponent,
 		SentCommercialProposalModalComponent,
+		SendingCPModalComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,
 		TriggerActiveDirective,
 		ThousandsSpacePipe,
 		Autosize
+		
 	],
 	imports: [
 		CoreModule,
@@ -106,7 +109,9 @@ import { CoreModule } from './core/core.module';
 		BsModalModule,
 		NgxMaskModule.forRoot(),
 		TextMaskModule,
-		MyDatePickerModule
+		MyDatePickerModule,
+		NgxEditorModule,
+		CKEditorModule
 		
 	],
 	providers: [],
