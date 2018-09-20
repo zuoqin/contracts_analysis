@@ -1,12 +1,22 @@
 
+.w5p{
+    width: 5%;
+}
 .w6p{
     width: 6%;
+}
+.w7p{
+    width: 7%;
 }
 .w7-5p{
     width: 7.5%;
 }
+
 .w8p{
     width: 8%;
+}
+.w9p{
+    width: 9%;
 }
 .w10p{
     width: 10%;
@@ -31,6 +41,9 @@
 }
 .transition{
     transition:0.1s all ease-in-out;
+}
+.mb0{
+    margin-bottom: 0 !important; 
 }
 .p0{
     padding: 0 !important;

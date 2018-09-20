@@ -77,7 +77,12 @@ export class AddCommercialProposalModalComponent implements OnInit{
                 this.addProposalForm.controls['supplier'].setValue(value);
                 this.open();
             })
-
+        this.suppliersServices.openAddCPModalObservable
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(value=>{
+                console.log(1)
+                this.open();
+            })
         
     }
 

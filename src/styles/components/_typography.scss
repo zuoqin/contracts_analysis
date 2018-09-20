@@ -7,3 +7,11 @@
 .lowercase{
     text-transform: lowercase;
 }
+.underline{
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: underline;
+    &:hover{
+        text-decoration: none;
+    }
+}

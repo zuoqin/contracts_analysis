@@ -17,12 +17,12 @@
             </thead>
             <tbody *ngFor="let cp of sentCP">
             
-                    <tr>
+                    <tr class="cursor"  (click)="cp.active = !cp.active;">
                         <td>
                             <div 
                                 *ngIf="cp.messages && cp.messages.length" 
                                 [class.active]="cp.active"
-                                (click)="cp.active = !cp.active;" 
+                                
                                 class="btn-toggle">
                             </div>
                         </td>
@@ -41,6 +41,8 @@
                                         <div class="messages-list__text">
                                             <div *ngIf="!message.showAll && message.text.length>=250">
                                                 <span [outerHTML]="message.text | slice:0:250"></span>...
+                                                &nbsp;&nbsp;
+                                                <span (click)="message.showAll = true" class="underline">Показать полностью</span>
                                             </div>
 
                                             <div *ngIf="message.showAll || message.text.length<250">
@@ -53,7 +55,7 @@
                                             <a href="{{message.file.link}}" target="_blank" class="btn btn--icon"><div class="icon icon--download"></div>Скачать</a>
                                         </div>
 
-                                        <div *ngIf="message.text.length>250 && !message.showAll" class="triangle-show-more" (click)="message.showAll = true"></div>
+                                        
                                 </div>
                             </div>
                         </td>

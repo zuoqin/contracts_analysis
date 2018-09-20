@@ -6,6 +6,9 @@
 }
 body{
     min-width: 1024px;
+    font-size: 14px;
+    line-height: 18px;
+    font-family: 'Avenir Next';
 }
 label{
     font-weight: normal;
@@ -16,9 +19,7 @@ label{
     padding: 0 20px;
     margin: 0 auto;
 }
-body{
-    font: 14px/18px'Avenir Next';
-}
+
 fieldset{
     border: 0;
     margin: 0;
@@ -76,19 +77,25 @@ h2{
         text-transform: uppercase;
         font-weight: 700;
         border-bottom: 1.5px solid #B12726;
-        letter-spacing: 0.8px;
-        padding-bottom: 11px;
+        letter-spacing: 0.6px;
+        padding-bottom: 13px;
         margin-top: 39px;
         margin-bottom: 20px;
     }
 }
 .gray-link{
-    font-family: 'FiraSans';
-    font-weight: normal;
+    letter-spacing: -0.3px;
     font-size: 15px;
     line-height: 16px;
     color: #989898;
     text-decoration: underline;
+    &--icon{
+        display: flex;
+        align-items: center;
+        .icon{
+            margin-right: 7px;
+        }
+    }
     &:hover{
         text-decoration: none;
     }

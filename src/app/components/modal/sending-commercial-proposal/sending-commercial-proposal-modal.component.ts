@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 /*Plugins*/
 import {BsModalComponent } from 'ng2-bs3-modal';
 
-
+/*Services*/
+import { SuppliersServices } from '@core';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class SendingCPModalComponent implements OnInit{
 
 
     constructor(
+        private suppliersServices:SuppliersServices,
         private formBuilder: FormBuilder
     ){}
     
@@ -103,5 +105,14 @@ export class SendingCPModalComponent implements OnInit{
         }
 
         console.log(this.commercialProposalForm)
+    }
+
+    openAddCPModal(){
+        this.close()
+        setTimeout(() => {
+            this.suppliersServices.openAddCPModal.next(true)
+        }, 300);
+       
+        
     }
 }

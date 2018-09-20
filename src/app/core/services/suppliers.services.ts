@@ -25,6 +25,9 @@ export class SuppliersServices{
     public addDynamicSupplier:Subject<any> = new Subject<any>();
     public addDynamicSupplierObservable = this.addDynamicSupplier.asObservable()
     
+    public openAddCPModal:Subject<any> = new Subject<any>();
+    public openAddCPModalObservable = this.openAddCPModal.asObservable()
+    
 
     constructor(
         private apiService: ApiService

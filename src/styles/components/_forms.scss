@@ -1055,10 +1055,6 @@ html body .mydp{
     color: #6C6B6B;
     font-size: 16.5px;
     line-height: 20px;
-    padding-bottom: 19px;
-    &,thead{
-        border-bottom: 1.5px solid #979797;
-    }
     th, td, tr, thead, tbody {
         display: block;
     }
@@ -1068,7 +1064,7 @@ html body .mydp{
     thead{
         tr{
             align-items: center;
-            height: 98px; 
+            height: 95px; 
             th{
                 font-weight: bold;
                 text-align: left;
@@ -1078,7 +1074,10 @@ html body .mydp{
 
 
     tbody{
-        height: 120px;
+        border: 1.5px solid #979797;
+        border-left: none;
+        border-right: none;
+        height: 133px;
         overflow-y: auto;
         overflow-x: hidden;
         padding: 9px 0;

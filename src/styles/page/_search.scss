@@ -605,7 +605,7 @@
 .list-info{
     display: flex;
     margin-top: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 7px;
     &__column{
         width: 49.5%;
         
@@ -629,5 +629,73 @@
     }
     &__value{
         font-weight: bold;
+    }
+}
+
+.supplier-risk{
+    margin-bottom: 30px;
+    &__chart{
+        margin-top: -45px;
+        padding-right:20px;
+        height: 295px;
+    }
+    &__row{
+        display: flex;
+    }
+    &__column{
+        width: 49.5%;
+    }
+    &__table{
+        border-spacing: 0;
+        font-size: 16.5px;
+        margin-top: 15px;
+        width: 100%;
+        max-width: 465px;
+        margin-bottom: 47px;
+        th{
+            width: 33.333%;
+            color: #2C4155;
+            text-align: left;
+            padding: 20px 0;
+        }
+        td{
+            color: #6C6B6B;
+            padding: 10px 0;
+            &:not(:first-child){
+                font-weight: bold;
+            }
+        }
+    }
+    &__info{
+        color: #6C6B6B;
+        font-size: 16.5px;
+        line-height: 20px;
+        letter-spacing: -0.1px;
+        &__row{
+            display: flex;
+            margin-bottom: 18px;
+            div:first-child{
+                width: 66%;
+                padding-right: 20px;
+            }
+            div:last-child{
+                font-weight: bold;
+            }
+        }
+    }
+    &__legend{
+        color: #6C6B6B;
+        font-size: 16.5px;
+        line-height: 20px;
+        letter-spacing: -0.1px;
+        margin-top: 39px;
+        &__row{
+            display: flex;
+            margin-bottom: 23px;
+            div:first-child{
+                width: 22%;
+                padding-right: 20px;
+            }
+        }
     }
 }
