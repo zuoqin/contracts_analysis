@@ -416,6 +416,7 @@ textarea.styled-input{
         text-align: left;
         .styled-checkbox{
             padding-left: 24px;
+            line-height: 22px;
             .checkmark{
                 border-radius: 5px;
                 width: 14px;
@@ -569,7 +570,7 @@ textarea.styled-input{
     }
     &__checkbox{
         display: block;
-        margin-bottom: 9px;
+        margin-bottom: 2px;
     }
 }
 .filter{

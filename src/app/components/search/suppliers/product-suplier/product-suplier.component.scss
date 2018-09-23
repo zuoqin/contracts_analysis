@@ -1,0 +1,40 @@
+.character{
+    padding: 14px 0 15px;
+    &__list{
+        margin-top: 20px;
+    }
+    .styled-checkbox{
+        font-size: 18px;
+        line-height: 20px;
+        margin-right: 90px;
+        margin-bottom: 15px;
+    }
+}
+.supplier-price{
+    margin-top: 42px;
+    &__content{
+        display: flex;
+        justify-content: space-between;
+    }
+    &__left{
+        width: 43%;
+    }
+    &__right{
+        width: 57%;
+        .chart{
+            min-height: 450px;
+        }
+    }
+    &__legend{
+        .chart-legend{
+            margin-top: 55px;
+            &__left{
+                width: 53%;
+            }
+            &__right{
+                width: 47%;
+            }
+        }
+      
+    }
+}

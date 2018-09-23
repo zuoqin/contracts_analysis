@@ -7,13 +7,17 @@ import { Directive, ElementRef, HostBinding,HostListener } from '@angular/core';
 export class TriggerActiveDirective {
     @HostBinding('class.active') isActive = false;
     @HostListener('click', ['$event']) onClick(btn) {
-        this.removeAllActive()
+        this.removeAllActive();
+        console.log(btn.target.closest(".toggle-class").classList)
         btn.target.closest(".toggle-class").classList.toggle("active");
     }
 
     @HostListener('document:click', ['$event'])
     public documentClick(event): void {
-        if(!event.target.closest(".popup-form")){
+        if(
+            !event.target.closest(".popup-form")&&
+            !event.target.closest(".category")
+        ){
             this.removeAllActive()
         }
     }

@@ -60,7 +60,12 @@
 .mt20{
     margin-top: 20px;
 }
-
+.mt25{
+    margin-top: 25px;
+}
+.mt30{
+    margin-top: 30px;
+}
 .mb30{
     margin-bottom: 30px;
 }
@@ -137,4 +142,7 @@ html body .tooltip {
 }
 .break-word{
     word-break: break-all;
+}
+.bg-gray{
+    background: rgba(216, 216, 216, 0.35);
 }

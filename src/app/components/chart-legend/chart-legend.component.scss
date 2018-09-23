@@ -1,0 +1,38 @@
+.chart-legend{
+    display: flex;
+    color: #6c6b6b;
+	font-family: 'Avenir Next';
+  
+    letter-spacing: -0.2px;
+    &__left,&__right{
+        display: flex;
+        flex-direction: column;
+    }
+    &__left{
+        width: 204px;
+        padding-right: 10px;
+    }
+    &__right{
+        width: 300px;
+    }
+    &__item{
+        margin-bottom: 18px;
+    }
+    .styled-checkbox{
+        padding-left: 25px;
+        font-size: 18px;
+        line-height: 21px;
+        .checkmark{
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            &:after{
+                left: 4px;
+                top: 1px;
+                width: 3px;
+                height: 7px;
+                border-width: 0 1px 1px 0;
+            }
+        }
+    }
+}

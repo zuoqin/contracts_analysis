@@ -1,0 +1,38 @@
+<form  class="chart-legend" [formGroup]="priceChartLegendForm" novalidate >
+        <div class="chart-legend__left">
+            <ng-container *ngFor="let data of legendData" >
+                    <label 
+                        *ngIf="data.type=='left'"
+                        class="styled-checkbox chart-legend__item"
+                        >
+                        <input 
+                            formControlName="{{data.id}}"
+                            (change)="onChangeLegend(data)" 
+                            type="checkbox">
+                        <span class="checkmark checkmark--color"  
+                        [style.background]="data.color"
+                        [style.borderColor]="data.color"
+                        ></span> 
+                        {{data.name}}
+                    </label>
+            </ng-container>
+            
+        </div>
+        <div class="chart-legend__right">
+            <ng-container *ngFor="let data of legendData" >
+                <label 
+                    *ngIf="data.type=='right'"
+                    class="styled-checkbox chart-legend__item"
+                    >
+                    <input 
+                        formControlName="{{data.id}}"
+                        (change)="onChangeLegend(data)" 
+                        type="checkbox">
+                    <span class="checkmark checkmark--color"
+                    [style.background]="data.color"
+                    [style.borderColor]="data.color"></span> 
+                    {{data.name}}
+                </label>
+            </ng-container>
+        </div>
+    </form> 

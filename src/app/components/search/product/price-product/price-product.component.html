@@ -1,131 +1,13 @@
 <div class="container">
-    <price-chart></price-chart>
+    
+    <price-chart *ngIf="priceChartsData"  [data]="priceChartsData"></price-chart> 
 
     <div class="product-price">
         <div class="product-price__left">
-            <div class="title-red text-center mb18 product-price__left__shift-title">ЦЕНА, <span class="lowercase">руб.</span></div>
-            <div class="price-table">
-                <div class="price-table__row price-table__row--head">
-                    <div class="price-table__title"></div>
-                    <div class="price-table__price">
-                        <div>Рыночная</div>
-                        <div>Закупочная</div>
-                    </div>
-                </div>
-                <div
-                    *ngFor="let year of pricesDynamics; let i = index" 
-                    [class.current-year]="year.year==currentDate.year"
-                    [class.current-year-arrow]="year.year==currentDate.year && year.data.length>2"
-                    [class.previous-year]="year.year!=currentDate.year"
-                    (click)="toggleYearsPrice(year);" >
-                        <div 
-                            *ngIf="year.year!=currentDate.year"
-                            class="price-table__year"
-                            [class.active]="year.active">
-                            {{year.year}}
-                        </div>
-                
-                        <div 
-                            *ngFor="let price of year.data" 
-                            class="price-table__row"
-                            [class.active]="year.active"
-                            >
-                            <div class="price-table__title"> {{price.monthText}}</div>
-                            <div class="price-table__price">
-                                <div>
-                                    {{price.market}}
-                                    <span 
-                                        [class.down]="price.diffMarket<0" 
-                                        [class.up]="price.diffMarket>0" 
-                                        >
-                                        <ng-container *ngIf="price.diffMarket>0">+</ng-container>
-                                        {{price.diffMarket}}
-                                    </span>
-                                </div>
-                                <div>
-                                    {{price.purchase}}
-                                    <span 
-                                        [class.down]="price.diffPurchase<0" 
-                                        [class.up]="price.diffPurchase>0" 
-                                    >
-                                        <ng-container *ngIf="price.diffPurchase>0">+</ng-container>
-                                        {{price.diffPurchase}}
-                                </span>
-                                </div>
-                               
-                            </div>
-                        </div>
-                </div>
-            </div>
-
-
-            <div class="price-table ">
-                <div class="price-table__row price-table__row--head">
-                    <div class="price-table__title"></div>
-                    <div class="price-table__price price-table__price--center">Средняя</div>
-                </div>
-                <div class="price-table__row">
-                    <div class="price-table__title">Год</div>
-                    <div class="price-table__price">
-                        <div>34</div>
-                        <div>33</div>
-                    </div>
-                </div>
-                <div class="price-table__row">
-                    <div class="price-table__title">Весь период</div>
-                    <div class="price-table__price">
-                        <div>29</div>
-                        <div>30</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center forecast-price mt20 product-price__left__shift-title" *ngIf="currentDate">
-                <div  class="forecast-price__title">Прогнозируемая цена на {{currentDate.monthText}}</div>
-                <div class="forecast-price__item">34 рубля</div>
-                <div class="forecast-price__item">(На основе анализа  2645 КП)</div>
-            </div>
-            
+            <prices-table></prices-table>
         </div>
-     
-        <form class="chart-legend product-price__right" [formGroup]="priceChartLegendForm" novalidate >
-            <div class="chart-legend__left">
-                <ng-container *ngFor="let data of priceChartsData" >
-                        <label 
-                            *ngIf="data.type=='left'"
-                            class="styled-checkbox chart-legend__item"
-                            >
-                            <input 
-                                formControlName="{{data.id}}"
-                                (change)="onChangeLegend()" 
-                                type="checkbox">
-                            <span class="checkmark checkmark--color"  
-                            [style.background]="data.color"
-                            [style.borderColor]="data.color"
-                            ></span> 
-                            {{data.name}}
-                        </label>
-                </ng-container>
-                
-            </div>
-            <div class="chart-legend__right">
-                <ng-container *ngFor="let data of priceChartsData" >
-                    <label 
-                        *ngIf="data.type=='right'"
-                        class="styled-checkbox chart-legend__item"
-                        >
-                        <input 
-                            formControlName="{{data.id}}"
-                            (change)="onChangeLegend()" 
-                            type="checkbox">
-                        <span class="checkmark checkmark--color"
-                        [style.background]="data.color"
-                        [style.borderColor]="data.color"></span> 
-                        {{data.name}}
-                    </label>
-                </ng-container>
-            </div>
-        </form>
-
+        <div class="chart-legend product-price__right">
+            <chart-legend *ngIf="legendData" [legendData]="legendData" (onChanged)="onChangedChartLegend($event)"></chart-legend>
+        </div>
     </div>
 </div>

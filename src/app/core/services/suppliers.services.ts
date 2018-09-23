@@ -14,9 +14,6 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SuppliersServices{
-    public changeGraphData:Subject<any> = new Subject<any>();
-	public changeGraphDataObservable = this.changeGraphData.asObservable()
-
 
     public addSupplierFromModal:Subject<any> = new Subject<any>();
 	public addSupplierFromModalObservable = this.addSupplierFromModal.asObservable()
@@ -40,6 +37,13 @@ export class SuppliersServices{
             .set('inn', itn)
 
         return this.apiService.get('/getcompanyinfo',params)
+          .pipe(map(data => data));
+    }
+    getCategories(id): Observable<any> {
+        const params = new HttpParams()
+            .set('id', id)
+
+        return this.apiService.get('/suppliers/categories.json',params,'../../assets/mock')
           .pipe(map(data => data));
     }
 

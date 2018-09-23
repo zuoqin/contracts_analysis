@@ -1,18 +1,22 @@
 <add-commercial-proposal-modal #addCommercialProposalModal></add-commercial-proposal-modal>
-<add-supplier-modal #addSupplierModal></add-supplier-modal>
+<add-supplier-modal *ngIf="!noShowSupplier" #addSupplierModal></add-supplier-modal>
 <sent-commercial-proposal-modal #sentCPModal></sent-commercial-proposal-modal>
 <sending-commercial-proposal-modal #sendingCPModal></sending-commercial-proposal-modal>
+
 <div class="container">
     <div class="title-with-button">
-            <h2>РЫНОЧНЫЕ ПОСТАВЩИКИ</h2>
+            <h2 *ngIf="noShowSupplier">КОММЕРЧЕСКИЕ ПРЕДЛОЖЕНИЯ</h2>
+            <h2 *ngIf="!noShowSupplier">РЫНОЧНЫЕ ПОСТАВЩИКИ</h2>
             <div class="title-with-button__right">
                 <div class="btn btn--icon" (click)="addCommercialProposal()"><div class="icon icon--add" ></div>Добавить КП</div>
-                <div class="btn btn--icon" (click)="addSupplier()"><div class="icon icon--add"></div>Добавить поставщика</div>
+
+                <div class="btn btn--icon" *ngIf="!noShowSupplier" (click)="addSupplier()"><div class="icon icon--add"></div>Добавить поставщика</div>
+
                 <a class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
-                <columns-filter (onSelectedColumns)="onSelectedColumns($event)" [columns]="suppliersColumns"></columns-filter>
+                <columns-filter (onSelectedColumns)="onSelectedColumns($event)" [columns]="dataColumns"></columns-filter>
             </div>
     </div>
-    <table class="styled-table"  [mfData]="suppliersData" #mf="mfDataTable" >
+    <table class="styled-table"  [mfData]="suppliersData" #mf="mfDataTable" [class.styled-table--equals-head-column]="noShowSupplier" >
             <thead>
                 <tr>
                     <th *ngIf="isColumnActive('date')" class="w95" >
@@ -26,7 +30,7 @@
                             <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
                         </div>
                     </th>
-                    <th *ngIf="isColumnActive('supplier')" class="w275">
+                    <th *ngIf="!noShowSupplier && isColumnActive('supplier')" class="w275">
                         Поставщик
                         <div class="styled-table__bottom-filter">
                             <div class="sorting">
@@ -217,10 +221,10 @@
                 *ngFor="let supplier of mf.data"
                 >
                     <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date.text}}</td>
-                    <td *ngIf="isColumnActive('supplier')">
+                    <td *ngIf="!noShowSupplier && isColumnActive('supplier')">
                         <a href="">{{supplier.supplier.name}}</a>
                     </td>
-                    <td *ngIf="isColumnActive('volume')">{{supplier.volume.value | thousandsSpace}} {{supplier.volume.unit}}</td>
+                    <td *ngIf="isColumnActive('volume')" class="text-center">{{supplier.volume.value | thousandsSpace}} {{supplier.volume.unit}}</td>
                     <td *ngIf="isColumnActive('price')" class="text-center">
                         <span 
                             *ngIf="supplier.price.status == 1" 

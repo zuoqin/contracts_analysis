@@ -15,21 +15,21 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ProductServices{
-    public changeGraphData:Subject<any> = new Subject<any>();
-	public changeGraphDataObservable = this.changeGraphData.asObservable()
+
 
     public changePricesDynamics:ReplaySubject<any> = new ReplaySubject<any>();
     public changePricesDynamicsObservable = this.changePricesDynamics.asObservable()
 
     priceChartsData;
-    priceData;
-    
+    priceChartData;
+    priceProductChartsData;
     constructor(
         private apiService: ApiService
     ){
         this.priceChartsData = this.priceCharts;
-        this.priceData = this.priceCharts;
-        this.changePricesDynamics.next(this.pricesDynamics)
+        this.priceChartData = this.priceCharts;
+        this.priceProductChartsData = this.priceProductCharts;
+        this.changePricesDynamics.next(this.pricesDynamics);
     }
     pricesDynamics = [
         {
@@ -88,7 +88,54 @@ export class ProductServices{
             purchase:34
         }
     ]
-
+    priceProductCharts = [
+        {
+            name: 'Рыночная цена',
+            id:"marketPrice",
+            color: '#EB2424',
+            type:"left",
+            value:true,
+            data: [
+                [Date.UTC(2017, 7, 1), 33.8],
+                [Date.UTC(2017, 8, 1), 33.1],
+                [Date.UTC(2017, 9, 1), 33],
+                [Date.UTC(2017, 10, 1), 33],
+                [Date.UTC(2017, 11,  1), 33.5],
+                [Date.UTC(2018, 0,  1), 33.1],
+                [Date.UTC(2018, 1,  1), 33.8],
+                [Date.UTC(2018, 2,  1), 33.1],
+                [Date.UTC(2018, 3,  1), 33.3],
+                [Date.UTC(2018, 4,  1), 33],
+                [Date.UTC(2018, 5, 1), 33.9],
+                [Date.UTC(2018, 6,  1), 33.6],
+                [Date.UTC(2018, 7, 1), 33],
+            ]
+            
+          },
+        
+        {
+            name: 'Цена поставщика',
+            id:"priceSupplier",
+            color:'#298832',
+            type:"right",
+            value:true,
+            data: [
+                [Date.UTC(2017, 7, 1), 30.2],
+                [Date.UTC(2017, 8, 1), 30],
+                [Date.UTC(2017, 9, 1), 34],
+                [Date.UTC(2017, 10, 1), 32],
+                [Date.UTC(2017, 11, 1), 31],
+                [Date.UTC(2018, 0,  1), 33],
+                [Date.UTC(2018, 1, 1), 34],
+                [Date.UTC(2018, 2,  1), 35],
+                [Date.UTC(2018, 3,  1), 33],
+                [Date.UTC(2018, 4,  1), 34],
+                [Date.UTC(2018, 5, 1), 32],
+                [Date.UTC(2018, 6,  1), 34],
+                [Date.UTC(2018, 7, 1), 31],
+            ]
+        },
+    ]
 
     priceCharts = [
         {
@@ -97,6 +144,7 @@ export class ProductServices{
             color: '#EB2424',
             lineWidth: 4.5,
             type:"left",
+            value:true,
             marker: {
                 symbol: 'circle',
                 lineWidth: 0,
@@ -124,6 +172,7 @@ export class ProductServices{
             color:'#F50671',
             type:"left",
             id:"purchasesMoscow",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 32.2],
                 [Date.UTC(2017, 8, 1), 32.3],
@@ -145,6 +194,7 @@ export class ProductServices{
             color:'aqua',
             type:"left",
             id:"marketCFO",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 30.2],
                 [Date.UTC(2017, 8, 1), 31],
@@ -166,6 +216,7 @@ export class ProductServices{
             color:'blueviolet',
             type:"left",
             id:"purchasesCFO",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 30.2],
                 [Date.UTC(2017, 8, 1), 30],
@@ -187,6 +238,7 @@ export class ProductServices{
             color:'orange',
             type:"left",
             id:"marketOutCFO",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 30.2],
                 [Date.UTC(2017, 8, 1), 30],
@@ -208,6 +260,7 @@ export class ProductServices{
             color:'chocolate',
             type:"left",
             id:"purchasesOutCFO",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 30.2],
                 [Date.UTC(2017, 8, 1), 28],
@@ -230,6 +283,7 @@ export class ProductServices{
             color:'#298832',
             type:"right",
             lineWidth: 4.5,
+            value:true,
             marker: {
                 symbol: 'circle',
                 lineWidth: 0,
@@ -256,6 +310,7 @@ export class ProductServices{
             color:'#3B42CE',
             type:"right",
             id:"purchasesSelect",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 33],
                 [Date.UTC(2017, 8, 1), 32],
@@ -277,6 +332,7 @@ export class ProductServices{
             color:'cornflowerblue',
             type:"right",
             id:"federalsMoscow",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 31],
                 [Date.UTC(2017, 8, 1), 33],
@@ -298,6 +354,7 @@ export class ProductServices{
             color:'orchid',
             type:"right",
             id:"federalsOutMoscow",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 32],
                 [Date.UTC(2017, 8, 1), 30],
@@ -319,6 +376,7 @@ export class ProductServices{
             color:'#b8b838',
             type:"right",
             id:"municipalsMoscow",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 30],
                 [Date.UTC(2017, 8, 1), 31],
@@ -340,6 +398,7 @@ export class ProductServices{
             color:'palegreen',
             type:"right",
             id:"municipalsOutMoscow",
+            value:false,
             data: [
                 [Date.UTC(2017, 7, 1), 33],
                 [Date.UTC(2017, 8, 1), 32],

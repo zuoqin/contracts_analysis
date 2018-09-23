@@ -5,6 +5,6 @@
         <hr class="red">
         <purchase-table></purchase-table>
         <br><br>
-        <suppliers-table></suppliers-table>
+        <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData"></suppliers-table>
 </ng-container>
 <br><br><br><br><br><br><br>

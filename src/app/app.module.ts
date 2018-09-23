@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { RegionsTagSelectedComponent } from './components/regions-tag-selected/regions-tag-selected.component';
 import { SearchComponent } from './components/search/search.component';
+import { PriceTableComponent } from './components/prices-table/prices-table.component';
+import { ChartLegendComponent } from './components/chart-legend/chart-legend.component';
 import { 
 		SearchProductComponent,
 		CategoryProductComponent,
@@ -21,7 +23,9 @@ import {
 		SearchSuppliersComponent,
 		AboutSupplierComponent,
 		FoodPricesComponent,
-		SupplierRiskIndexComponent
+		SupplierRiskIndexComponent,
+		CategorySliderComponent,
+		ProductSuplierComponent
 	} from './components/search/suppliers';
 
 
@@ -54,9 +58,10 @@ import { ThousandsSpacePipe } from './pipes/thousands.pipe';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DataTableModule } from "angular-6-datatable";
-import { BsModalModule } from 'ng2-bs3-modal';
-import { NgxMaskModule } from 'ngx-mask'
+import { CoreModule } from './core/core.module';
+
+
+
 
 
 /*Plugins */
@@ -68,9 +73,11 @@ import {TooltipModule} from 'ng2-tooltip-directive';
 import { Autosize } from 'ng-autosize/src/autosize.directive';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
-import { NgxEditorModule } from 'ngx-editor';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { CoreModule } from './core/core.module';
+import { DataTableModule } from "angular-6-datatable";
+import { BsModalModule } from 'ng2-bs3-modal';
+import { NgxMaskModule } from 'ngx-mask'
+import { SlickModule } from 'ngx-slick';
 
 @NgModule({
 	declarations: [
@@ -98,6 +105,10 @@ import { CoreModule } from './core/core.module';
 		AboutSupplierComponent,
 		FoodPricesComponent,
 		SupplierRiskIndexComponent,
+		CategorySliderComponent,
+		ProductSuplierComponent,
+		PriceTableComponent,
+		ChartLegendComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,
@@ -121,8 +132,8 @@ import { CoreModule } from './core/core.module';
 		NgxMaskModule.forRoot(),
 		TextMaskModule,
 		MyDatePickerModule,
-		NgxEditorModule,
-		CKEditorModule
+		CKEditorModule,
+		SlickModule.forRoot()
 		
 	],
 	providers: [],

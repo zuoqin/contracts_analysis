@@ -1,9 +1,6 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, Input,SimpleChanges,SimpleChange } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
-
-/*Services */
-import { ProductServices } from '@core';
 
 
 /*Plugins*/
@@ -36,10 +33,15 @@ Highcharts.setOptions({
     templateUrl:"./price-chart.component.html"
 })
 
-export class PriceChartComponent{
+export class PriceChartComponent implements OnInit{
+
+    @Input() set data(value) {
+        this.priceChartsData = value;
+        this.showGraph();
+    }
+  
     priceChartsData;
     private ngUnsubscribe: Subject<void> = new Subject<void>();
-
 
     plotLines = {
         color: '#979797',
@@ -110,14 +112,17 @@ export class PriceChartComponent{
             lineWidth: 0,
             type: 'datetime',
             alternateGridColor: '#eeeeee',
+            tickInterval: 24 * 3600 * 1000*30,
             dateTimeLabelFormats: {
                 month: '%b',
                 year: '%b'
             },
             labels: {
+                step: 1,
+                
                 style: {
                     color: '#6c6b6b',
-                    fontSize:"18px",
+                    fontSize:"16px",
                     fontFamily: 'Avenir Next, sans-serif',
                 }  
             },
@@ -164,24 +169,23 @@ export class PriceChartComponent{
         series: []
     });
 
-    constructor(
-        private productServices:ProductServices
-        ){
-            this.productServices.changeGraphDataObservable
-                .takeUntil(this.ngUnsubscribe)
-                .subscribe((data)=>{
-                    this.priceChartsData = data;
-                    this.showGraph()
-                })
+    constructor(){
             this.chart.ref$.subscribe(ref => {
-                if(this.priceChartsData.length){
+                if(this.priceChartsData){
                     this.setYearseparator()
                 }
             });
     }
-
+    ngOnInit(){
+   
+     
+    }
     showGraph(){
+        console.log(this.priceChartsData)
 
+        if(!this.priceChartsData){
+            return;
+        }
         if(this.chart.ref){
            this.removeSerie();
         }
