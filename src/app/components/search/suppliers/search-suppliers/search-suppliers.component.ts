@@ -10,13 +10,16 @@ export class SearchSuppliersComponent implements OnInit{
     showCardSupplier:boolean = false;
     dataColumns;
     suppliersData;
+    currentProduct;
     onLoadData(){
         this.loadData = true;
     }
     toggleCardSupplier(){
         this.showCardSupplier = !this.showCardSupplier;
     }
-    
+    selectProduct(value){
+        this.currentProduct = value;
+    }
     ngOnInit(){
         let that = this;
         setTimeout(()=>{

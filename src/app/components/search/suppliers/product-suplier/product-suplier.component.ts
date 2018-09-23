@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation, OnInit } from '@angular/core';
+import { Component,ViewEncapsulation, OnInit, Input } from '@angular/core';
 
 import { ProductServices } from '@core';
 
@@ -11,7 +11,7 @@ import { ProductServices } from '@core';
     encapsulation: ViewEncapsulation.None
 })
 export class ProductSuplierComponent implements OnInit{
-
+    @Input('currentProduct') currentProduct;
     priceProductCharts;
     legendData;
     constructor(
@@ -23,7 +23,7 @@ export class ProductSuplierComponent implements OnInit{
    
     }
     ngOnInit(){
-
+        console.log(this.currentProduct)
     }
     onChangedChartLegend(data){
         setTimeout(()=>{

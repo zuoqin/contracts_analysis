@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalComponent } from 'ng2-bs3-modal';
 import { Subject } from 'rxjs/Subject';
@@ -15,6 +15,7 @@ import { CONFIG } from '@config';
     templateUrl:"./add-commercial-proposal-modal.component.html"
 })
 export class AddCommercialProposalModalComponent implements OnInit{
+    @Input('noShowSupplier') noShowSupplier;
     @ViewChild('addCommercialProposalModal')
     addCommercialProposalModal: BsModalComponent;
     addProposalForm: FormGroup;
@@ -119,7 +120,9 @@ export class AddCommercialProposalModalComponent implements OnInit{
         });
         this.changeTermUnit()
         this.changeVolumeUnit()
-
+        if(this.noShowSupplier){
+            this.addProposalForm.controls['supplier'].setValue('ООО «РегионПродукт»')
+        }
        
    
 

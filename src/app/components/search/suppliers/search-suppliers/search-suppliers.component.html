@@ -29,8 +29,12 @@
     <food-prices></food-prices>
     <supplier-risk-index></supplier-risk-index>
 </div>
-<category-slider></category-slider>
-<product-suplier></product-suplier>
-<hr class="red">
-<suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table>
-<purchase-table></purchase-table>
+<category-slider (onSelect)="selectProduct($event)"></category-slider>
+<ng-container *ngIf="currentProduct">
+    <product-suplier [currentProduct]="currentProduct"></product-suplier>
+    <hr class="red">
+    <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table>
+    <purchase-table></purchase-table>
+</ng-container>
+
+<br><br><br><br><br><br><br>
