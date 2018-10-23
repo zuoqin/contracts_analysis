@@ -1,12 +1,15 @@
 <div class="container">
     <div class="title-with-button">
             <h2>ЗАКУПКИ</h2>
-            <div class="title-with-button__right">
-                <a class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
-                <columns-filter (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
+            <div class="title-with-button__right" *ngIf="purchaseData && purchaseData.length && ifLoadData">
+                <a  *ngIf="purchaseData && purchaseData.length && ifLoadData" class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
+                <columns-filter  *ngIf="purchaseData && purchaseData.length && ifLoadData" (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
             </div>
     </div>
-    <table class="styled-table"  [mfData]="purchaseData" #mf="mfDataTable">
+    <div *ngIf="!ifLoadData">{{messageResponse.text}}</div>
+    <div *ngIf="ifLoadData && !purchaseData">{{messageResponse.text}}</div>
+
+    <table *ngIf="purchaseData && purchaseData.length && ifLoadData" class="styled-table" [mfData]="purchaseData" #mf="mfDataTable">
         <thead>
             <tr>
                 <th *ngIf="isColumnActive('date')" class="w95" >
@@ -20,11 +23,11 @@
                         <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
                     </div>
                 </th>
-                <th *ngIf="isColumnActive('customer')" class="w280">
+                <th *ngIf="isColumnActive('name')" class="w280">
                     Заказчик
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="customer.name">
+                            <mfDefaultSorter by="name">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -44,11 +47,11 @@
                         </div>
                     </div>
                 </th>
-                <th *ngIf="isColumnActive('volume')" class="w87">
+                <th *ngIf="isColumnActive('contract_value')" class="w87">
                     Объем
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="volume.value">
+                            <mfDefaultSorter by="contract_value">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -78,11 +81,11 @@
                         </div>
                     </div>
                 </th>
-                <th *ngIf="isColumnActive('price')" class="w75">
+                <th *ngIf="isColumnActive('contract_price')" class="w75">
                     Цена, руб.
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="price.value">
+                            <mfDefaultSorter by="contract_price">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -112,11 +115,11 @@
                         </div>
                     </div>
                 </th>
-                <th *ngIf="isColumnActive('term')" class="w70">
+                <th *ngIf="isColumnActive('days')" class="w70">
                     Срок испол- нения
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="term.value">
+                            <mfDefaultSorter by="days">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -141,11 +144,11 @@
                     </div>
                 </th>
         
-                <th *ngIf="isColumnActive('priceContract')" class="w110">
+                <th *ngIf="isColumnActive('contract_price')" class="w110">
                     Цена контракта, руб.
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="priceContract">
+                            <mfDefaultSorter by="contract_price">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -175,11 +178,11 @@
                         </div>
                     </div>
                 </th>
-                <th *ngIf="isColumnActive('status')" class="w107">
+                <th *ngIf="isColumnActive('contract_status')" class="w107">
                     Статус контракта
                     <div class="styled-table__bottom-filter">
                         <div class="sorting">
-                            <mfDefaultSorter by="status.value">
+                            <mfDefaultSorter by="contract_status">
                                 <span class="sorting__default"></span>
                             </mfDefaultSorter>
                         </div>
@@ -263,7 +266,7 @@
             [class.red-bg]="!purchase.safety"
             >
                 <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
-                <td *ngIf="isColumnActive('customer')">
+                <td *ngIf="isColumnActive('name')">
                    
                     <a href="">
                         <span   
@@ -271,25 +274,25 @@
                             tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.customer.name}}
+                            {{purchase.name}}
                         </span>
                         <ng-container   
                             *ngIf="purchase.safety">
-                            {{purchase.customer.name}}
+                            {{purchase.name}}
                         </ng-container>
                     </a>
                 </td>
-                <td *ngIf="isColumnActive('volume')">{{purchase.volume.value | thousandsSpace}} {{purchase.volume.unit}}</td>
-                <td *ngIf="isColumnActive('price')" class="text-center">
-                    <span 
+                <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} кг</td>
+                <td *ngIf="isColumnActive('contract_price')" class="text-center">
+                    <!-- <span 
                         *ngIf="purchase.price.status == 1" 
                         class="red-color cursor"
                         tooltip="Значительное отклонение" 
                         [options]="tooltipOptions"
                         show-delay="500">
                         {{purchase.price.value}}
-                    </span>
-
+                    </span> -->
+<!-- 
                     <span 
                         *ngIf="purchase.price.status == 2"
                         class="green-color cursor"
@@ -297,20 +300,31 @@
                         [options]="tooltipOptions"
                         show-delay="500">
                         {{purchase.price.value}}
-                    </span>
+                    </span> -->
+
                     <span 
+                  
+                        class="green-color cursor"
+                        tooltip="Цена на рынке"
+                        [options]="tooltipOptions"
+                        show-delay="500">
+                        {{purchase.contract_price}}
+                    </span>
+
+                    
+                    <!-- <span 
                         *ngIf="purchase.price.status == 3" 
                         class="yellow-color cursor"
                         tooltip="Незначительное отклонение"
                         [options]="tooltipOptions"
                         show-delay="500">
                         {{purchase.price.value}}
-                    </span>
+                    </span> -->
                     
                 </td>
-                <td *ngIf="isColumnActive('term')" class="text-center">{{purchase.term.value}} {{purchase.term.unit}}</td>
-                <td *ngIf="isColumnActive('priceContract')">{{purchase.priceContract | thousandsSpace}}</td>
-                <td *ngIf="isColumnActive('status')">{{purchase.status.text}}</td>
+                <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
+                <td *ngIf="isColumnActive('contract_price')">{{purchase.contract_price | thousandsSpace}}</td>
+                <td *ngIf="isColumnActive('contract_status')">{{purchase.contract_status}}</td>
                 <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd.text}}</td>
                 <td *ngIf="isColumnActive('complaint')" class="text-center">
                     <ng-container *ngIf="purchase.complaint">да</ng-container>

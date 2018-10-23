@@ -28,7 +28,7 @@ export class ChartLegendComponent implements OnInit {
 			if(this.legendData){
 				
 				this.priceChartLegendForm = this.createGroup(this.legendData);
-				console.log(this.priceChartLegendForm)
+			
 				this.onChangeLegend();
 			}
 

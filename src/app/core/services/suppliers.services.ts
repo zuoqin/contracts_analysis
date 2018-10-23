@@ -9,9 +9,10 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
-
+import { ProductServices } from './products.services';
 import { map } from 'rxjs/operators';
-
+/*Models*/
+import { ProductSearch } from './../models';
 @Injectable()
 export class SuppliersServices{
 
@@ -27,6 +28,7 @@ export class SuppliersServices{
     
 
     constructor(
+        private productServices:ProductServices,
         private apiService: ApiService
     ){}
 
@@ -46,6 +48,10 @@ export class SuppliersServices{
         return this.apiService.get('/suppliers/categories.json',params,'../../assets/mock')
           .pipe(map(data => data));
     }
-
+    getSuppliersForProduct(selectedProduct:ProductSearch): Observable<any> {
+        let params = this.productServices.getHttpParams(selectedProduct);
+        return this.apiService.get('/suppliers',params)
+          .pipe(map(data => data));
+    }
     
 }

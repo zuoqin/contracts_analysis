@@ -12,13 +12,19 @@ import { ApiService } from './api.service';
 
 import { map } from 'rxjs/operators';
 
-
+/*Models*/
+import { ProductSearch } from '@core';
 @Injectable()
 export class ProductServices{
 
 
-    public changePricesDynamics:ReplaySubject<any> = new ReplaySubject<any>();
-    public changePricesDynamicsObservable = this.changePricesDynamics.asObservable()
+ 
+
+    public SelectProductSubject:ReplaySubject<any> = new ReplaySubject<any>(1);
+    public SelectProductObservable = this.SelectProductSubject.asObservable()
+
+    public SearchByNewProductSubject:Subject<any> = new Subject<any>();
+    public SearchByNewProductObservable = this.SearchByNewProductSubject.asObservable()
 
     priceChartsData;
     priceChartData;
@@ -29,65 +35,9 @@ export class ProductServices{
         this.priceChartsData = this.priceCharts;
         this.priceChartData = this.priceCharts;
         this.priceProductChartsData = this.priceProductCharts;
-        this.changePricesDynamics.next(this.pricesDynamics);
+
     }
-    pricesDynamics = [
-        {
-            date:Date.UTC(2018, 6, 1),
-            market:29,
-            purchase:29
-        },
-        {
-            date:Date.UTC(2018, 5, 1),
-            market:29,
-            purchase:29
-        },
-        {
-            date:Date.UTC(2018, 4, 1),
-            market:30,
-            purchase:30
-        },
-        {
-            date:Date.UTC(2018, 3, 1),
-            market:27,
-            purchase:28
-        },
-        {
-            date:Date.UTC(2018, 2, 1),
-            market:34,
-            purchase:31
-        },
-        {
-            date:Date.UTC(2018, 1, 1),
-            market:33,
-            purchase:30
-        },
-        {
-            date:Date.UTC(2018, 0, 1),
-            market:34,
-            purchase:32
-        },
-        {
-            date:Date.UTC(2017, 8, 1),
-            market:35,
-            purchase:34
-        },
-        {
-            date:Date.UTC(2017, 3, 1),
-            market:35,
-            purchase:34
-        },
-        {
-            date:Date.UTC(2016, 8, 1),
-            market:31,
-            purchase:34
-        },
-        {
-            date:Date.UTC(2016, 3, 1),
-            market:30,
-            purchase:34
-        }
-    ]
+
     priceProductCharts = [
         {
             name: 'Рыночная цена',
@@ -136,6 +86,106 @@ export class ProductServices{
             ]
         },
     ]
+
+    
+  
+    get(kpgzName: string): Observable<any> {
+        //
+
+        const params = new HttpParams()
+            .set('context', 'product')
+            .set('query', kpgzName);
+
+        return this.apiService.get('/search',params)
+          .pipe(map(data => data));
+    }
+    getUnits(kpgz_id: number): Observable<any>{
+        const params = new HttpParams()
+        .set('kpgz_id', kpgz_id.toString())
+
+        return this.apiService.get('/units/product',params)
+        .pipe(map(data => data));
+    }
+    getAttrs(kpgz_id: number): Observable<any>{
+        const params = new HttpParams()
+        .set('kpgz_id', kpgz_id.toString())
+
+        return this.apiService.get('/attributes/product',params)
+        .pipe(map(data => data));
+    }
+    getSubproducts(productId: number): Observable<any>{
+        const params = new HttpParams()
+        .set('id', productId.toString())
+
+        return this.apiService.get('/subproducts',params)
+        .pipe(map(data => data));
+    }
+    getProductTree(kpgz_id: number): Observable<any>{
+        const params = new HttpParams()
+        .set('kpgz_id', kpgz_id.toString())
+
+        return this.apiService.get('/product_tree',params)
+        .pipe(map(data => data));
+    }
+    getPriceDynamics(selectedProduct:ProductSearch): Observable<any>{
+        let params = this.getHttpParams(selectedProduct);
+        
+        return this.apiService.get('/price',params)
+        .pipe(map(data => data));
+    }
+    getPurchases(selectedProduct: ProductSearch): Observable<any>{
+        let params = this.getHttpParams(selectedProduct);
+        params = params.set('limit', '5')
+         
+        return this.apiService.get('/purchase',params)
+        .pipe(map(data => data));
+    }
+    getRegions(): Observable<any>{
+        return this.apiService.get('/regions')
+        .pipe(map(data => data));
+    }
+    getSpgz(kpgz_id: number): Observable<any>{
+        const params = new HttpParams()
+        .set('kpgz_id', kpgz_id.toString())
+        return this.apiService.get('/get_spgz',params)
+        .pipe(map(data => data));
+    }
+
+    getChartsData(selectedProduct:ProductSearch): Observable<any>{
+        let params = this.getHttpParams(selectedProduct);
+        return this.apiService.get('/price_history',params)
+        .pipe(map(data => data));
+    }
+
+    getHttpParams(selectedProduct:ProductSearch){
+        let params = new HttpParams()
+            .set('spgz_id',selectedProduct.spgz_id.toString())
+    
+            .set('risk', selectedProduct.risk.toString())
+
+        if(selectedProduct.unit_id){
+            params = params.set('unit_id', selectedProduct.unit_id.toString())
+        }  
+        if(selectedProduct.region_id.length){
+            params = params.set('region_id', selectedProduct.region_id.toString())
+        }       
+        if(selectedProduct.delivery_from){
+            params = params.set('delivery_from', selectedProduct.delivery_from.toString())
+        }
+        if(selectedProduct.delivery_to){
+            params = params.set('delivery_to', selectedProduct.delivery_to.toString())
+        }
+        if(selectedProduct.volume_from){
+            params = params.set('volume_from', selectedProduct.volume_from.toString())
+        }
+        if(selectedProduct.volume_to){
+            params = params.set('volume_to', selectedProduct.volume_to.toString())
+        }
+        return params;
+    }
+
+
+
 
     priceCharts = [
         {
@@ -416,20 +466,5 @@ export class ProductServices{
             ]
         }
     ]
-  
-    get(kpgzName: string): Observable<any> {
-        //
-
-        const params = new HttpParams()
-            .set('context', 'product')
-            .set('query', kpgzName);
-
-        return this.apiService.get('/search',params)
-          .pipe(map(data => data));
-    }
-    // getЗкщвгсе(spgzId: string): Observable<any> {
-	// 	const uri = `${environment.apiUrl}device/${spgzId}/state`;
-	// 	return super.send<any>('GET', uri);
-	// }
 
 }

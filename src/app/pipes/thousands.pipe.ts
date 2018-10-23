@@ -10,8 +10,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 */
 @Pipe({name: 'thousandsSpace'})
 export class ThousandsSpacePipe implements PipeTransform {
-  transform(value: number): string {
-  
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  transform(value): string {
+    if(value){
+      value = parseFloat(value.toFixed(2)).toString();
+
+      return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+ 
   }
 }

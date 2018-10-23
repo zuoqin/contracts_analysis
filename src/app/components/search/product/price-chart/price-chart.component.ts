@@ -181,7 +181,7 @@ export class PriceChartComponent implements OnInit{
      
     }
     showGraph(){
-        console.log(this.priceChartsData)
+    
 
         if(!this.priceChartsData){
             return;

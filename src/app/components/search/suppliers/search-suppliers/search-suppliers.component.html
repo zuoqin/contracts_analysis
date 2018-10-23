@@ -1,40 +1,42 @@
 <search-filter-supplier  (onLoadData)="onLoadData()"  [loadData]="loadData"></search-filter-supplier>
-
-<div class="title-supplier">
-    <div class="container">
-        <h1 class="title-supplier__title">ООО «РегионПродукт»</h1>
-        <div class="rating title-supplier__rating">
-            <div class="rating__title">Рейтинг поставщика</div>
-            <div class="rating__count">100 из 100</div>
-        </div>
-        
-    </div>
-</div>
-
-<div class="toggle-card">
-    <div class="container">
-        <div 
-            [class.active]="showCardSupplier"
-            (click)="toggleCardSupplier()"
-            class="toggle-card__title">
-            <ng-container *ngIf="!showCardSupplier">ПОКАЗАТЬ</ng-container>
-            <ng-container *ngIf="showCardSupplier">СКРЫТЬ</ng-container>
-            КАРТОЧКУ ПОСТАВЩИКА
+<ng-container *ngIf="loadData">
+    <div class="title-supplier">
+        <div class="container">
+            <h1 class="title-supplier__title">ООО «РегионПродукт»</h1>
+            <div class="rating title-supplier__rating">
+                <div class="rating__title">Рейтинг поставщика</div>
+                <div class="rating__count">100 из 100</div>
+            </div>
+            
         </div>
     </div>
-</div>
-
-<div [hidden]="!showCardSupplier">
-    <about-supplier ></about-supplier>
-    <food-prices></food-prices>
-    <supplier-risk-index></supplier-risk-index>
-</div>
-<category-slider (onSelect)="selectProduct($event)"></category-slider>
-<ng-container *ngIf="currentProduct">
-    <product-suplier [currentProduct]="currentProduct"></product-suplier>
-    <hr class="red">
-    <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table>
-    <purchase-table></purchase-table>
+    
+    <div class="toggle-card">
+        <div class="container">
+            <div 
+                [class.active]="showCardSupplier"
+                (click)="toggleCardSupplier()"
+                class="toggle-card__title">
+                <ng-container *ngIf="!showCardSupplier">ПОКАЗАТЬ</ng-container>
+                <ng-container *ngIf="showCardSupplier">СКРЫТЬ</ng-container>
+                КАРТОЧКУ ПОСТАВЩИКА
+            </div>
+        </div>
+    </div>
+    
+    <div [hidden]="!showCardSupplier">
+        <about-supplier ></about-supplier>
+        <food-prices></food-prices>
+        <supplier-risk-index></supplier-risk-index>
+    </div>
+    <category-slider (onSelect)="selectProduct($event)"></category-slider>
+    <ng-container *ngIf="currentProduct">
+        <product-suplier [currentProduct]="currentProduct"></product-suplier>
+        <hr class="red">
+        <!-- <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table> -->
+        <purchase-table></purchase-table>
+    </ng-container>
 </ng-container>
+
 
 <br><br><br><br><br><br><br>

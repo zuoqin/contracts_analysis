@@ -18,7 +18,6 @@
 		],
 		"paths": {
 			"@environments": [ "environments/environment" ],
-			"@services/*": ["app/services/*"],
 			"@config": ["app/config.ts"],
 			"@core": ["app/core/"],
 		  }

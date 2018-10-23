@@ -1,10 +1,14 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
+/*Services */
+import { ProductServices } from '@core';
+/*Models*/
+import { ProductSearch } from '@core';
 @Component({
     selector:"category-product",
     templateUrl:"./category-product.component.html"
 })
-export class CategoryProductComponent{
+export class CategoryProductComponent implements OnInit{
     @HostListener('document:click', ['$event'])
     public documentClick(event): void {
         if(!event.target.closest(".catergory-select") && (this.isOpenSubcategory || this.isOpenProduct)){
@@ -12,107 +16,64 @@ export class CategoryProductComponent{
             this.isOpenProduct = false;
         }
     }
-
+    selectedProduct:ProductSearch;
     isOpenSubcategory:boolean = false;
     isOpenProduct:boolean = false;
-    categories = [
-        {
-            name:"Продукция молочная",
-            id:"1",
-            subcategory:[
-                {
-                    name:"Молоко",
-                    id:"21",
-                    product:[
-                        {
-                            name:"Молоко пастеризованное",
-                            id:"211",
-                        },
-                        {
-                            name:"Молоко нормализованное",
-                            id:"212",
-                        },
-                        {
-                            name:"Молоко сухое",
-                            id:"213",
-                        },
-                    ]
-                },
-                {
-                    name:"Продукция кисломолочная",
-                    id:"23",
-                    product:[
-                        {
-                            name:"Сметана",
-                            id:"231",
-                        },
-                        {
-                            name:"Йогурты",
-                            id:"232",
-                        },
-                        {
-                            name:"Простакваша",
-                            id:"233",
-                        },
-                        {
-                            name:"Кисломолочные напитки прочие",
-                            id:"234",
-                        },
-                        {
-                            name:"Ряженка",
-                            id:"235",
-                        },
-                        {
-                            name:"Кефир",
-                            id:"236",
-                        },
-                    ]
-                },
-                {
-                    name:"Творог и творожные изделия",
-                    id:"22",
-                },
-                {
-                    name:"Сыры",
-                    id:"24",
-                },
-                {
-                    name:"Мороженное",
-                    id:"25",
-                },
-                {
-                    name:"Сливки",
-                    id:"26",
-                },
-                {
-                    name:"Продукция майонезная",
-                    id:"27",
-                },
-                {
-                    name:"Комплексная поставка молочной продукции",
-                    id:"28",
-                },
-                {
-                    name:"Молочные продукты прочие",
-                    id:"29",
-                },
-            ]
-        },
-        
-    ]
-    selectedCategory = this.categories[0];
-    selectedSubCategory =  this.categories[0].subcategory[1];
-    selectedProduct = this.categories[0].subcategory[1].product[1];
+    categories;
+    selectedCategory;
+    selectedSubCategory;
 
+    constructor(
+        private productServices:ProductServices
+    ){
 
+        this.productServices.SelectProductObservable
+            .subscribe((selectedProduct)=>{
+                this.selectedProduct = selectedProduct;
+                this.getCategoriesTree()
+            })
+    }
+    ngOnInit(){
+    
+
+    }
+
+    getCategoriesTree(){
+        this.productServices.getProductTree(this.selectedProduct.kpgz_id).subscribe(
+            response => {
+                this.categories = response.data.tree.subcategory;
+
+                let path = response.data.path;
+                // path.map((item,index)=>{
+                //     console.log(item)
+                //     console.log(index)
+                // })
+          
+
+                this.selectedCategory = this.categories.filter(category=>category.kpgz_id==path[0])[0];
+                //this.selectedCategory = response.data.tree.subcategory[0];
+                this.selectedSubCategory =  this.selectedCategory.subcategory.filter(category=>category.kpgz_id==path[1])[0];
+            },
+            err => {
+                console.log(err)
+            }
+        );
+    }
     selectSubCategory(category){
-        this.selectedSubCategory = category;
-        this.selectedProduct = null;
-        this.isOpenSubcategory = false;
-        this.isOpenProduct = true;
+        if(!category.is_group && !category.subcategory){
+            this.selectProduct(category)
+        }else{
+            this.selectedSubCategory = category;
+            this.selectedProduct = null;
+            this.isOpenSubcategory = false;
+            this.isOpenProduct = true;
+        }
+        // console.log(category)
+
     }
     selectProduct(product){
         this.selectedProduct = product;
+        this.productServices.SearchByNewProductSubject.next(this.selectedProduct)
         this.isOpenProduct = false;
     }
     openSubCategories(){

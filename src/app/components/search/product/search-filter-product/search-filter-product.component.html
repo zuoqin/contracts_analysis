@@ -1,125 +1,157 @@
-<div class="search-form">
-    <div class="container">
-        <form [formGroup]="searchForm" novalidate >
-            <div class="search-form__row">
-                <fieldset class="search-form__left">
-                    <label class="styled-label">ПОИСК</label>
-                    <div class="search-form__search">
-                        <ng-select 
-                            class="search-form__search__select" 
-                            [searchable]="false" 
-                            formControlName="type" 
-                            [clearable]="false"
-                            (change)="changeType()"
-                            >
-                            <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
-                        </ng-select>
-                        <div  class="search-form__search__query autocomplete-input">
-                            <autocomplete-field 
-                                (onSelectedValue)="selectProduct($event)"
-                                [urlSearch]="autocompleteProduct.url"
-                                [searchFields]="autocompleteProduct.searchField"
-                                [titleField]="autocompleteProduct.titleField"
-                                [placeholder]="'Поиск по продукту'"
-                                ></autocomplete-field>
-                            <div *ngIf="!checkRequired" class="field-error">Выберите продукт</div>
+<div id="search-filter" [style.height]="heightFilter" class="visible">
+    <div 
+        class="search-form"
+        [class.open]="fixedFilter" #filter>
+        <div class="container">
+            <form [formGroup]="searchForm" novalidate >
+                <div class="search-form__row">
+                    <fieldset class="search-form__left">
+                        <label class="styled-label">ПОИСК</label>
+                        <div class="search-form__search">
+                            <ng-select 
+                                class="search-form__search__select" 
+                                [searchable]="false" 
+                                formControlName="type" 
+                                [clearable]="false"
+                                (change)="changeType()"
+                                >
+                                <ng-option *ngFor="let type of seacrhType" value="{{type.id}}">{{type.name}}</ng-option>
+                            </ng-select>
+                            <ng-container *ngIf="searchType=='spgz'">
+                                <div  class="search-form__search__query autocomplete-input">
+                                    <autocomplete-field 
+                                        
+                                        (onSelectedValue)="selectProduct($event)"
+                                        [urlSearch]="autocompleteSpgz.url"
+                                        [searchFields]="autocompleteSpgz.searchField"
+                                        [titleField]="autocompleteSpgz.titleField"
+                                        [placeholder]="'Поиск по ID СПГЗ '"
+                                        [initialValue]="tempValue"
+                                        ></autocomplete-field>
+                                    <div *ngIf="!checkRequired" class="field-error">Выберите продукт</div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="searchType=='product'">
+                                <div  class="search-form__search__query autocomplete-input">
+                                    <autocomplete-field 
+                                        #autoCompleteProductInput
+                                        (onSelectedValue)="selectProduct($event)"
+                                        [urlSearch]="autocompleteProduct.url"
+                                        [searchFields]="autocompleteProduct.searchField"
+                                        [titleField]="autocompleteProduct.titleField"
+                                        [placeholder]="'Поиск по продукту'"
+                                        ></autocomplete-field>
+                                    <div *ngIf="!checkRequired" class="field-error">Выберите продукт</div>
+                                </div>
+                            </ng-container>
                         </div>
-                    </div>
-                </fieldset>
-                <fieldset  class="search-form__right">
-                        <label class="styled-label">ОБЪЕМ</label>
+                    </fieldset>
+                    <fieldset  *ngIf="units.length" class="search-form__right" >
+                            <label class="styled-label">ОБЪЕМ</label>
+                            <div class="field-3-column">
+                                <input 
+                                    type="text" 
+                                    formControlName="volumeFrom" 
+                                    class="styled-input" 
+                                    placeholder="От" 
+                                    OnlyNumber="true"  
+                                    [MaxValue]="searchForm.controls['volumeTo'].value"  
+                                    [FormControl]="searchForm.controls['volumeFrom']"/>
+
+                                <span class="field-3-column__line">-</span>
+                                <input 
+                                    type="text" 
+                                    formControlName="volumeTo" 
+                                    class="styled-input" 
+                                    placeholder="До" 
+                                    OnlyNumber="true" 
+                                    [MinValue]="searchForm.controls['volumeFrom'].value" 
+                                    [FormControl]="searchForm.controls['volumeTo']"/>
+                                    
+                                <ng-select  [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last">
+                                    <ng-option *ngFor="let unit of units" [value]="unit.unit_id" >{{unit.name}}</ng-option>
+                                </ng-select>
+                            </div>
+                    </fieldset>
+                </div>
+                <div class="search-form__row">
+                    <fieldset class="search-form__left">
+                        <label class="styled-label">РЕГИОН</label>
+                        <regions-tag-selected  *ngIf="regions.length" [regions]="regions" (onSelected)="selectRegions($event)"></regions-tag-selected>
+                    </fieldset>
+                    <fieldset   class="search-form__right">
+                        <label class="styled-label">СРОК ПОСТАВКИ</label>
                         <div class="field-3-column">
                             <input 
                                 type="text" 
-                                formControlName="volumeFrom" 
+                                formControlName="deliveryFrom" 
                                 class="styled-input" 
-                                placeholder="От" 
-                                OnlyNumber="true"  
-                                [MaxValue]="searchForm.controls['volumeTo'].value"  
-                                [FormControl]="searchForm.controls['volumeFrom']"/>
+                                placeholder="От"  
+                                OnlyNumber="true" 
+                                [MaxValue]="searchForm.controls['deliveryTo'].value"  
+                                [FormControl]="searchForm.controls['deliveryFrom']">
 
                             <span class="field-3-column__line">-</span>
                             <input 
                                 type="text" 
-                                formControlName="volumeTo" 
+                                formControlName="deliveryTo" 
                                 class="styled-input" 
                                 placeholder="До" 
-                                OnlyNumber="true" 
-                                [MinValue]="searchForm.controls['volumeFrom'].value" 
-                                [FormControl]="searchForm.controls['volumeTo']"/>
-                                
-                            <ng-select [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last">
-                                <ng-option value="1">Кг.</ng-option>
-                                <ng-option value="2">Литр</ng-option>
-                                <ng-option value="3">Упаковка</ng-option>
-                            </ng-select>
+                                OnlyNumber="true"  
+                                [MinValue]="searchForm.controls['deliveryFrom'].value" 
+                                [FormControl]="searchForm.controls['deliveryTo']">
+                            <span class="field-3-column__last">дней</span>
                         </div>
-                </fieldset>
-            </div>
-            <div class="search-form__row">
-                <fieldset class="search-form__left">
-                    <label class="styled-label">РЕГИОН</label>
-                    <regions-tag-selected></regions-tag-selected>
-                </fieldset>
-                <fieldset   class="search-form__right">
-                    <label class="styled-label">СРОК ПОСТАВКИ</label>
-                    <div class="field-3-column">
-                        <input 
-                            type="text" 
-                            formControlName="deliveryFrom" 
-                            class="styled-input" 
-                            placeholder="От"  
-                            OnlyNumber="true" 
-                            [MaxValue]="searchForm.controls['deliveryTo'].value"  
-                            [FormControl]="searchForm.controls['deliveryFrom']">
-
-                        <span class="field-3-column__line">-</span>
-                        <input 
-                            type="text" 
-                            formControlName="deliveryTo" 
-                            class="styled-input" 
-                            placeholder="До" 
-                            OnlyNumber="true"  
-                            [MinValue]="searchForm.controls['deliveryFrom'].value" 
-                            [FormControl]="searchForm.controls['deliveryTo']">
-                        <span class="field-3-column__last">дней</span>
+                    </fieldset>
+                
+                </div>
+                <ng-container *ngIf="selectedProduct">
+                    <div *ngIf="attrsProduct.length" class="search-form__row" >
+                        <fieldset>
+                            <label class="styled-label">ХАРАКТЕРИСТИКИ</label>
+                            <ng-container *ngFor="let attr of attrsProduct">
+                                <label class="styled-label" *ngIf="attr.name!='Прочее'">{{attr.name}}</label>
+                                <div class="search-form__character">
+                                    <label class="styled-checkbox"
+                                        *ngFor="let item of attr.values">
+                                        <input type="checkbox" value="{{item.id}}" (change)="selectAttr($event,item)"/>
+                                        <span class="checkmark"></span>
+                                        {{item.name}}
+                                    </label>
+                                </div>
+                            </ng-container>
+                        </fieldset>    
                     </div>
-                </fieldset>
-              
-            </div>
-            <ng-container *ngIf="product ">
-                <div *ngIf="product.attrs.length && product.attrs[0].values" class="search-form__row" >
-                    <fieldset>
-                        <label class="styled-label">ХАРАКТЕРИСТИКИ</label>
-                        <div class="search-form__character">
-                            <label class="styled-checkbox"
-                                *ngFor="let attr of product.attrs[0].values">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                {{attr.name}}
-                            </label>
-                        </div>
-                    
-                    </fieldset>    
-                </div>
-                <div class="search-form__row search-form__row--border-top">
-                    <fieldset>
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="switch__slider"></span>
-                            <div class="switch__text">
-                                    Учитывать при расчете рисковых поставщиков
-                            </div>
-                    
-                        </label>
+                    <div class="search-form__row search-form__row--border-top">
+                        <fieldset>
+                            <label class="switch">
+                                <input type="checkbox" formControlName="risk">
+                                <span class="switch__slider"></span>
+                                <div class="switch__text">
+                                        Учитывать при расчете рисковых поставщиков
+                                </div>
                         
-                    </fieldset> 
+                            </label>
+                            
+                        </fieldset> 
+                    </div>
+                </ng-container>
+                <div class="search-form__bottom-btn">
+                    <div class="btn btn--red btn--40" (click)="search()">{{btnText.text}}</div>
                 </div>
-            </ng-container>
-            <div class="search-form__bottom-btn">
-                <div class="btn btn--red btn--40" (click)="search()">{{btnText.text}}</div>
-            </div>
-          
-        </form>
+            
+            </form>
+        </div>
+    </div>
+
+    <div 
+        [class.active]="fixedShortFilterShow"
+        class="filter-short">
+        <div class="container clearfix">
+            <div class="filter-short__item filter-short__change" (click)="showFixedFilter()">Изменить</div>
+            <div class="filter-short__item" *ngFor="let filter of shortFilterArray">
+                <span>{{filter.name}}</span> {{filter.value}}
+            </div> 
+        </div>
     </div>
 </div>

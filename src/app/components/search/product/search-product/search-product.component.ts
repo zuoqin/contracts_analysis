@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+/*Services*/
+import { ProductServices } from '@core';
 
 @Component({
     selector:"search",
     templateUrl:"./search-product.component.html"
 })
 export class SearchProductComponent implements OnInit{
-    loadData:boolean = true;
-    dataColumns;
+    loadData:boolean = false;
     suppliersData;
-    onLoadData(){
-        this.loadData = true;
+    selectedProduct;
+    constructor(
+        private productServices:ProductServices
+    ){
+        this.productServices.SearchByNewProductObservable
+        .subscribe((selectedProduct)=>{
+            this.loadData = false;
+        })
+    }
+    onLoadData(data){
+        this.selectedProduct = data;
+        
+        this.loadData = data;
     }
     ngOnInit(){
         let that = this;
@@ -134,48 +146,7 @@ export class SearchProductComponent implements OnInit{
             ]
 
 
-            that.dataColumns=[
-                {
-                    id:"date",
-                    text:"Дата получения цены",
-                    active:true
-                },
-                {
-                    id:"supplier",
-                    text:"Поставщик",
-                    active:true
-                },
-                {
-                    id:"volume",
-                    text:"Объем",
-                    active:true
-                },
-                {
-                    id:"price",
-                    text:"Цена, руб.",
-                    active:true
-                },
-                {
-                    id:"term",
-                    text:"Срок поставки",
-                    active:true
-                },
-                {
-                    id:"participation",
-                    text:"Участий в закупках",
-                    active:true
-                },
-                {
-                    id:"commercialProposal",
-                    text:"КП",
-                    active:true
-                },
-                {
-                    id:"calls",
-                    text:"Звонки",
-                    active:true
-                },
-            ]
+           
         })
     }
    

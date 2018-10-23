@@ -14,14 +14,25 @@ export const CONFIG = {
         'show-delay': 500
     },
     autocompleteProduct:{
-        url:'/search?context=product&query=',
-        titleField:"product_name",
-        searchField:"product_name"
+        url:'/autocomplete/product?query=',
+        titleField:"name",
+        searchField:"name"
     },
     autocompleteSupplier:{
-        url:'/search_supplier?query=',
-        titleField:"supplier_name",
-        searchField:"supplier_name"
+        url:'/autocomplete/supplier?query=',
+        titleField:"name",
+        searchField:"name"
+    },
+    autocompleteSPGZ:{
+        url:'/autocomplete/spgz?query=',
+        titleField:"name",
+        searchField:"name"
+    },
+    messageResponse:{
+        text:'Загрузка...',
+        loading:'Загрузка...',
+        noData:'Нет данных для отображения',
+        error:'Ошибка загрухки данных.'
     },
     maskPhoneSettings:{
 		mask: ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/,'-', /\d/, /\d/],

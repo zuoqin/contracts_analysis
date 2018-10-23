@@ -1,4 +1,5 @@
-<div class="search-form">
+<div id="search-filter">
+<div class="search-form" >
         <div class="container">
             <form [formGroup]="searchForm" novalidate >
                 <div class="search-form__row">
@@ -22,6 +23,7 @@
                                     [titleField]="autocompleteSupplier.titleField"
                                     [placeholder]="'Поиск по поставщику'"
                                 ></autocomplete-field>
+                                <div *ngIf="!checkRequired" class="field-error">Выберите поставщика</div>
                             </div>
                         
                                 
@@ -38,7 +40,7 @@
                 <div class="search-form__row">
                     <fieldset class="search-form__left">
                         <label class="styled-label">РЕГИОН</label>
-                        <regions-tag-selected></regions-tag-selected>
+                        <regions-tag-selected  [regions]="regions"></regions-tag-selected>
                     </fieldset>
                     <fieldset  class="search-form__right">
                             <label class="styled-label">ОБЪЕМ</label>
@@ -71,8 +73,9 @@
                     </fieldset>
                 </div>
                 <div class="search-form__bottom-btn">
-                    <div class="btn btn--red btn--40">{{btnText.text}}</div>
+                    <div class="btn btn--red btn--40" (click)="search()">{{btnText.text}}</div>
                 </div>
             </form>
         </div>
     </div>
+</div>

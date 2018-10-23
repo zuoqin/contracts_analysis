@@ -48,7 +48,7 @@
                                 <ng-container *ngIf="this.addProposalForm.controls['type'].value=='product'">
                                         <autocomplete-field 
                                         class="autocomplete-input"
-                                            (onSelectedValue)="selectItem($event)"
+                                            (onSelectedValue)="selectProduct($event)"
                                             [urlSearch]="autocompleteProduct.url"
                                             [searchFields]="autocompleteProduct.searchField"
                                             [titleField]="autocompleteProduct.titleField"
@@ -58,7 +58,7 @@
                                 <ng-container *ngIf="this.addProposalForm.controls['type'].value=='spgz'">
                                         <autocomplete-field 
                                         class="autocomplete-input"
-                                            (onSelectedValue)="selectItem($event)"
+                                            (onSelectedValue)="selectProduct($event)"
                                             [urlSearch]="autocompleteProduct.url"
                                             [searchFields]="autocompleteProduct.searchField"
                                             [titleField]="autocompleteProduct.titleField"
@@ -69,26 +69,16 @@
                             </div>
                         </div>
                         <div class="styled-form__character">
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Питьевой
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Густой
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Фруктовый
-                            </label>
-                            <label class="styled-checkbox">
-                                <input type="checkbox"/>
-                                <span class="checkmark"></span>
-                                Обогощенный
-                            </label>
+
+                            <ng-container *ngFor="let attr of attrsProduct">
+                                <label class="styled-label" *ngIf="attr.name!='Прочее'">{{attr.name}}</label>
+                                <label class="styled-checkbox"
+                                    *ngFor="let item of attr.values">
+                                    <input type="checkbox" value="{{item.id}}" (change)="selectAttr($event,item)"/>
+                                    <span class="checkmark"></span>
+                                    {{item.name}}
+                                </label>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

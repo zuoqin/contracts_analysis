@@ -1,5 +1,5 @@
 import { Component,Input, OnInit,Output,EventEmitter } from '@angular/core';
-import { CompleterService, CompleterData,CompleterItem } from 'ng2-completer';
+import { CompleterService, CompleterData,CompleterItem,RemoteData } from 'ng2-completer';
 import { environment } from '@environments';
 @Component({
     selector:"autocomplete-field",
@@ -12,19 +12,32 @@ export class AutocompleteFieldComponent implements OnInit{
     @Input() titleField;
     @Input() formControlName;
     @Input() initialValue?: string;
+    @Input() searchData;
     @Output() onSelectedValue = new EventEmitter<any>();
     
     question = [];
 
-    dataService: CompleterData;
+    dataService: RemoteData;
     constructor(
         private completerService: CompleterService
     ){}
+
     onSelected(value){
-        this.onSelectedValue.emit(value.originalObject);
+        if(value){
+            this.onSelectedValue.emit(value.originalObject);
+        }
+       
+    }
+    setValue(name: string){
+        this.initialValue = name;
     }
     ngOnInit(){
-        console.log(this.urlSearch)
-        this.dataService = this.completerService.remote(environment.apiUrl+this.urlSearch ,this.searchFields,this.titleField);
+       
+        if(!this.searchData){
+            this.dataService = this.completerService.remote(environment.apiUrl+this.urlSearch ,this.searchFields,this.titleField);
+            this.dataService.dataField("data");
+        }else{
+            //this.dataService = this.completerService.local(this.searchData, this.searchFields, this.titleField);
+        }
     }
 }

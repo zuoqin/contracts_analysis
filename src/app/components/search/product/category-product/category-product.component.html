@@ -1,4 +1,4 @@
-<div class="catergory-select">
+<div *ngIf="selectedCategory" class="catergory-select">
     <div class="container">
 
         <div class="catergory-select__block catergory-select__block--category">
@@ -20,12 +20,12 @@
                     class="catergory-select__tooltip__item catergory-select__tooltip__item--subcategory"
                     *ngFor="let subcategory of selectedCategory.subcategory"
                     (click)="selectSubCategory(subcategory)"
-                    [class.active]="selectedSubCategory && subcategory.id==selectedSubCategory.id"
-                    [class.no-child]="!subcategory.product || !subcategory.product.length">
+                    [class.active]="selectedSubCategory && subcategory.kpgz_id==selectedSubCategory.kpgz_id"
+                    [class.no-child]="!subcategory['subcategory'] || !subcategory['subcategory'].length">
                    
                         {{subcategory.name}}
-                        <ng-container *ngIf="subcategory['product'] && subcategory['product'].length">
-                                ({{subcategory['product'].length}})
+                        <ng-container *ngIf="subcategory['subcategory'] && subcategory['subcategory'].length">
+                                ({{subcategory['subcategory'].length}})
                         </ng-container>
                     
                 </div>
@@ -45,15 +45,15 @@
             </div>
             <div 
                 class="catergory-select__tooltip"  
-                *ngIf="selectedSubCategory.product && selectedSubCategory.product.length"
+                *ngIf="selectedSubCategory['subcategory'] && selectedSubCategory['subcategory'].length"
                 [class.active]="isOpenProduct">
                     <div 
                         class="catergory-select__tooltip__item"
-                        *ngFor="let product of selectedSubCategory.product"
-                        [class.active]="selectedProduct && product.id==selectedProduct.id"
-                        (click)="selectProduct(product)"
+                        *ngFor="let subcategory of selectedSubCategory['subcategory']"
+                        [class.active]="selectedProduct && subcategory.kpgz_id==selectedProduct.kpgz_id"
+                        (click)="selectProduct(subcategory)"
                         >
-                        {{product.name}}
+                        {{subcategory.name}}
                     </div>
             </div>
         

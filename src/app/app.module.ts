@@ -29,7 +29,6 @@ import {
 	} from './components/search/suppliers';
 
 
-import { SearchFilterSpgz } from './components/search-filter/search-filter-spgz/search-filter-spgz.component';
 
 import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
 import { ColumnsFilterComponent } from './components/filters/columns-filter/columns-filter.component'
@@ -85,7 +84,6 @@ import { SlickModule } from 'ngx-slick';
 		HeaderComponent,
 		SearchFilterProduct,
 		SearchFilterSupplierComponent,
-		SearchFilterSpgz,
 		RegionsTagSelectedComponent,
 		SearchComponent,
 		SearchProductComponent,

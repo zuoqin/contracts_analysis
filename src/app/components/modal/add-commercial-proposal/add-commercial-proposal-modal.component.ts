@@ -6,7 +6,7 @@ import 'rxjs/add/operator/takeUntil';
 
 /*Services*/
 import { SuppliersServices } from '@core';
-
+import { ProductServices } from '@core';
 
 import { CONFIG } from '@config';
 
@@ -19,6 +19,8 @@ export class AddCommercialProposalModalComponent implements OnInit{
     @ViewChild('addCommercialProposalModal')
     addCommercialProposalModal: BsModalComponent;
     addProposalForm: FormGroup;
+    attrsProduct = []
+    
     maskPhoneSettings = CONFIG.maskPhoneSettings;
 
     autocompleteProduct = CONFIG.autocompleteProduct
@@ -69,7 +71,8 @@ export class AddCommercialProposalModalComponent implements OnInit{
     ]
     constructor(      
         private formBuilder: FormBuilder,
-        private suppliersServices:SuppliersServices
+        private suppliersServices:SuppliersServices,
+        private productServices:ProductServices
     ){
         this.suppliersServices.addDynamicSupplierObservable
             .takeUntil(this.ngUnsubscribe)
@@ -139,6 +142,27 @@ export class AddCommercialProposalModalComponent implements OnInit{
     }
     selectSupplier(value){
         console.log(value)
+    }
+    selectProduct(value){
+        if(value.originalObject){
+            this.getAttrs(value.originalObject.id)
+        }else{
+
+        }
+    }
+    getAttrs(productId){
+        this.productServices.getAttrs(productId).subscribe(
+            response => {
+                console.log(response)
+                if(response.data.length){
+                    this.attrsProduct = response.data;
+                }
+                
+            },
+            err => {
+                console.log(err)
+            }
+        );
     }
     addSupplier(){
         this.addCommercialProposalModal.close();

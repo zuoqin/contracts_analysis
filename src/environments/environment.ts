@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-	apiUrl:"http://95.213.207.234:5000"
+	apiUrl:"http://api.odoo.eliz.site"
 };
 
 /*

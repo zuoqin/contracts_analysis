@@ -28,8 +28,10 @@
                 <div class="price-table__title"> {{price.monthText}}</div>
                 <div class="price-table__price">
                     <div>
-                        {{price.market}}
+                        <!-- {{price.market}} -->
+                        <span class="value">{{price.market | thousandsSpace}}</span>
                         <span 
+                            class="price-table__diff"
                             [class.down]="price.diffMarket<0" 
                             [class.up]="price.diffMarket>0" 
                             >
@@ -38,8 +40,10 @@
                         </span>
                     </div>
                     <div>
-                        {{price.purchase}}
+                        <!-- {{price.purchase}} -->
+                        <span class="value">{{price.purchase | thousandsSpace}}</span>
                         <span 
+                            class="price-table__diff"
                             [class.down]="price.diffPurchase<0" 
                             [class.up]="price.diffPurchase>0" 
                         >
@@ -62,21 +66,21 @@
     <div class="price-table__row">
         <div class="price-table__title">Год</div>
         <div class="price-table__price">
-            <div>34</div>
-            <div>33</div>
+            <div>{{averagePrice.year.market | thousandsSpace}}</div>
+            <div>{{averagePrice.year.purchase | thousandsSpace}}</div>
         </div>
     </div>
     <div class="price-table__row">
         <div class="price-table__title">Весь период</div>
         <div class="price-table__price">
-            <div>29</div>
-            <div>30</div>
+            <div>{{averagePrice.all.market | thousandsSpace}}</div>
+            <div>{{averagePrice.all.purchase | thousandsSpace}}</div>
         </div>
     </div>
 </div>
 
 <div class="text-center forecast-price mt25 product-price__left__shift-title" *ngIf="currentDate">
     <div  class="forecast-price__title">Прогнозируемая цена на {{currentDate.monthText}}</div>
-    <div class="forecast-price__item">34 рубля</div>
-    <div class="forecast-price__item">(На основе анализа  2645 КП)</div>
+    <div class="forecast-price__item">{{averagePrice.all.market | thousandsSpace}} рубля</div>
+    <div class="forecast-price__item">(На основе анализа  {{averagePrice.count}} КП)</div>
 </div>

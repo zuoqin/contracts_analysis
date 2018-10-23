@@ -1,8 +1,14 @@
 
 import { OnInit,ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
-import { CONFIG } from '@config';
 
+
+/*Services */
+import { ProductServices } from '@core';
+/*Models*/
+import { ProductSearch } from '@core';
+
+import { CONFIG } from '@config';
 @Component({
     selector:"purchase-table",
     templateUrl:"./purchase-table.component.html"
@@ -10,8 +16,19 @@ import { CONFIG } from '@config';
 export class PurchaseTableComponent{
     @ViewChild('selectedRangeDate') selectedRangeDate;
     tooltipOptions;
-    constructor(){
+    selectedProduct:ProductSearch;
+    ifLoadData:boolean = false;
+    messageResponse = CONFIG.messageResponse;
+    constructor(
+        private productServices:ProductServices
+    ){
         this.tooltipOptions = CONFIG.tooltipOptions;
+        this.productServices.SelectProductObservable
+            .subscribe((selectedProduct)=>{
+        
+                this.selectedProduct = selectedProduct;
+                this.getPurchases()
+            })
     }
 
 
@@ -22,32 +39,32 @@ export class PurchaseTableComponent{
             active:true
         },
         {
-            id:"customer",
+            id:"name",
             text:"Заказчик",
             active:true
         },
         {
-            id:"volume",
+            id:"contract_value",
             text:"Объем",
             active:true
         },
         {
-            id:"price",
+            id:"contract_price",
             text:"Цена, руб.",
             active:true
         },
         {
-            id:"term",
+            id:"days",
             text:"Срок исполнения",
             active:true
         },
         {
-            id:"priceContract",
+            id:"contract_price",
             text:"Цена контракта",
             active:true
         },
         {
-            id:"status",
+            id:"contract_status",
             text:"Статус контракта",
             active:true
         },
@@ -64,8 +81,8 @@ export class PurchaseTableComponent{
     ]
         
     
-
-    purchaseData = [
+    purchaseData;
+    purchaseData2 = [
         {
             date:{
                 value: new Date(2018, 0, 22),
@@ -265,7 +282,54 @@ export class PurchaseTableComponent{
             safety:true
         }
     ]
-  
+    getPurchases(){
+
+        this.productServices.getPurchases(this.selectedProduct).subscribe(
+            response => {
+                if(response.data.length){
+                    this.formatData(response.data)
+                }else{
+                    this.messageResponse.text =  this.messageResponse.noData;
+                }
+              
+ 
+                this.ifLoadData = true;
+
+            },
+            err => {
+                this.messageResponse.text =  this.messageResponse.error;
+                this.ifLoadData = true;
+                console.log(err)
+            }
+        );
+    }
+    formatData(data){
+        data.map(item=>{
+
+            let dateCurrent = item.contract_sign_date.split('/');
+            let dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
+            item['date'] = {
+                value:dateNew,
+                text:dateCurrent.join(".")
+            };
+
+
+            dateCurrent = item.contract_end_date.split('/');
+            dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
+            item['dateEnd'] = {
+                value:dateNew,
+                text:dateCurrent.join(".")
+            };
+            item['price'] = 9231;
+            item['complaint'] = false;
+            item['safety'] = true;
+
+        
+        })
+        //console.log(data)
+        this.purchaseData = data;
+        this.ifLoadData = true;
+    }
     onSelectedDate(value){
         if(value){
             console.log(value.beginDate)
@@ -284,6 +348,7 @@ export class PurchaseTableComponent{
     }
 
     isColumnActive(columnId){
+    
         return this.purchaseColumns.filter(item=>item.id==columnId)[0].active
     }
     onSelectedColumns(value){

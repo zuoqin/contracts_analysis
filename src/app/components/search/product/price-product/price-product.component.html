@@ -1,5 +1,5 @@
 <div class="container">
-    
+    <div *ngIf="!priceChartsData">Загрузка графика...</div>
     <price-chart *ngIf="priceChartsData"  [data]="priceChartsData"></price-chart> 
 
     <div class="product-price">
@@ -7,7 +7,8 @@
             <prices-table></prices-table>
         </div>
         <div class="chart-legend product-price__right">
-            <chart-legend *ngIf="legendData" [legendData]="legendData" (onChanged)="onChangedChartLegend($event)"></chart-legend>
+            <div *ngIf="!priceChartsData">Загрузка легенды для графика...</div>
+            <chart-legend *ngIf="priceChartsData && legendData" [legendData]="legendData" (onChanged)="onChangedChartLegend($event)"></chart-legend>
         </div>
     </div>
 </div>

@@ -154,7 +154,6 @@ textarea.styled-input{
 
 .field-3-column{
     display: flex;
-    justify-content: space-between;
     align-items: center;
     input{
         width: 110px;
@@ -165,7 +164,7 @@ textarea.styled-input{
         display: block;
         font-size: 0;
         height: 0;
-        margin: 0 3px;
+        margin: 0 7px;
     }
     &__last{
       
@@ -231,6 +230,8 @@ textarea.styled-input{
     }
     &__text{
         margin-left: 20px;
+        font-size: 18px;
+        line-height: 18px;
     }
     &__slider {
         width: 28px;

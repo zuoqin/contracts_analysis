@@ -1,4 +1,4 @@
-import { Component,OnInit } from "@angular/core";
+import { Component,OnInit, Input,Output,EventEmitter } from "@angular/core";
 import { NgOption } from '@ng-select/ng-select';
 
 @Component({
@@ -9,37 +9,12 @@ import { NgOption } from '@ng-select/ng-select';
 export class RegionsTagSelectedComponent implements OnInit{
     regionsSelectedModel:string;
     regionsSelected = [];
-    regions: NgOption[] = [
-        {
-            name:"г. Москва", 
-            id:"1"
-        },
-        {
-            name:"ЦФО", 
-            id:"2"
-        },
-        {
-            name:"Вне ЦФО",
-            id:"3"
-        },
-        {
-            name:"Европейская часть России", 
-            id:"4"
-        },
-        {
-            name:"Республика Адыгея", 
-            id:"5"
-        },
-        {
-            name:"Республика Башкортостан", 
-            id:"6"
-        },
-    ]
-
-
+    @Input('regions') regions: NgOption[];
+    @Output() onSelected = new EventEmitter<any>();
     ngOnInit() {
-        this.regionsSelectedModel = this.regions[0].id;
-        this.regionsSelected.push(this.regions[0])
+        // this.regionsSelectedModel = this.regions[0].id;
+        // this.regionsSelected.push(this.regions[0])
+        // this.onSelected.emit(this.regionsSelected)
     }
     changeRegions(event){
         let currentRegion = event.selectedValues[0];
@@ -49,6 +24,7 @@ export class RegionsTagSelectedComponent implements OnInit{
                 this.regionsSelected.push(currentRegion);
             }
         }
+        this.onSelected.emit(this.regionsSelected)
     }
     deleteRegion(id:string){
         this.regionsSelected.splice(this.regionsSelected.findIndex(region => region.id === id),1);
@@ -57,7 +33,9 @@ export class RegionsTagSelectedComponent implements OnInit{
             if(getCurrentIndex<0){
                 this.regionsSelectedModel = this.regionsSelected[this.regionsSelected.length-1].id
             }
+            this.onSelected.emit(this.regionsSelected)
         }else{
+            this.onSelected.emit(false)
             this.regionsSelectedModel = null;
         }
         

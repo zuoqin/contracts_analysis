@@ -5,8 +5,7 @@ import { Component,OnInit } from '@angular/core';
     templateUrl:"./search-suppliers.component.html"
 })
 export class SearchSuppliersComponent implements OnInit{
-    loadData:boolean = true;
-
+    loadData:boolean = false;
     showCardSupplier:boolean = false;
     dataColumns;
     suppliersData;
