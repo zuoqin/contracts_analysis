@@ -72,7 +72,15 @@ export class SearchFilterProduct implements OnInit{
         this.searchForm.valueChanges.subscribe(() => {
             this.shortFilterInit()
         })
-        this.getRegions()     
+        this.getRegions()   
+        // this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
+        // setTimeout(()=>{
+        //     this.search()
+        // },1500)
+
+
+        
+
     }
     changeType(){
   
@@ -107,7 +115,8 @@ export class SearchFilterProduct implements OnInit{
             delivery_to: null,
             volume_from: null,
             volume_to: null,
-            unit_id: null
+            unit_id: null,
+            unit_text:null
         };
         this.searchForm.controls['query'].setValue('')
         this.checkRequired = false;
@@ -148,7 +157,7 @@ export class SearchFilterProduct implements OnInit{
             response => {
                 if(response.data.length){
                     this.units = response.data;
-                    console.log()
+                 
                     this.searchForm.controls['unit'].setValue(this.units[0].unit_id)
                 }else{
                     this.units = [];
@@ -210,6 +219,10 @@ export class SearchFilterProduct implements OnInit{
         this.selectedProduct.volume_from = this.searchForm.value.volumeFrom;
         this.selectedProduct.volume_to = this.searchForm.value.volumeTo;
         this.selectedProduct.unit_id = this.searchForm.value.unit;
+        if(this.units.length){
+            this.selectedProduct.unit_text = this.units.filter(unit=>unit.unit_id==this.searchForm.value.unit)[0].abbreviation;
+        }
+
         this.selectedProduct.risk = this.searchForm.value.risk.toString();
         
         this.ifLoadData = true;

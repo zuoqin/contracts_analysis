@@ -41,18 +41,18 @@ export class PriceTableComponent{
             this.productServices.SelectProductObservable
                 .subscribe((selectedProduct)=>{
                     this.selectedProduct = selectedProduct;
-                    this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
-                        response => {
-                            this.getAveragePrice(response)
-                            this.setPriceDifference(response);
+                    // this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
+                    //     response => {
+                    //         this.getAveragePrice(response)
+                    //         this.setPriceDifference(response);
                            
 
                          
-                        },
-                        err => {
-                            console.log(err)
-                        }
-                    );
+                    //     },
+                    //     err => {
+                    //         console.log(err)
+                    //     }
+                    // );
   
                 })
 

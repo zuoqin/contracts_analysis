@@ -1,0 +1,33 @@
+
+<div class="filter popup-form popup-form--270 toggle-class">
+        <div class="filter__icon" trigger-active></div>
+        <div 
+            *ngIf="ifSubmit"
+            class="filter__icon filter__icon--clear" 
+            (click)="clear($event)"></div>
+        <div class="popup-form__container">
+            <div class="popup-form__input-2-column">
+                <input 
+                    type="text" 
+                    placeholder="{{placeholder ? placeholder:''}} от"
+                    OnlyNumber="true"
+                    [(ngModel)]=from
+                    class="popup-form__input"
+                    />
+                <input 
+                    type="text" 
+                    placeholder="{{placeholder ? placeholder:''}} до"
+                    [(ngModel)]=to
+                    class="popup-form__input"
+                    />
+            </div>
+        
+            <div class="popup-form__bottom-btn">
+                <div class="btn" (click)="clear($event)">Сбросить</div>
+                <div 
+                    class="btn" 
+                    [class.disabled]="!from && !to"
+                    (click)="save($event)">Подтвердить</div>
+            </div>
+        </div>
+    </div>

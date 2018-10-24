@@ -30,6 +30,60 @@ export class PurchaseTableComponent{
                 this.getPurchases()
             })
     }
+    filterArray = {
+        date:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        name:{
+            filterValue:null,
+            filter:false
+        },
+        dateEnd:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        contract_value:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        unitprice:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        days:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        contract_price:{
+            min:null,
+            max:null,
+            filterMin:null,
+            filterMax:null,
+            filter:false
+        },
+        contract_status:{
+            value:[],
+            filterValue:[],
+            filter:false
+        }
+        
+    }
 
 
     purchaseColumns=[
@@ -49,7 +103,7 @@ export class PurchaseTableComponent{
             active:true
         },
         {
-            id:"contract_price",
+            id:"unitprice",
             text:"Цена, руб.",
             active:true
         },
@@ -80,208 +134,8 @@ export class PurchaseTableComponent{
         },
     ]
         
-    
+    initalData;
     purchaseData;
-    purchaseData2 = [
-        {
-            date:{
-                value: new Date(2018, 0, 22),
-                text:"22.01.2018",
-            }, 
-            customer:{
-                id:4234,
-                name:'ГБУЗ "ГБК № 31 ДЗМ"'
-            },
-            volume:{
-                value:3781,
-                unit:"кг"
-            },
-            price:{
-                value:98,
-                status:1
-            },
-            term:{
-                value:90,
-                unit:"дней"
-            },
-            priceContract:370538,
-            status:{
-                value:1,
-                text:"Исполнение завершено"
-            },
-            dateEnd:{
-                value: new Date(2018, 0, 9),
-                text:"09.01.2018",
-            },
-            complaint:true,
-            safety:false
-        },
-        {
-            date:{
-                value: new Date(2018, 0, 29),
-                text:"29.01.2018",
-            },
-            customer:{
-                id:4234,
-                name:'ГБУЗ "ГБК № 31 ДЗМ" КОНЧАЛОВСКОГО ДМЗ'
-            },
-            volume:{
-                value:14000,
-                unit:"кг"
-            },
-            price:{
-                value:126,
-                status:1
-            },
-            term:{
-                value:365,
-                unit:"дней"
-            },
-            priceContract:1746,
-            status:{
-                value:2,
-                text:"Исполнение"
-            },
-            dateEnd:{
-                value: new Date(2018, 0, 28),
-                text:"28.01.2018",
-            },
-            complaint:false,
-            safety:true
-        },
-        {
-            date:{
-                value: new Date(2018, 3, 28),
-                text:"28.04.2018",
-            },
-            customer:{
-                id:4234,
-                name:'ГБУЗ "ГБК № 31 ДЗМ"'
-            },
-            volume:{
-                value:2500,
-                unit:"кг"
-            },
-            price:{
-                value:17,
-                status:2
-            },
-            term:{
-                value:23,
-                unit:"дня"
-            },
-            priceContract:42500,
-            status:{
-                value:1,
-                text:"Исполнение завершено"
-            },
-            dateEnd:{
-                value: new Date(2018, 4, 21),
-                text:"21.05.2018",
-            },
-            complaint:false,
-            safety:true
-        },
-        {
-            date:{
-                value: new Date(2018, 6, 2),
-                text:"02.07.2018",
-            },
-            customer:{
-                id:4234,
-                name:'ГБУЗ МКНЦ имени А.С. Логинова ДМЗ'
-            },
-            volume:{
-                value:18500,
-                unit:"кг"
-            },
-            price:{
-                value:19,
-                status:2
-            },
-            term:{
-                value:20,
-                unit:"дней"
-            },
-            priceContract:351500,
-            status:{
-                value:2,
-                text:"Исполнение"
-            },
-            dateEnd:{
-                value: new Date(2018, 6, 22),
-                text:"22.07.2018",
-            },
-            complaint:false,
-            safety:true
-        },
-        {
-            date:{
-                value: new Date(2018, 0, 13),
-                text:"13.01.2018",
-            },
-            customer:{
-                id:4234,
-                name:'ГБУЗ "ГБК № 31 ДЗМ" КОНЧАЛОВСКОГО ДМЗ'
-            },
-            volume:{
-                value:250,
-                unit:"кг"
-            },
-            price:{
-                value:40,
-                status:3
-            },
-            term:{
-                value:3,
-                unit:"дня"
-            },
-            priceContract:100000,
-            status:{
-                value:1,
-                text:"Исполнение завершено"
-            },
-            dateEnd:{
-                value: new Date(2018, 0, 16),
-                text:"16.01.2018",
-            },
-            complaint:false,
-            safety:true
-        },
-        {
-            date:{
-                value: new Date(2018, 5, 11),
-                text:"11.06.2018",
-            },
-            customer:{
-                id:4234,
-                name:'ААА ГУП "МЕДИЦИНСКИЙ ЦЕНТР"'
-            },
-            volume:{
-                value:2200,
-                unit:"кг"
-            },
-            price:{
-                value:21,
-                status:1
-            },
-            term:{
-                value:10,
-                unit:"дней"
-            },
-            priceContract:46200,
-            status:{
-                value:1,
-                text:"Исполнение завершено"
-            },
-            dateEnd:{
-                value: new Date(2018, 5, 21),
-                text:"21.06.2018",
-            },
-            complaint:false,
-            safety:true
-        }
-    ]
     getPurchases(){
 
         this.productServices.getPurchases(this.selectedProduct).subscribe(
@@ -326,26 +180,196 @@ export class PurchaseTableComponent{
 
         
         })
+
+        this.filterArray.date.min = this.findMinMaxDate(data,'date','min');
+        this.filterArray.date.max = this.findMinMaxDate(data,'date','max');
+
+
+        this.filterArray.dateEnd.min = this.findMinMaxDate(data,'dateEnd','min');
+        this.filterArray.dateEnd.max = this.findMinMaxDate(data,'dateEnd','max');
+
+
+        this.filterArray.contract_value.min = this.findMinMax(data,'contract_value','min');
+        this.filterArray.contract_value.max = this.findMinMax(data,'contract_value','max');
+
+        this.filterArray.unitprice.min = this.findMinMax(data,'unitprice','min');
+        this.filterArray.unitprice.max = this.findMinMax(data,'unitprice','max');
+
+        this.filterArray.days.min = this.findMinMax(data,'days','min');
+        this.filterArray.days.max = this.findMinMax(data,'days','max');
+
+        this.filterArray.contract_price.min = this.findMinMax(data,'contract_price','min');
+        this.filterArray.contract_price.max = this.findMinMax(data,'contract_price','max');
+
+
+        this.filterArray.contract_status.value = this.findAllDiffValue(data,'contract_status');
+        
+        
         //console.log(data)
+        this.initalData = data;
         this.purchaseData = data;
+        console.log(this.filterArray)
         this.ifLoadData = true;
     }
-    onSelectedDate(value){
-        if(value){
-            console.log(value.beginDate)
-            console.log(value.endDate)
+    findAllDiffValue(data,field){
+        let array=[];
+        let arrayDiff=[];
+        data.map(item=>{
+            Object.keys(item).forEach(function (key) {
+                if(key==field){
+                    array.push(item[key])
+                }
+             });
+        })
+        array.map(item=>{
+            if(arrayDiff.indexOf(item)<0){
+                arrayDiff.push(item)
+            }
+        })
+        console.log(arrayDiff)
+        return arrayDiff;
+    
+    }
+    findMinMax(data,field,type){
+        let array=[];
+        data.map(item=>{
+            Object.keys(item).forEach(function (key) {
+                if(key==field){
+                    array.push(item[key])
+                }
+             });
+        })
+        console.log(array)
+        if(type=="min"){
+            return  Math.min.apply(null, array);
         }else{
-            console.log('сбросить')
+            return Math.max.apply(null, array);
         }
     }
-    onSelectedDateEnd(value){
-        if(value){
-            console.log(value.beginDate)
-            console.log(value.endDate)
+    findMinMaxDate(data,field,type){
+        let dates=[];
+        data.map(item=>{
+            Object.keys(item).forEach(function (key) {
+                if(key==field){
+                    dates.push(item[key].value)
+                }
+             });
+        })
+        if(type=="min"){
+            return new Date(Math.min.apply(null,dates));
         }else{
-            console.log('сбросить')
-        }
+            return new Date(Math.max.apply(null,dates));
+        } 
     }
+
+    onSelectValueFilter(value,field){
+        console.log(value)
+        if(value.length){
+            this.filterArray[field].filterValue = value;
+            this.filterArray[field].filter = true;
+        }else{
+            this.filterArray[field].filter = false;
+        }
+        this.filterData()
+    }
+    onSelectedDateRange(value){
+        if(value){
+            this.filterArray.date.filterMin = new Date(value.beginDate.year, value.beginDate.month-1, value.beginDate.day)
+            this.filterArray.date.filterMax =  new Date(value.endDate.year, value.endDate.month-1, value.endDate.day)
+            this.filterArray.date.filter = true;
+        }else{
+            this.filterArray.date.filter = false;
+        }
+        this.filterData()
+    }
+    onEnterNameFilter(value){
+        if(value){
+            this.filterArray.name.filterValue = value;
+            this.filterArray.name.filter = true;
+        }else{
+            this.filterArray.name.filter = false;
+        }
+        this.filterData()
+    }
+
+    onEnterInputRangeFilter(value,field){
+        if(value){
+            this.filterArray[field].filterMax = value.to;
+            this.filterArray[field].filterMin = value.from;
+            this.filterArray[field].filter = true;
+        }else{
+            this.filterArray[field].filter = false;
+        }
+        this.filterData()
+    }
+    onSelectedDateEndRange(value){
+        if(value){
+            this.filterArray.dateEnd.filterMin = new Date(value.beginDate.year, value.beginDate.month-1, value.beginDate.day)
+            this.filterArray.dateEnd.filterMax =  new Date(value.endDate.year, value.endDate.month-1, value.endDate.day)
+            this.filterArray.dateEnd.filter = true;
+        }else{
+            this.filterArray.dateEnd.filter = false;
+        }
+        this.filterData()
+    }
+
+
+    filterData(){
+        let array = [];
+        let filtered:boolean = false;
+        array = this.initalData;
+
+        if(this.filterArray.date.filter){
+            filtered = true;
+            array = array.filter(item=>item.date.value>=this.filterArray.date.filterMin && item.date.value<=this.filterArray.date.filterMax);
+        }
+        if(this.filterArray.dateEnd.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.dateEnd.value>=this.filterArray.dateEnd.filterMin && item.dateEnd.value<=this.filterArray.dateEnd.filterMax)
+        }
+        if(this.filterArray.name.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.name.toLowerCase().indexOf(this.filterArray.name.filterValue)>=0)
+        }
+
+        if(this.filterArray.contract_value.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.contract_value>=this.filterArray.contract_value.filterMin && item.contract_value<=this.filterArray.contract_value.filterMax)
+        }
+
+        if(this.filterArray.unitprice.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.unitprice>=this.filterArray.unitprice.filterMin && item.unitprice<=this.filterArray.unitprice.filterMax)
+        }
+        if(this.filterArray.days.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.days>=this.filterArray.days.filterMin && item.days<=this.filterArray.days.filterMax)
+        }
+
+        if(this.filterArray.contract_price.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.contract_price>=this.filterArray.contract_price.filterMin && item.contract_price<=this.filterArray.contract_price.filterMax)
+        }
+        
+        if(this.filterArray.contract_status.filter && array.length){
+            filtered = true;
+
+            array = array.filter(item=>this.filterArray.contract_status.filterValue.indexOf(item.contract_status)>=0 )
+        }
+
+
+        
+        
+        if(filtered){
+            this.purchaseData = array;
+        }else{
+            this.purchaseData = this.initalData;
+        }
+
+
+       
+    }
+    
 
     isColumnActive(columnId){
     

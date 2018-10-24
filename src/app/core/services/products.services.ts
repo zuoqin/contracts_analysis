@@ -135,7 +135,7 @@ export class ProductServices{
     }
     getPurchases(selectedProduct: ProductSearch): Observable<any>{
         let params = this.getHttpParams(selectedProduct);
-        params = params.set('limit', '5')
+        params = params.set('limit', '15')
          
         return this.apiService.get('/purchase',params)
         .pipe(map(data => data));

@@ -1,6 +1,13 @@
 
   <div class="filter popup-form popup-form--225 popup-form--calendar toggle-class">
-        <div class="filter__icon" trigger-active></div>
+        <div 
+            class="filter__icon" 
+            [class.active]="dateRangeModel"
+            trigger-active></div>
+        <div 
+            *ngIf="dateRangeModel"
+            class="filter__icon filter__icon--clear" 
+            (click)="clear($event)"></div>
         <div class="popup-form__container">
                 <div 
                     class="date-range-input"
@@ -23,6 +30,7 @@
                     (dateRangeChanged)="onDateRangeChanged($event)"
                     (dateSelected)="onDateSelected($event)"
                     [options]="myDateRangePickerOptions"
+                    [defaultMonth]="defaultMonth"
                     [(ngModel)]="dateRangeModel"></my-date-range-picker>
                 </ng-container>
             <div class="popup-form__bottom-btn" *ngIf="dateRangeModel">

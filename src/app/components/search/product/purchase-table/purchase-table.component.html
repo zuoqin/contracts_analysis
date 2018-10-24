@@ -8,329 +8,190 @@
     </div>
     <div *ngIf="!ifLoadData">{{messageResponse.text}}</div>
     <div *ngIf="ifLoadData && !purchaseData">{{messageResponse.text}}</div>
-
-    <table *ngIf="purchaseData && purchaseData.length && ifLoadData" class="styled-table" [mfData]="purchaseData" #mf="mfDataTable">
-        <thead>
-            <tr>
-                <th *ngIf="isColumnActive('date')" class="w95" >
-                    Дата заключения контракта
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="date.value">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('name')" class="w280">
-                    Заказчик
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="name">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <div class="filter popup-form popup-form--290 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <input 
-                                    type="text" 
-                                    placeholder="Введите имя заказчика"
-                                    class="popup-form__input"
-                                    />
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+    <ng-container  *ngIf="initalData && initalData.length && ifLoadData" >
+        <table class="styled-table" [mfData]="purchaseData" #mf="mfDataTable">
+            <thead>
+                <tr>
+                    <th *ngIf="isColumnActive('date')" class="w95" >
+                        Дата заключения контракта
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="date.value">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
+                            <date-range-filter class="filter-left-position" (onSelectedDate)="onSelectedDateRange($event)" [minDate]="filterArray.date.min"  [maxDate]="filterArray.date.max" ></date-range-filter>
                         </div>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('contract_value')" class="w87">
-                    Объем
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="contract_value">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
+                    </th>
+                    <th *ngIf="isColumnActive('name')" class="w280">
+                        Заказчик
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="name">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
+                            </div>
+                            <input-filter (onEnterValue)=onEnterNameFilter($event)></input-filter>
                         </div>
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <div class="popup-form__input-2-column">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Объем от"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                    <input 
-                                        type="text" 
-                                        placeholder="Объем до"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                </div>
+                    </th>
+                    <th *ngIf="isColumnActive('contract_value')" class="w87">
+                        Объем
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="contract_value">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
+                            </div>
+                            <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'contract_value')" [minValue]="filterArray.contract_value.min" [maxValue]="filterArray.contract_value.max" [placeholder]="'Объем'"></input-filter-range>
                             
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+                        </div>
+                    </th>
+                    <th *ngIf="isColumnActive('unitprice')" class="w75">
+                        Цена, руб.
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="unitprice">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
+                            <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'unitprice')" [minValue]="filterArray.unitprice.min" [maxValue]="filterArray.unitprice.max"  [placeholder]="'Цена'"></input-filter-range>
                         </div>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('contract_price')" class="w75">
-                    Цена, руб.
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="contract_price">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <div class="popup-form__input-2-column">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Цена от"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                    <input 
-                                        type="text" 
-                                        placeholder="Цена до"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                </div>
-                                
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+                    </th>
+                    <th *ngIf="isColumnActive('days')" class="w70">
+                        Срок испол- нения
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="days">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
-                        </div>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('days')" class="w70">
-                    Срок испол- нения
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="days">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
 
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <div  class="popup-form__input-label">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Введите число"
-                                        class="popup-form__input"
-                                        />
-                                        <label>дней</label>
-                                </div>
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+                            <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'days')" [minValue]="filterArray.days.min" [maxValue]="filterArray.days.max" [placeholder]="'Дней'"></input-filter-range>
+                        </div>
+                    </th>
+            
+                    <th *ngIf="isColumnActive('contract_price')" class="w110">
+                        Цена контракта, руб.
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="contract_price">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
+                            <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'contract_price')" [minValue]="filterArray.contract_price.min" [maxValue]="filterArray.contract_price.max" [placeholder]="'Цена'"></input-filter-range>
                         </div>
-                    </div>
-                </th>
-        
-                <th *ngIf="isColumnActive('contract_price')" class="w110">
-                    Цена контракта, руб.
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="contract_price">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <div class="popup-form__input-2-column">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Цена от"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                    <input 
-                                        type="text" 
-                                        placeholder="Цена до"
-                                        OnlyNumber="true"
-                                        class="popup-form__input"
-                                        />
-                                </div>
-                                
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+                    </th>
+                    <th *ngIf="isColumnActive('contract_status')" class="w107">
+                        Статус контракта
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="contract_status">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
-                        </div>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('contract_status')" class="w107">
-                    Статус контракта
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="contract_status">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                Исполнение
-                                </label>
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Исполнение завершено
-                                </label>
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Исполнение прекращено
-                                </label>
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Аннулированные реестровые записи
-                                </label>
-                            
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('dateEnd')" class="w107">
-                    Дата окончания контракта
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="dateEnd.value">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <date-range-filter (onSelectedDate)="onSelectedDateEnd($event)"></date-range-filter>
-                    </div>
-                </th>
-                <th *ngIf="isColumnActive('complaint')" class="w75">
-                    Наличие жалоб
-                    <div class="styled-table__bottom-filter">
-                        <div class="sorting">
-                            <mfDefaultSorter by="complaint">
-                                <span class="sorting__default"></span>
-                            </mfDefaultSorter>
-                        </div>
-                        <div class="filter popup-form popup-form--270 toggle-class">
-                            <div class="filter__icon" trigger-active></div>
-                            <div class="popup-form__container">
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Да
-                                </label>
-                                <label class="popup-form__checkbox styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Нет
-                                </label>
 
-                                <div class="popup-form__bottom-btn">
-                                    <div class="btn">Сбросить</div>
-                                    <div class="btn">Подтвердить</div>
-                                </div>
+                            <list-filter *ngIf="filterArray.contract_status.value.length>1" (onSelectValue)="onSelectValueFilter($event,'contract_status')" [valuesArray]="filterArray.contract_status.value"></list-filter>
+                           
+                        </div>
+                    </th>
+                    <th *ngIf="isColumnActive('dateEnd')" class="w107">
+                        Дата окончания контракта
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="dateEnd.value">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
+                            </div>
+                            <date-range-filter class="filter-right-position" (onSelectedDate)="onSelectedDateEndRange($event)" [minDate]="filterArray.dateEnd.min"  [maxDate]="filterArray.dateEnd.max" ></date-range-filter>
+                        </div>
+                    </th>
+                    <th *ngIf="isColumnActive('complaint')" class="w75">
+                        Наличие жалоб
+                        <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <div class="sorting">
+                                <mfDefaultSorter by="complaint">
+                                    <span class="sorting__default"></span>
+                                </mfDefaultSorter>
                             </div>
                         </div>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tr 
-            *ngFor="let purchase of mf.data"
-            [class.red-bg]="!purchase.safety"
-            >
-                <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
-                <td *ngIf="isColumnActive('name')">
-                   
-                    <a href="">
-                        <span   
-                            *ngIf="!purchase.safety"   
-                            tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                    </th>
+                </tr>
+            </thead>
+            <tr 
+                *ngFor="let purchase of mf.data"
+                [class.red-bg]="!purchase.safety"
+                >
+                    <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
+                    <td *ngIf="isColumnActive('name')">
+                    
+                        <a href="">
+                            <span   
+                                *ngIf="!purchase.safety"   
+                                tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                                [options]="tooltipOptions"
+                                show-delay="500">
+                                {{purchase.name}}
+                            </span>
+                            <ng-container   
+                                *ngIf="purchase.safety">
+                                {{purchase.name}}
+                            </ng-container>
+                        </a>
+                    </td>
+                    <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} {{selectedProduct.unit_text}}</td>
+                    <td *ngIf="isColumnActive('unitprice')" class="text-center">
+                        <!-- <span 
+                            *ngIf="purchase.price.status == 1" 
+                            class="red-color cursor"
+                            tooltip="Значительное отклонение" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.name}}
+                            {{purchase.price.value}}
+                        </span> -->
+    <!-- 
+                        <span 
+                            *ngIf="purchase.price.status == 2"
+                            class="green-color cursor"
+                            tooltip="Цена на рынке"
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.price.value}}
+                        </span> -->
+
+                        <span 
+                    
+                            class="green-color cursor"
+                            tooltip="Цена на рынке"
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.unitprice | thousandsSpace}}
                         </span>
-                        <ng-container   
-                            *ngIf="purchase.safety">
-                            {{purchase.name}}
-                        </ng-container>
-                    </a>
-                </td>
-                <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} кг</td>
-                <td *ngIf="isColumnActive('contract_price')" class="text-center">
-                    <!-- <span 
-                        *ngIf="purchase.price.status == 1" 
-                        class="red-color cursor"
-                        tooltip="Значительное отклонение" 
-                        [options]="tooltipOptions"
-                        show-delay="500">
-                        {{purchase.price.value}}
-                    </span> -->
-<!-- 
-                    <span 
-                        *ngIf="purchase.price.status == 2"
-                        class="green-color cursor"
-                        tooltip="Цена на рынке"
-                        [options]="tooltipOptions"
-                        show-delay="500">
-                        {{purchase.price.value}}
-                    </span> -->
 
-                    <span 
-                  
-                        class="green-color cursor"
-                        tooltip="Цена на рынке"
-                        [options]="tooltipOptions"
-                        show-delay="500">
-                        {{purchase.contract_price}}
-                    </span>
-
-                    
-                    <!-- <span 
-                        *ngIf="purchase.price.status == 3" 
-                        class="yellow-color cursor"
-                        tooltip="Незначительное отклонение"
-                        [options]="tooltipOptions"
-                        show-delay="500">
-                        {{purchase.price.value}}
-                    </span> -->
-                    
-                </td>
-                <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
-                <td *ngIf="isColumnActive('contract_price')">{{purchase.contract_price | thousandsSpace}}</td>
-                <td *ngIf="isColumnActive('contract_status')">{{purchase.contract_status}}</td>
-                <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd.text}}</td>
-                <td *ngIf="isColumnActive('complaint')" class="text-center">
-                    <ng-container *ngIf="purchase.complaint">да</ng-container>
-                    <ng-container *ngIf="!purchase.complaint">нет</ng-container>
-                </td>
-        </tr>
-    </table>
-
+                        
+                        <!-- <span 
+                            *ngIf="purchase.price.status == 3" 
+                            class="yellow-color cursor"
+                            tooltip="Незначительное отклонение"
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.price.value}}
+                        </span> -->
+                        
+                    </td>
+                    <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
+                    <td *ngIf="isColumnActive('contract_price')" class="text-center">{{purchase.contract_price | thousandsSpace}}</td>
+                    <td *ngIf="isColumnActive('contract_status')">{{purchase.contract_status}}</td>
+                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd.text}}</td>
+                    <td *ngIf="isColumnActive('complaint')" class="text-center">
+                        <ng-container *ngIf="purchase.complaint">да</ng-container>
+                        <ng-container *ngIf="!purchase.complaint">нет</ng-container>
+                    </td>
+            </tr>
+        </table>
+        <ng-container *ngIf="!purchaseData.length">
+            <br>  <br>
+            Нет данных для отображения, измените или сбросьте фильтры
+            <br>  <br>
+        </ng-container>
+    </ng-container>
 </div>

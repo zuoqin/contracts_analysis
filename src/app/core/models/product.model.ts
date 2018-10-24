@@ -9,4 +9,5 @@ export interface ProductSearch {
     volume_from: string;
     volume_to: string;
     unit_id: number;
+    unit_text: string;
   }

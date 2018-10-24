@@ -418,6 +418,9 @@ textarea.styled-input{
         .styled-checkbox{
             padding-left: 24px;
             line-height: 22px;
+            &:last-child{
+                margin-bottom: 10px;
+            }
             .checkmark{
                 border-radius: 5px;
                 width: 14px;
@@ -567,6 +570,11 @@ textarea.styled-input{
             &:not(:first-child){
                 border-left: 1px solid #979797;
             }
+            &.disabled{
+                cursor: default;
+                background: #dcdcdc;
+                color: #acabab;
+            }
         }
     }
     &__checkbox{
@@ -575,16 +583,42 @@ textarea.styled-input{
     }
 }
 .filter{
+    display: flex;
     &__icon{
         cursor: pointer;
         width: 13px;
         height: 15px;
         background: url('/assets/images/icons/filter.svg') 0px 0px no-repeat;
         background-size: contain;
-    }
+        &--clear{
+            background-image: url('/assets/images/icons/filter--clear.svg');
+            width: 14px;
+        }
+        &.active{
+            background-image: url('/assets/images/icons/filter--active.svg')
+            
+        }
+      
+    }    
     .popup-form__container{
         transform: translateX(50%);
         margin-top: 3px;
+    }
+    
+}
+.filter-right-position{
+    .filter{
+        .popup-form__container{
+            transform: translateX(3px);
+        } 
+    }
+    
+}
+.filter-left-position{
+    .filter{
+        .popup-form__container{
+            transform: translateX(75%);
+        } 
     }
 }
 .sorting{
@@ -952,6 +986,10 @@ html body .mydp{
         padding-top: 12px;
         text-align: center;
         padding-bottom: 6px;
+        height: auto;
+    }
+    .inline{
+        width: 100% !important;
     }
     .disabled{
         *{

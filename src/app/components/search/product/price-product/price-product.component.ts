@@ -45,7 +45,7 @@ export class PriceProductComponent  implements OnInit{
                             lineWidth: 0,
                             radius: 4
                         },
-                        data: this.getDataArrayCharts(response.filter(item=>item.is_msk),true)
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_msk&&item.is_municipal==undefined&&item.is_federal==undefined),true)
                         
                       },
                 )
@@ -56,7 +56,7 @@ export class PriceProductComponent  implements OnInit{
                         type:"left",
                         id:"purchasesMoscow",
                         value:false,
-                        data: this.getDataArrayCharts(response.filter(item=>item.is_msk),false)
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_msk&&item.is_municipal==undefined&&item.is_federal==undefined),false)
                     },
                 )
                 priceProductCharts.push(
@@ -113,7 +113,7 @@ export class PriceProductComponent  implements OnInit{
                             lineWidth: 0,
                             radius: 4
                         },
-                        data: this.getDataArrayCharts(response.filter(item=>item.is_federal==undefined&&item.is_cfo==undefined&&item.is_msk==undefined),true)
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_federal==undefined&&item.is_cfo==undefined&&item.is_msk==undefined&&item.is_municipal==undefined),true)
                     },
                 )
                 priceProductCharts.push(
@@ -123,7 +123,7 @@ export class PriceProductComponent  implements OnInit{
                         type:"right",
                         id:"purchasesSelect",
                         value:false,
-                        data: this.getDataArrayCharts(response.filter(item=>item.is_federal==undefined&&item.is_cfo==undefined&&item.is_msk==undefined),false)
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_federal==undefined&&item.is_cfo==undefined&&item.is_msk==undefined&&item.is_municipal==undefined),false)
                     },
                 )
 
@@ -147,8 +147,26 @@ export class PriceProductComponent  implements OnInit{
                         data: this.getDataArrayCharts(response.filter(item=>item.is_federal==true&&item.is_msk==false),false)
                     },
                 )
-
-        
+                priceProductCharts.push(
+                    {
+                        name: 'Муниципалы в Москве',
+                        color:'#b8b838',
+                        type:"right",
+                        id:"municipalsMoscow",
+                        value:false,
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==true),false)
+                    },
+                )
+                // priceProductCharts.push(
+                //     {
+                //         name: 'Муниципалы вне Москвы',
+                //         color:'palegreen',
+                //         type:"right",
+                //         id:"municipalsOutMoscow",
+                //         value:false,
+                //         data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==false),false)
+                //     },
+                // )
                 this.legendData = priceProductCharts;
                 this.priceChartsData = priceProductCharts;
                  

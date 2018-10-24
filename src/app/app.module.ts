@@ -30,8 +30,14 @@ import {
 
 
 
-import { DateRangeFilterComponent } from './components/filters/date-range-filter/date-range-filter.component';
-import { ColumnsFilterComponent } from './components/filters/columns-filter/columns-filter.component'
+import { 
+		DateRangeFilterComponent,
+		ColumnsFilterComponent,
+		InputFilterComponent,
+		InputFilterRangeComponent,
+		ListFilterComponent
+	 } from './components/filters';
+
 
 
 import { AutocompleteFieldComponent } from './components/autocomplete-field/autocomplete-field.components';
@@ -107,6 +113,9 @@ import { SlickModule } from 'ngx-slick';
 		ProductSuplierComponent,
 		PriceTableComponent,
 		ChartLegendComponent,
+		InputFilterComponent,
+		InputFilterRangeComponent,
+		ListFilterComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,

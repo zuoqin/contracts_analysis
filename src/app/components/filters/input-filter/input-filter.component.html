@@ -1,0 +1,23 @@
+<div class="filter popup-form popup-form--290 toggle-class">
+    <div class="filter__icon" trigger-active></div>
+    <div 
+        *ngIf="ifSubmit"
+        class="filter__icon filter__icon--clear" 
+        (click)="clear($event)"></div>
+    <div class="popup-form__container">
+        
+        <input 
+            type="text" 
+            placeholder="Введите имя заказчика"
+            [(ngModel)]=value
+            class="popup-form__input"
+            />
+        <div class="popup-form__bottom-btn">
+            <div class="btn" (click)="clear($event)">Сбросить</div>
+            <div 
+                class="btn" 
+                [class.disabled]="!value"
+                (click)="save($event)">Подтвердить</div>
+        </div>
+    </div>
+</div>

@@ -102,12 +102,16 @@ export class SuppliersTableComponent implements OnInit{
     
     formatData(data){
         data.map(item=>{
-            
-            let date = item.date.split('/');
-            item.date = {
-                value: new Date(date[2], date[1]-1, date[0]),
-                text:`${date[0]}.${date[1]}.${date[2]}`,
+            if(item.date){
+                let date = item.date.split('/');
+                item.date = {
+                    value: new Date(date[2], date[1]-1, date[0]),
+                    text:`${date[0]}.${date[1]}.${date[2]}`,
+                }
+            }else{
+                item.date = '-';
             }
+           
             
         })
         this.suppliersData = data;
