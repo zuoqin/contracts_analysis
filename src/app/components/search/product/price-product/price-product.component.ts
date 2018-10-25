@@ -157,16 +157,16 @@ export class PriceProductComponent  implements OnInit{
                         data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==true),false)
                     },
                 )
-                // priceProductCharts.push(
-                //     {
-                //         name: 'Муниципалы вне Москвы',
-                //         color:'palegreen',
-                //         type:"right",
-                //         id:"municipalsOutMoscow",
-                //         value:false,
-                //         data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==false),false)
-                //     },
-                // )
+                priceProductCharts.push(
+                    {
+                        name: 'Муниципалы вне Москвы',
+                        color:'palegreen',
+                        type:"right",
+                        id:"municipalsOutMoscow",
+                        value:false,
+                        data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==false),false)
+                    },
+                )
                 this.legendData = priceProductCharts;
                 this.priceChartsData = priceProductCharts;
                  
@@ -176,10 +176,10 @@ export class PriceProductComponent  implements OnInit{
             }
         );
     }
+
+
     onChangedChartLegend(data){
-        setTimeout(()=>{
-            this.priceChartsData = data;
-        })
+        this.priceChartsData = data.slice();
     }
     getDataArrayCharts(arrayData,isMarket){
         let array = [];
@@ -190,9 +190,13 @@ export class PriceProductComponent  implements OnInit{
             }else{
                 data = item.purchase;
             }
+            if(this.isFloat(data)){
+                data = parseFloat(data.toFixed(2))
+            }
             array.push([Date.UTC(item.year, item.month-1, 1), data])
         })
         return array;
     }
+    isFloat(x) { return !!(x % 1); }
 }
 

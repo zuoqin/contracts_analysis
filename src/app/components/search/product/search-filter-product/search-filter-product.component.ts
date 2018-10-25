@@ -73,10 +73,10 @@ export class SearchFilterProduct implements OnInit{
             this.shortFilterInit()
         })
         this.getRegions()   
-        // this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
-        // setTimeout(()=>{
-        //     this.search()
-        // },1500)
+        this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
+        setTimeout(()=>{
+            this.search()
+        },1500)
 
 
         

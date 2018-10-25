@@ -35,7 +35,6 @@ export class DateRangeFilterComponent implements OnInit{
 
 
     ngOnInit(){
-        console.log(this.minDate,this.maxDate)
         this.initCurrentDay()
         this.initDisabledDate()
     }

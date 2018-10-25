@@ -36,6 +36,8 @@ Highcharts.setOptions({
 export class PriceChartComponent implements OnInit{
 
     @Input() set data(value) {
+        
+        console.log('получил')
         this.priceChartsData = value;
         this.showGraph();
     }
@@ -187,28 +189,39 @@ export class PriceChartComponent implements OnInit{
             return;
         }
         if(this.chart.ref){
-           this.removeSerie();
+            this.updateGraph();
+           return;
+        }else{
+            this.priceChartsData.map((series)=>{
+                let addSeries = {
+                    name:series.name,
+                    color:series.color,
+                    marker: {
+                        symbol: 'circle',
+                            lineWidth: 0,
+                            radius: 4
+                    },
+                    visible: series.value,
+                    data: (function () {
+                        let data = [];
+                        data.push(series.data)
+                        return data[0];
+                    }()) 
+                }
+                if(series.lineWidth){
+                    addSeries['lineWidth'] = 4.5;
+                }
+                this.chart.addSerie(addSeries) 
+            })
         }
-
-        this.priceChartsData.map((series)=>{
-            let addSeries = {
-                name:series.name,
-                color:series.color,
-                marker: {
-                    symbol: 'circle',
-                        lineWidth: 0,
-                        radius: 4
-                },
-                data: (function () {
-                    let data = [];
-                    data.push(series.data)
-                    return data[0];
-                }()) 
+    }
+    updateGraph(){
+        this.priceChartsData.map((item,index)=>{
+            if(item.value){
+                this.chart.ref.series[index].show()
+            }else{
+                this.chart.ref.series[index].hide()
             }
-            if(series.lineWidth){
-                addSeries['lineWidth'] = 4.5;
-            }
-            this.chart.addSerie(addSeries) 
         })
     }
     setYearseparator(){
@@ -229,14 +242,14 @@ export class PriceChartComponent implements OnInit{
         }
     }
 
-    removeSerie(){
-        if(this.chart.ref.series.length){
-            this.chart.removeSerie(this.chart.ref.series.length - 1);
-        }
-        if(this.chart.ref.series.length){
-            this.removeSerie()
-        }
-    }
+    // removeSerie(){
+    //     if(this.chart.ref.series.length){
+    //         this.chart.removeSerie(this.chart.ref.series.length - 1);
+    //     }
+    //     if(this.chart.ref.series.length){
+    //         this.removeSerie()
+    //     }
+    // }
     ngOnDestroy() {
 		this.ngUnsubscribe.next();
 		this.ngUnsubscribe.complete();

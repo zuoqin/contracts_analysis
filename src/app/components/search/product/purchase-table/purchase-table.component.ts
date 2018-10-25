@@ -205,10 +205,10 @@ export class PurchaseTableComponent{
         this.filterArray.contract_status.value = this.findAllDiffValue(data,'contract_status');
         
         
-        //console.log(data)
+    
         this.initalData = data;
         this.purchaseData = data;
-        console.log(this.filterArray)
+
         this.ifLoadData = true;
     }
     findAllDiffValue(data,field){
@@ -226,7 +226,7 @@ export class PurchaseTableComponent{
                 arrayDiff.push(item)
             }
         })
-        console.log(arrayDiff)
+   
         return arrayDiff;
     
     }
@@ -239,7 +239,7 @@ export class PurchaseTableComponent{
                 }
              });
         })
-        console.log(array)
+  
         if(type=="min"){
             return  Math.min.apply(null, array);
         }else{
@@ -263,7 +263,7 @@ export class PurchaseTableComponent{
     }
 
     onSelectValueFilter(value,field){
-        console.log(value)
+  
         if(value.length){
             this.filterArray[field].filterValue = value;
             this.filterArray[field].filter = true;

@@ -26,7 +26,6 @@ export class ChartLegendComponent implements OnInit {
 		ngOnInit(){
 
 			if(this.legendData){
-				
 				this.priceChartLegendForm = this.createGroup(this.legendData);
 			
 				this.onChangeLegend();
@@ -35,37 +34,17 @@ export class ChartLegendComponent implements OnInit {
 		}
 		createGroup(data) {
 			const group = this.formBuilder.group({});
-
 			data.forEach(control => group.addControl(control.id, new FormControl(control.value)));
 			return group;
 		}
 		onChangeLegend(data?){
 		
-	
+			
 			if(data){
 				data.value = this.priceChartLegendForm.controls[data.id].value;
 			}
-			let activeGraphs = [];
-			for(let control in this.priceChartLegendForm.controls) {
-				let id = control;
-				let value = this.priceChartLegendForm.controls[control].value;
-	
-				if(value){
-					activeGraphs.push(id)
-				   
-				}
-			}
-			this.selectActiveGraph(activeGraphs)
+			this.onChanged.emit(this.legendData)
+
 		 
-		}
-		selectActiveGraph(activeGraphs){
-			let activeGraphDataArray = [];
-	
-			activeGraphs.map(graph=>{
-				activeGraphDataArray.push(this.legendData.filter(data=>data.id==graph)[0])
-			})
-
-			this.onChanged.emit(activeGraphDataArray)
-
 		}
 }
