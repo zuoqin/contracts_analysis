@@ -19,7 +19,7 @@ export class CategoryProductComponent implements OnInit{
     selectedProduct:ProductSearch;
     isOpenSubcategory:boolean = false;
     isOpenProduct:boolean = false;
-    categories;
+
     selectedCategory;
     selectedSubCategory;
 
@@ -30,7 +30,12 @@ export class CategoryProductComponent implements OnInit{
         this.productServices.SelectProductObservable
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
-                this.getCategoriesTree()
+                if(!this.selectedProduct.selectedFromCategory){
+                    this.getCategoriesTree()
+                }else{
+                    this.selectedProduct.selectedFromCategory = false;
+                }
+           
             })
     }
     ngOnInit(){
@@ -41,26 +46,40 @@ export class CategoryProductComponent implements OnInit{
     getCategoriesTree(){
         this.productServices.getProductTree(this.selectedProduct.kpgz_id).subscribe(
             response => {
-                this.categories = response.data.tree.subcategory;
-
                 let path = response.data.path;
-                // path.map((item,index)=>{
-                //     console.log(item)
-                //     console.log(index)
-                // })
-          
+                this.selectedCategory = response.data.tree;
 
-                this.selectedCategory = this.categories.filter(category=>category.kpgz_id==path[0])[0];
-                //this.selectedCategory = response.data.tree.subcategory[0];
-                this.selectedSubCategory =  this.selectedCategory.subcategory.filter(category=>category.kpgz_id==path[1])[0];
+                /*sort array */
+                this.selectedCategory.subcategory.sort(this.dynamicSort("-is_group"));
+
+                let select = this.selectedCategory.subcategory.filter(category=>category.kpgz_id==path[0])[0]
+                if(select.is_group){
+                    this.selectedSubCategory =  select;
+                }else{
+                    this.selectedSubCategory  = null;
+                }
             },
             err => {
                 console.log(err)
             }
         );
     }
+    dynamicSort(property) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    }
+
     selectSubCategory(category){
         if(!category.is_group && !category.subcategory){
+            this.isOpenSubcategory = false;
+            this.selectedSubCategory = null;
             this.selectProduct(category)
         }else{
             this.selectedSubCategory = category;
@@ -68,7 +87,6 @@ export class CategoryProductComponent implements OnInit{
             this.isOpenSubcategory = false;
             this.isOpenProduct = true;
         }
-        // console.log(category)
 
     }
     selectProduct(product){

@@ -28,6 +28,10 @@ export class AddSupplierModalComponent implements OnInit{
     numberDecimalSpaceMaskOptions = CONFIG.numberDecimalSpaceMaskOptions;
     isEditDisabled:boolean = true;
     volumeUnitPlaceholder:string;
+    ifLoadInn:boolean = false;
+    lastLoadedInn:number;
+    ifCheckInn:boolean = false;
+    supplierInfo;
     private currentDate = null;
     private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -81,7 +85,7 @@ export class AddSupplierModalComponent implements OnInit{
     
 
     open(){
-        
+        this.ifCheckInn = false;
         this.addSupplierModal.open();
     }
     close(){
@@ -107,10 +111,9 @@ export class AddSupplierModalComponent implements OnInit{
 
     initForm(){
         this.addSupplierForm = this.formBuilder.group({
-            
             typeSupplier: ['1', [Validators.required]],
-            itn: ['', [Validators.required]],//инн
-            iec: ['', [Validators.required]],//кпп
+            inn: ['', [Validators.required]],//инн
+            kpp: ['', [Validators.required]],//кпп
             name: [{value:'',disabled:true}, [Validators.required]],
 			addres: [{value:'',disabled:true}, [Validators.required]],
             site:[{value:'',disabled:true}],
@@ -169,18 +172,60 @@ export class AddSupplierModalComponent implements OnInit{
         let unit = array.filter(item => item.id==currentId)[0];
         return unit.placeholder
     }
-    onBulrItn(){
+    onBulrInn(){
+        if(this.lastLoadedInn && this.lastLoadedInn==this.addSupplierForm.controls['inn'].value){
+            return;
+        }
+        this.ifLoadInn = true;
+  
+        this.lastLoadedInn = this.addSupplierForm.controls['inn'].value;
+        this.suppliersServices
+            .getCompanyInfo(this.addSupplierForm.controls['inn'].value)
+            .subscribe(
+                response => {
+                    this.ifCheckInn = true;
+                    this.ifLoadInn = false;
+                    if(response.result){
+                        this.supplierInfo = response.data;
+                        this.addSupplierForm.controls['kpp'].setValue(this.supplierInfo.kpp)
+                        this.addSupplierForm.controls['name'].setValue(this.supplierInfo.name)
+               
+                        this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address);
+                        this.addSupplierForm.controls['site'].setValue(this.supplierInfo.site);
+                        this.addSupplierForm.controls['email'].setValue(this.supplierInfo.email);
+                        this.addSupplierForm.controls['phone'].setValue(this.supplierInfo.phones[0]);
+                        let date;
+                        if(this.supplierInfo.regdate){
+                      
+                            let regDate =  this.supplierInfo.regdate.split('-')
+                            date ={
+                                    date:{
+                                        year: parseInt(regDate[0]),
+                                        month: parseInt(regDate[1]), 
+                                        day: parseInt(regDate[2])
+                                    }
+                                }
+                            console.log(regDate)
+                            console.log(date)
+                        }
+                        this.addSupplierForm.controls['dataRegistration'].setValue(date);
+                    }else{
+                        if(response.data.error){
+                            console.log(response.data.error)
+                        }
+                    }
+                    
+                 
 
-        // this.suppliersServices
-        //     .getCompanyInfo(this.addSupplierForm.controls['itn'].value)
-        //     .subscribe(
-        //         data => {
-        //             console.log(data)
-        //         },
-        //         err => {
-        //         console.log(err)
-        //         }
-        //     );
+                    
+
+                },
+                err => {
+                    this.ifCheckInn = true;
+                    this.ifLoadInn = false;
+                console.log(err)
+                }
+            );
 
 
 

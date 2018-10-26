@@ -49,7 +49,7 @@ export const CONFIG = {
             includeThousandsSeparator: true,
             thousandsSeparatorSymbol: ' ',
             allowDecimal: true,
-            decimalSymbol: ',',
+            decimalSymbol: '.',
             decimalLimit: 2,
             integerLimit: null,
             requireDecimal: false,

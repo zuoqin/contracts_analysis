@@ -1,4 +1,5 @@
-import { Component, ViewChild, OnInit, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalComponent } from 'ng2-bs3-modal';
 import { Subject } from 'rxjs/Subject';
@@ -7,6 +8,8 @@ import 'rxjs/add/operator/takeUntil';
 /*Services*/
 import { SuppliersServices } from '@core';
 import { ProductServices } from '@core';
+/*Models*/
+import { ProductSearch } from '@core';
 
 import { CONFIG } from '@config';
 
@@ -23,35 +26,44 @@ export class AddCommercialProposalModalComponent implements OnInit{
     
     maskPhoneSettings = CONFIG.maskPhoneSettings;
 
-    autocompleteProduct = CONFIG.autocompleteProduct
+    autocompleteSPGZ = CONFIG.autocompleteSPGZ
     autocompleteSupplier = CONFIG.autocompleteSupplier;
 
     numberSpaceMaskOptions = CONFIG.numberSpaceMaskOptions;
     numberDecimalSpaceMaskOptions = CONFIG.numberDecimalSpaceMaskOptions;
 
-    
-    volumeUnitPlaceholder:string;
+    selectedProduct:ProductSearch;
+    volumeUnitPlaceholder:string = '';
     termUnitPlaceholder:string;
     initialValueSupplier:string;
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    ifSendSuccess:boolean = false;
+    ifSubmit:boolean = false;
 
-    public volumeUnits = [
-        {
-            id:"1",
-            name:"Кг",
-            placeholder:"кг"
-        },
-        {
-            id:"2",
-            name:"Литр",
-            placeholder:"литрах"
-        },
-        {
-            id:"3",
-            name:"Упаковка",
-            placeholder:"упаковках"
-        }
-    ]
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
+    ifDisabledProduct:boolean = false;
+    answerMessage = {
+        text:null,
+        sucess:"Коммерческое предложение успешно добавлено",
+        error:"Ошибка, попробуйте позже"
+    }
+
+     public volumeUnits; //= [
+    //     {
+    //         id:"1",
+    //         name:"Кг",
+    //         placeholder:"кг"
+    //     },
+    //     {
+    //         id:"2",
+    //         name:"Литр",
+    //         placeholder:"литрах"
+    //     },
+    //     {
+    //         id:"3",
+    //         name:"Упаковка",
+    //         placeholder:"упаковках"
+    //     }
+    // ]
     public termUnits = [
         {
             id:"1",
@@ -87,16 +99,28 @@ export class AddCommercialProposalModalComponent implements OnInit{
                 console.log(1)
                 this.open();
             })
+
+        this.productServices.SelectProductObservable
+            .subscribe((selectedProduct)=>{
         
+                this.selectedProduct = selectedProduct;
+      
+            })
     }
 
     open(){
+        this.ifSubmit = false;
+        this.ifSendSuccess = false;
+        this.answerMessage.text = null;
         this.addCommercialProposalModal.open();
     }
     onClose(){
 
         this.addProposalForm.reset();
         this.initForm()
+    }
+    close(){
+        this.addCommercialProposalModal.close();
     }
     ngOnInit(){
         this.initForm()
@@ -110,19 +134,20 @@ export class AddCommercialProposalModalComponent implements OnInit{
             supplier: ['', [Validators.required]],
             type: ['product', [Validators.required]],
             product: ['', [Validators.required]],
-            linkProduct: ['', [Validators.required]],
-			price: ['', [Validators.required]],
-            pricePerItem:['', [Validators.required]],
+            url: ['', [Validators.required]],
+			priceAll: [''],
+            price:['', [Validators.required]],
             volume:['', [Validators.required]],
-            volumeUnit:['1', [Validators.required]],
-            term:['', [Validators.required]],
+            unit_id:[null, [Validators.required]],
+            delivery:['', [Validators.required]],
             termUnit:['1', [Validators.required]],
             comment:[''],
-            phone:[''],
+            phone:['', [Validators.required]],
             document:[null],
         });
+
         this.changeTermUnit()
-        this.changeVolumeUnit()
+        //this.changeVolumeUnit()
         if(this.noShowSupplier){
             this.addProposalForm.controls['supplier'].setValue('ООО «РегионПродукт»')
         }
@@ -141,29 +166,52 @@ export class AddCommercialProposalModalComponent implements OnInit{
         console.log(value)
     }
     selectSupplier(value){
-        console.log(value)
+        this.addProposalForm.controls['supplier'].setValue(value.supplier_id)
     }
     selectProduct(value){
-        if(value.originalObject){
-            this.getAttrs(value.originalObject.id)
-        }else{
+        console.log(value)
+        this.addProposalForm.controls['product'].setValue(value.spgz_id);
+        /*Решили пока убрать поиск по продукту */
+        //this.getAttrs(value.kpgz_id);
 
-        }
+        this.getUnits(value.kpgz_id)
     }
-    getAttrs(productId){
-        this.productServices.getAttrs(productId).subscribe(
+    getUnits(kpgz_id){
+        this.productServices.getUnits(kpgz_id).subscribe(
             response => {
-                console.log(response)
                 if(response.data.length){
-                    this.attrsProduct = response.data;
+                    this.volumeUnits = response.data;
+                    this.ifDisabledProduct = false;
+                    this.addProposalForm.controls['unit_id'].setValue(this.volumeUnits[0].unit_id);
+                    this.changeVolumeUnit()
+                }else{
+                    this.ifDisabledProduct = true;
+                   
+                    this.volumeUnits = null;
+                    this.addProposalForm.controls['product'].setValue('')
+                    this.addProposalForm.controls['unit_id'].setValue('')
                 }
-                
             },
             err => {
                 console.log(err)
             }
         );
     }
+    /*Решили пока убрать поиск по продукту */
+    // getAttrs(productId){
+    //     this.productServices.getAttrs(productId).subscribe(
+    //         response => {
+    //             console.log(response)
+    //             if(response.data.length){
+    //                 this.attrsProduct = response.data;
+    //             }
+                
+    //         },
+    //         err => {
+    //             console.log(err)
+    //         }
+    //     );
+    // }
     addSupplier(){
         this.addCommercialProposalModal.close();
         
@@ -174,19 +222,19 @@ export class AddCommercialProposalModalComponent implements OnInit{
         },600)
     }
     changeTermUnit(){
-        this.termUnitPlaceholder = this.changeUnit(this.termUnits,'termUnit')
+        let currentId = this.addProposalForm.controls['termUnit'].value;
+        let unit = this.termUnits.filter(item => item.id==currentId)[0];
+        this.termUnitPlaceholder = 'В '+unit.placeholder
     }
     changeVolumeUnit(){
-        this.volumeUnitPlaceholder = this.changeUnit(this.volumeUnits,'volumeUnit')
-    }
-    changeUnit(array,filed){
-        let currentId = this.addProposalForm.controls[filed].value;
-        let unit = array.filter(item => item.id==currentId)[0];
-        return unit.placeholder
+
+        let currentId = this.addProposalForm.controls['unit_id'].value;
+        let unit = this.volumeUnits.filter(item => item.unit_id==currentId)[0];
+        this.volumeUnitPlaceholder = 'В '+unit.abbreviation
     }
 
     onFileChange($event) {
-        let file = $event.target.files[0]; // <--- File Object for future use.
+        let file = $event.target.files[0];
         console.log()
         if(file.size>1024*1024*100){
             alert('Максимальный размер файла 100 мб')
@@ -196,6 +244,17 @@ export class AddCommercialProposalModalComponent implements OnInit{
    
         
     }
+    calcAllPrice(){
+
+        let price = parseFloat(this.addProposalForm.value.price.replace(/ /g,""))
+        let volume = parseFloat(this.addProposalForm.value.volume.replace(/ /g,""))
+
+        if(price && volume){
+            this.addProposalForm.controls['priceAll'].setValue(price*volume)
+        }else{
+            this.addProposalForm.controls['priceAll'].setValue(null)
+        }
+    }
     removeFile(){
         this.addProposalForm.controls['document'].setValue(null);
     }
@@ -203,13 +262,61 @@ export class AddCommercialProposalModalComponent implements OnInit{
         document.getElementById("document").click();
     }
     submit(){
+        this.answerMessage.text = null;
+        if(this.ifDisabledProduct || this.ifSubmit){
+            return;
+        }
+ 
+
         if (this.addProposalForm.invalid) {
             const controls = this.addProposalForm.controls;
             Object.keys(controls)
                 .forEach(controlName => controls[controlName].markAsTouched());
                 return;
         }
+        this.ifSubmit = true;
+        let currentTermUnitId = this.addProposalForm.controls['termUnit'].value;
+        let termUnit = this.termUnits.filter(item => item.id==currentTermUnitId)[0].name;
 
-        console.log( this.addProposalForm)
+        
+        let body = {
+            comment:  this.addProposalForm.value.comment,
+            delivery: this.addProposalForm.value.delivery.replace(/ /g,"")+' '+termUnit,
+            phone: this.addProposalForm.value.phone,
+            price: parseFloat(this.addProposalForm.value.price.replace(/ /g,"")),
+            product: parseInt(this.addProposalForm.value.product),
+            supplier: parseInt(this.addProposalForm.value.supplier),
+            unit_id: parseInt(this.addProposalForm.value.unit_id),
+            url: this.addProposalForm.value.url,
+            volume: parseFloat(this.addProposalForm.value.volume.replace(/ /g,""))
+        }
+
+        // let body = {
+        //     comment: "+",
+        //     delivery: "10 дней",
+        //     phone: "495-1112233",
+        //     price: 12,
+        //     product: 98,
+        //     supplier: 14,
+        //     unit_id: 1,
+        //     url: "https://agroserver.ru/b/lopatka-goyazhya-808971.htm",
+        //     volume: 11
+        // }
+    
+        this.productServices.addCommercialOffer(body)
+            .subscribe(
+                response => {
+                    this.ifSubmit = false;
+                    this.ifSendSuccess = true;
+                    this.addProposalForm.reset();
+                    this.answerMessage.text = this.answerMessage.sucess;
+                    console.log(response)
+                },
+                err => {
+                    this.ifSubmit = false;
+                    this.answerMessage.text = this.answerMessage.error;
+                    console.log(err)
+                }
+            );
     }
 }

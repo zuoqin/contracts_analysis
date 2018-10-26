@@ -12,7 +12,13 @@
 
                 <div class="btn btn--icon" *ngIf="!noShowSupplier" (click)="addSupplier()"><div class="icon icon--add"></div>Добавить поставщика</div>
 
-                <a *ngIf="suppliersData && suppliersData.length && ifLoadData" class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
+                <div 
+                    *ngIf="suppliersData && suppliersData.length && ifLoadData" 
+                    class="btn btn--icon" 
+                    (click)="downloadfile()">
+                    <div class="icon icon--download"></div>
+                    Скачать файл
+                </div>
                 <columns-filter *ngIf="suppliersData && suppliersData.length && ifLoadData" (onSelectedColumns)="onSelectedColumns($event)" [columns]="dataColumns"></columns-filter>
             </div>
     </div>
@@ -30,9 +36,15 @@
                                     <span class="sorting__default"></span>
                                 </mfDefaultSorter>
                             </div>
-                            <date-range-filter (onSelectedDate)="onSelectedDate($event)"></date-range-filter>
+                            <date-range-filter 
+                                class="filter-left-position" 
+                                (onSelectedDate)="onSelectedDateRange($event)" 
+                                [minDate]="filterArray.date.min" 
+                                 [maxDate]="filterArray.date.max" >
+                            </date-range-filter>
                         </div>
                     </th>
+                    
                     <th *ngIf="!noShowSupplier && isColumnActive('name')" class="w275">
                         Поставщик
                         <div class="styled-table__bottom-filter" *ngIf="suppliersData.length>1">
@@ -125,8 +137,42 @@
                             </div>
                         </div>
                     </th>
+
                     <th *ngIf="isColumnActive('delivery')" class="w70">
                         Срок поставки
+                        <div class="styled-table__bottom-filter" *ngIf="suppliersData.length>1">
+                                <div class="sorting">
+                                    <mfDefaultSorter by="delivery">
+                                        <span class="sorting__default"></span>
+                                    </mfDefaultSorter>
+                                </div>
+                                <div class="filter popup-form popup-form--270 toggle-class">
+                                    <div class="filter__icon" trigger-active></div>
+                                    <div class="popup-form__container">
+                                        <div class="popup-form__input-2-column">
+                                            <input 
+                                                type="text" 
+                                                placeholder="Цена от"
+                                                OnlyNumber="true"
+                                                class="popup-form__input"
+                                                />
+                                            <input 
+                                                type="text" 
+                                                placeholder="Цена до"
+                                                OnlyNumber="true"
+                                                class="popup-form__input"
+                                                />
+                                        </div>
+                                        
+                                        <div class="popup-form__bottom-btn">
+                                            <div class="btn">Сбросить</div>
+                                            <div class="btn">Подтвердить</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        
                     </th>
             
                     <th *ngIf="isColumnActive('volume_count')" class="w145">
@@ -158,11 +204,11 @@
                             </div>
                         </div>
                     </th>
-                    <th *ngIf="isColumnActive('commercialProposal')" class="w120">
+                    <th *ngIf="isColumnActive('comm_offer')" class="w120">
                         КП
                         <div class="styled-table__bottom-filter" *ngIf="suppliersData.length>1">
                             <div class="sorting">
-                                <mfDefaultSorter by="commercialProposal">
+                                <mfDefaultSorter by="comm_offer">
                                     <span class="sorting__default"></span>
                                 </mfDefaultSorter>
                             </div>
@@ -223,12 +269,12 @@
             <tr 
                 *ngFor="let supplier of mf.data"
                 >
-                    <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date.text}}</td>
+                    <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
                     <td *ngIf="!noShowSupplier && isColumnActive('name')">
-                        <a *ngIf="supplier.contract_url" target="_blank" href="{{supplier.contract_url}}">{{supplier.name}}</a>
+                        <a *ngIf="supplier.contract_url && supplier.contract_url.length>5" target="_blank" href="{{supplier.contract_url}}">{{supplier.name}}</a>
                         <div *ngIf="!supplier.contract_url">{{supplier.name}}</div>
                     </td>
-                    <td *ngIf="isColumnActive('volume')" class="text-center">{{supplier.volume | thousandsSpace}}</td>
+                    <td *ngIf="isColumnActive('volume')" class="text-center">{{supplier.volume ? (supplier.volume  | thousandsSpace) : '-'}}</td>
                     <td *ngIf="isColumnActive('price_per_unit')" class="text-center">
                             <span 
                          
@@ -236,7 +282,7 @@
                             tooltip="Значительное отклонение" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{supplier.price_per_unit}}
+                            {{supplier.price_per_unit ? (supplier.price_per_unit  | thousandsSpace) : '-'}}
                         </span>
                         <!-- <span 
                             *ngIf="supplier.price.status == 1" 
@@ -264,7 +310,8 @@
                             tooltip="Значительное отклонение" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{supplier.delivery}}
+                            {{supplier.delivery ? ((supplier.delivery  | thousandsSpace)+' дней') : '-'}}
+
                         </span>
                             <!-- <span 
                             *ngIf="supplier.term.status == 1" 
@@ -285,10 +332,13 @@
                         </span> -->
                         
                     </td>
-                    <td *ngIf="isColumnActive('volume_count')" class="text-center">{{supplier.volume_count}}</td>
-                    <td *ngIf="isColumnActive('commercialProposal')"class="text-center" >
+                    <td *ngIf="isColumnActive('volume_count')" class="text-center">
+                            {{supplier.volume_count ? (supplier.volume_count  | thousandsSpace) : '-'}}
+                     
+                    </td>
+                    <td *ngIf="isColumnActive('comm_offer')"class="text-center" >
                         <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier.supplier_id)"></div>
-                        <!-- <div *ngIf="supplier.commercialProposal.send" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal()"></div> -->
+                        <div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(supplier.supplier_id)"></div>
 
                     </td>
                     <td *ngIf="isColumnActive('calls')" class="text-center">

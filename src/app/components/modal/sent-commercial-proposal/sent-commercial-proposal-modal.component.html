@@ -4,7 +4,7 @@
         <h2 class="modal-title" >Отправленнные КП</h2>
     </bs-modal-header>
     <bs-modal-body>
-        <table class="styled-table styled-table--send-cp">
+        <table *ngIf="sentCP && sentCP.length>0" class="styled-table styled-table--send-cp">
             <thead>
                 <tr>
                     <th class="w35"></th>
@@ -26,43 +26,46 @@
                                 class="btn-toggle">
                             </div>
                         </td>
-                        <td>{{cp.dateSent}}</td>
-                        <td>{{cp.dateGetPrice}}</td>
+                        <td>{{cp.send_date}}</td>
+                        <td>{{cp.answer_date}}</td>
                         <td class="break-word">{{cp.email}}</td>
-                        <td>{{cp.subject}}</td>
-                        <td>{{cp.status}}</td>
+                        <td>{{ cp.text ? cp.text : '-'}}</td>
+                        <td>{{cp.result}}</td>
                     </tr>
                     <tr *ngIf="cp.active">
                         <td colspan="6" class="p0">
                             <div class="messages-list" >
-                                <div 
-                                    class="messages-list__item" 
-                                    *ngFor="let message of cp.messages">
-                                        <div class="messages-list__text">
-                                            <div *ngIf="!message.showAll && message.text.length>=250">
-                                                <span [outerHTML]="message.text | slice:0:250"></span>...
-                                                &nbsp;&nbsp;
-                                                <span (click)="message.showAll = true" class="underline">Показать полностью</span>
+                                <ng-container  *ngFor="let message of cp.messages">
+                                    <div 
+                                        *ngIf="message.text"
+                                        class="messages-list__item" 
+                                    >
+                                            <div class="messages-list__text">
+                                                <div *ngIf="!message.showAll && message.text.length>=250">
+                                                    <span [outerHTML]="message.text | slice:0:250"></span>...
+                                                    &nbsp;&nbsp;
+                                                    <span (click)="message.showAll = true" class="underline">Показать полностью</span>
+                                                </div>
+
+                                                <div *ngIf="message.showAll || message.text.length<250">
+                                                    <div [outerHTML]="message.text"></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="messages-list__file" *ngIf="message.file && message.file.name && message.file.link">
+                                                <div class="file-item__text">{{message.file.name}}</div>
+                                                <a href="{{message.file.link}}" target="_blank" class="btn btn--icon"><div class="icon icon--download"></div>Скачать</a>
                                             </div>
 
-                                            <div *ngIf="message.showAll || message.text.length<250">
-                                                <div [outerHTML]="message.text"></div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="messages-list__file" *ngIf="message.file && message.file.name && message.file.link">
-                                            <div class="file-item__text">{{message.file.name}}</div>
-                                            <a href="{{message.file.link}}" target="_blank" class="btn btn--icon"><div class="icon icon--download"></div>Скачать</a>
-                                        </div>
-
-                                        
-                                </div>
+                                            
+                                    </div>
+                                </ng-container>
                             </div>
                         </td>
                     </tr>
             </tbody>
         </table>
-       
+        <div *ngIf="sentCP && sentCP.length==0">Нет отправленных КП</div>
     </bs-modal-body>
     <bs-modal-footer>
             <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>

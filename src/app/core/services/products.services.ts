@@ -123,30 +123,40 @@ export class ProductServices{
     getProductTree(kpgz_id: number): Observable<any>{
         const params = new HttpParams()
         .set('kpgz_id', kpgz_id.toString())
-
+        .set('depth', '1')
+        
         return this.apiService.get('/product_tree',params)
         .pipe(map(data => data));
     }
     getPriceDynamics(selectedProduct:ProductSearch): Observable<any>{
         let params = this.getHttpParams(selectedProduct);
         
-        return this.apiService.get('/price',params)
+        return this.apiService.get('/prediction_price',params)
         .pipe(map(data => data));
     }
     getPurchases(selectedProduct: ProductSearch): Observable<any>{
         let params = this.getHttpParams(selectedProduct);
-        params = params.set('limit', '15')
+         //params = params.set('limit', '2')
          
         return this.apiService.get('/purchase',params)
+        .pipe(map(data => data));
+    }
+    downloadPurchases(selectedProduct: ProductSearch): Observable<any>{
+         let params = this.getHttpParams(selectedProduct);
+
+        return this.apiService.get('/export_purchases',params)
         .pipe(map(data => data));
     }
     getRegions(): Observable<any>{
         return this.apiService.get('/regions')
         .pipe(map(data => data));
     }
-    getSpgz(kpgz_id: number): Observable<any>{
-        const params = new HttpParams()
-        .set('kpgz_id', kpgz_id.toString())
+    getSpgz(kpgz_id: number,attr?:Array<number>): Observable<any>{
+        let params = new HttpParams()
+        .set('kpgz_id', kpgz_id.toString());
+        if(attr){
+            params = params.set('value_id', attr.toString())
+        }
         return this.apiService.get('/get_spgz',params)
         .pipe(map(data => data));
     }
@@ -157,6 +167,13 @@ export class ProductServices{
         .pipe(map(data => data));
     }
 
+    addCommercialOffer(body): Observable<any>{
+  
+        //let params = new HttpParams(body)
+  
+        return this.apiService.post('/commercial_offer',body)
+        .pipe(map(data => data));
+    }
     getHttpParams(selectedProduct:ProductSearch){
         let params = new HttpParams()
             .set('spgz_id',selectedProduct.spgz_id.toString())

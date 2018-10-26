@@ -1,10 +1,10 @@
 
 import { OnInit,ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
-
+import { environment } from '@environments';
 
 /*Services */
-import { ProductServices } from '@core';
+import { ProductServices,FilterServices } from '@core';
 /*Models*/
 import { ProductSearch } from '@core';
 
@@ -20,6 +20,7 @@ export class PurchaseTableComponent{
     ifLoadData:boolean = false;
     messageResponse = CONFIG.messageResponse;
     constructor(
+        private filterServices:FilterServices,
         private productServices:ProductServices
     ){
         this.tooltipOptions = CONFIG.tooltipOptions;
@@ -181,87 +182,38 @@ export class PurchaseTableComponent{
         
         })
 
-        this.filterArray.date.min = this.findMinMaxDate(data,'date','min');
-        this.filterArray.date.max = this.findMinMaxDate(data,'date','max');
+        this.filterArray.date.min = this.filterServices.findMinMaxDate(data,'date','min');
+        this.filterArray.date.max = this.filterServices.findMinMaxDate(data,'date','max');
 
 
-        this.filterArray.dateEnd.min = this.findMinMaxDate(data,'dateEnd','min');
-        this.filterArray.dateEnd.max = this.findMinMaxDate(data,'dateEnd','max');
+        this.filterArray.dateEnd.min = this.filterServices.findMinMaxDate(data,'dateEnd','min');
+        this.filterArray.dateEnd.max = this.filterServices.findMinMaxDate(data,'dateEnd','max');
 
 
-        this.filterArray.contract_value.min = this.findMinMax(data,'contract_value','min');
-        this.filterArray.contract_value.max = this.findMinMax(data,'contract_value','max');
+        this.filterArray.contract_value.min = this.filterServices.findMinMax(data,'contract_value','min');
+        this.filterArray.contract_value.max = this.filterServices.findMinMax(data,'contract_value','max');
 
-        this.filterArray.unitprice.min = this.findMinMax(data,'unitprice','min');
-        this.filterArray.unitprice.max = this.findMinMax(data,'unitprice','max');
+        this.filterArray.unitprice.min = this.filterServices.findMinMax(data,'unitprice','min');
+        this.filterArray.unitprice.max = this.filterServices.findMinMax(data,'unitprice','max');
 
-        this.filterArray.days.min = this.findMinMax(data,'days','min');
-        this.filterArray.days.max = this.findMinMax(data,'days','max');
+        this.filterArray.days.min = this.filterServices.findMinMax(data,'days','min');
+        this.filterArray.days.max = this.filterServices.findMinMax(data,'days','max');
 
-        this.filterArray.contract_price.min = this.findMinMax(data,'contract_price','min');
-        this.filterArray.contract_price.max = this.findMinMax(data,'contract_price','max');
+        this.filterArray.contract_price.min = this.filterServices.findMinMax(data,'contract_price','min');
+        this.filterArray.contract_price.max = this.filterServices.findMinMax(data,'contract_price','max');
 
 
-        this.filterArray.contract_status.value = this.findAllDiffValue(data,'contract_status');
+        this.filterArray.contract_status.value = this.filterServices.findAllDiffValue(data,'contract_status');
         
         
-    
+        console.log(this.filterArray)
         this.initalData = data;
         this.purchaseData = data;
 
         this.ifLoadData = true;
     }
-    findAllDiffValue(data,field){
-        let array=[];
-        let arrayDiff=[];
-        data.map(item=>{
-            Object.keys(item).forEach(function (key) {
-                if(key==field){
-                    array.push(item[key])
-                }
-             });
-        })
-        array.map(item=>{
-            if(arrayDiff.indexOf(item)<0){
-                arrayDiff.push(item)
-            }
-        })
-   
-        return arrayDiff;
-    
-    }
-    findMinMax(data,field,type){
-        let array=[];
-        data.map(item=>{
-            Object.keys(item).forEach(function (key) {
-                if(key==field){
-                    array.push(item[key])
-                }
-             });
-        })
-  
-        if(type=="min"){
-            return  Math.min.apply(null, array);
-        }else{
-            return Math.max.apply(null, array);
-        }
-    }
-    findMinMaxDate(data,field,type){
-        let dates=[];
-        data.map(item=>{
-            Object.keys(item).forEach(function (key) {
-                if(key==field){
-                    dates.push(item[key].value)
-                }
-             });
-        })
-        if(type=="min"){
-            return new Date(Math.min.apply(null,dates));
-        }else{
-            return new Date(Math.max.apply(null,dates));
-        } 
-    }
 
+   
     onSelectValueFilter(value,field){
   
         if(value.length){
@@ -369,7 +321,25 @@ export class PurchaseTableComponent{
 
        
     }
-    
+    downloadfile(){
+        var str = "";
+        for (var key in this.selectedProduct) {
+            if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
+                if(Array.isArray(this.selectedProduct[key])){
+                    if(this.selectedProduct[key].length){
+                        let string = `${key}=`;
+                        string +=this.selectedProduct[key].join(',')
+                        str +=string;
+                        str += "&";
+                    } 
+                }else{
+                    str += key + "=" + this.selectedProduct[key];
+                    str += "&";
+                }
+            }
+        }
+        window.open(environment.apiUrl+'/export_purchases?'+str, '_blank');
+    }
 
     isColumnActive(columnId){
     

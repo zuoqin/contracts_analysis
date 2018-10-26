@@ -6,8 +6,16 @@ import { Observable } from 'rxjs';
 
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
+
 
 @Injectable()
+
+
 export class ApiService {
   constructor(
     private http: HttpClient
@@ -36,7 +44,7 @@ export class ApiService {
   post(path: string, body: Object = {}): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}${path}`,
-      JSON.stringify(body)
+      JSON.stringify(body), httpOptions
     ).pipe(catchError(this.formatErrors));
   }
 

@@ -2,7 +2,9 @@
     <div class="title-with-button">
             <h2>ЗАКУПКИ</h2>
             <div class="title-with-button__right" *ngIf="purchaseData && purchaseData.length && ifLoadData">
-                <a  *ngIf="purchaseData && purchaseData.length && ifLoadData" class="btn btn--icon" target="_blank"><div class="icon icon--download"></div>Скачать файл</a>
+                <div *ngIf="purchaseData && purchaseData.length && ifLoadData" class="btn btn--icon" (click)="downloadfile()">
+                    <div class="icon icon--download"></div>Скачать файл
+                </div>
                 <columns-filter  *ngIf="purchaseData && purchaseData.length && ifLoadData" (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
             </div>
     </div>

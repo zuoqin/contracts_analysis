@@ -33,7 +33,7 @@ export class SearchFilterProduct implements OnInit{
     fixedShortFilterShow:boolean = false;
     heightFilter;
     shortFilterArray = [];
-
+    ifDisabledProduct:boolean = false;
     @ViewChild("autoCompleteProductInput") autoCompleteProductInput;
     regions: NgOption[] = []
     autocompleteProduct= CONFIG.autocompleteProduct;
@@ -50,11 +50,10 @@ export class SearchFilterProduct implements OnInit{
         this.productServices.SearchByNewProductObservable
             .subscribe((selectedProduct)=>{
                 /*Select new product from catgeries select */
-
-                console.log(selectedProduct)
+                selectedProduct['selectedFromCategory'] = true;
                 this.autoCompleteProductInput.setValue(selectedProduct.name)
                 this.selectProduct(selectedProduct);
-                this.search()
+            
             })
     }
     
@@ -73,10 +72,10 @@ export class SearchFilterProduct implements OnInit{
             this.shortFilterInit()
         })
         this.getRegions()   
-        this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
-        setTimeout(()=>{
-            this.search()
-        },1500)
+        // this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
+        // setTimeout(()=>{
+        //     this.search()
+        // },1500)
 
 
         
@@ -90,10 +89,14 @@ export class SearchFilterProduct implements OnInit{
         console.log(selected)
         this.resetFilters()
         if(selected){
+            if(selected.selectedFromCategory){
+                this.selectedProduct.selectedFromCategory = true;
+            }
             this.selectedProduct.name = selected.name;
             this.selectedProduct.kpgz_id = selected.kpgz_id;
             this.searchForm.controls['query'].setValue(this.selectedProduct.name)
             this.checkRequired = true;
+           
             this.getUnits();
             this.getAttrs();
             this.getSpgz()
@@ -130,6 +133,15 @@ export class SearchFilterProduct implements OnInit{
                 this.selectedAttrs.splice(index, 1);
             }
         }
+        if(this.selectedAttrs.length){
+            let arrayAttr = [];
+            this.selectedAttrs.map(item=>arrayAttr.push(item.value_id))
+            this.getSpgz(arrayAttr)
+        }else{
+            this.getSpgz()
+        }
+   
+
         this.shortFilterInit()
     }
     getAttrs(){
@@ -142,10 +154,16 @@ export class SearchFilterProduct implements OnInit{
             }
         );
     }
-    getSpgz(){
-        return this.productServices.getSpgz(this.selectedProduct.kpgz_id).subscribe(
+    getSpgz(atrr?){
+        return this.productServices.getSpgz(this.selectedProduct.kpgz_id,atrr).subscribe(
             response => {
                 this.selectedProduct.spgz_id = response.data;
+                if(!response.data.length){
+                    this.ifDisabledProduct = true;
+                }else{
+                    this.ifDisabledProduct = false;
+                }
+                
             },
             err => {
                 console.log(err)
@@ -155,12 +173,18 @@ export class SearchFilterProduct implements OnInit{
     getUnits(){
         this.productServices.getUnits(this.selectedProduct.kpgz_id).subscribe(
             response => {
+                console.log(response)
                 if(response.data.length){
                     this.units = response.data;
-                 
-                    this.searchForm.controls['unit'].setValue(this.units[0].unit_id)
+                    this.ifDisabledProduct = false;
+                    this.searchForm.controls['unit'].setValue(this.units[0].unit_id);
+                    if(this.selectedProduct.selectedFromCategory){
+                        this.selectedProduct.selectedFromCategory = true;
+                        this.search()
+                    }
                 }else{
                     this.units = [];
+                    this.ifDisabledProduct = true;
                     this.searchForm.controls['unit'].setValue('')
                 }
             },
@@ -208,7 +232,7 @@ export class SearchFilterProduct implements OnInit{
 
 
 
-        if(!this.checkRequired){
+        if(!this.checkRequired || this.ifDisabledProduct){
             return;
         }
         

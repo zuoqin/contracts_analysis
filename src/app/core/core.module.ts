@@ -10,6 +10,7 @@ import {
     ApiService,
     ProductServices,
     SuppliersServices,
+    FilterServices
 
 } from './services';
 
@@ -22,7 +23,8 @@ import {
     // { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     ApiService,
     ProductServices,
-    SuppliersServices
+    SuppliersServices,
+    FilterServices
   ],
   declarations: []
 })

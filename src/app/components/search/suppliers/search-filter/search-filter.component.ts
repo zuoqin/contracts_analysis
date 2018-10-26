@@ -8,6 +8,10 @@ import { CONFIG } from '@config';
 /*Plugins*/
 import { NgOption } from '@ng-select/ng-select';
 
+/*Services*/
+import { ProductServices } from '@core';
+
+
 @Component({
     selector:'search-filter-supplier',
     templateUrl:'./search-filter.component.html'
@@ -24,32 +28,7 @@ export class SearchFilterSupplierComponent implements OnInit{
     autocompleteSupplier = CONFIG.autocompleteSupplier;
     @Input() loadData: boolean;
     @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
-    regions: NgOption[] = [
-        {
-            name:"г. Москва", 
-            id:"1"
-        },
-        {
-            name:"ЦФО", 
-            id:"2"
-        },
-        {
-            name:"Вне ЦФО",
-            id:"3"
-        },
-        {
-            name:"Европейская часть России", 
-            id:"4"
-        },
-        {
-            name:"Республика Адыгея", 
-            id:"5"
-        },
-        {
-            name:"Республика Башкортостан", 
-            id:"6"
-        },
-    ]
+    regions: NgOption[] = []
     btnText = {
         text:"Найти",
         defaultValue:"Найти",
@@ -59,12 +38,16 @@ export class SearchFilterSupplierComponent implements OnInit{
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
+        private productServices:ProductServices,
         private completerService: CompleterService){
             this.dataService = completerService.remote(`${environment.apiUrl}/search_supplier?query=` ,'supplier_name','supplier_name');
             this.dataService.dataField("suppliers");
         }
+
+
     ngOnInit() {
         this.initForm();
+        this.getRegions()   
     }
     changeType(){
         this.router.navigate(['search',this.searchForm.controls.type.value]);
@@ -110,6 +93,16 @@ export class SearchFilterSupplierComponent implements OnInit{
         this.onLoadData.emit(this.selectedSupplier);
         this.btnText.text = this.btnText.defaultValue;
         return;
+    }
+    getRegions(){
+        this.productServices.getRegions().subscribe(
+            response => {
+                this.regions = response.data
+            },
+            err => {
+                console.log(err)
+            }
+        );
     }
     
 }

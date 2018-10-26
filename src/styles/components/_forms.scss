@@ -394,6 +394,11 @@ textarea.styled-input{
         min-width: 150px;
         text-align: center;
     }
+    &.disabled{
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.5;
+    }
 }
 
 .popup-form{
@@ -999,6 +1004,9 @@ html body .mydp{
     }
 }
 .messages-list{
+    >*:first-child{
+        padding-top: 50px;
+    }
     &__item{
         display: flex;
         align-items: flex-start;

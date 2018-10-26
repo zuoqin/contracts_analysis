@@ -10,4 +10,5 @@ export interface ProductSearch {
     volume_to: string;
     unit_id: number;
     unit_text: string;
+    selectedFromCategory?:boolean;
   }

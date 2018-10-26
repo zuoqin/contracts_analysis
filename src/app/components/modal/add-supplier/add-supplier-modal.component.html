@@ -27,43 +27,46 @@
                     <!---->
                     <div class="add-supplier-modal__3-column-top">
                         <div class="styled-form__row">
-                                <label class="styled-form__left-label styled-form__left-label--w165">ИНН</label>
-                                <div class="styled-form__right-value">
-                                    <input 
-                                        formControlName="itn"
-                                        [textMask]="numberMaskOptions" 
-                                        type="text" 
-                                        (blur)="onBulrItn()"
-                                        class="styled-input" 
-                                         />
-                                    <div class="input-error" *ngIf="addSupplierForm.get('itn').hasError('required') && addSupplierForm.get('itn').touched" >Введите ИНН</div>
+                            <label class="styled-form__left-label styled-form__left-label--w165">ИНН</label>
+                            <div class="styled-form__right-value">
+                                <input 
+                                    formControlName="inn"
+                                    [textMask]="numberMaskOptions" 
+                                    type="text" 
+                                    (blur)="onBulrInn()"
+                                    (keyup.enter)="onBulrInn()"
+                                    class="styled-input" 
+                                        />
+                                <div class="input-error" *ngIf="addSupplierForm.get('inn').hasError('required') && addSupplierForm.get('inn').touched" >Введите ИНН</div>
+                                <div *ngIf="ifLoadInn">Загрузка ...</div>
+                            </div>
+                          
+                        </div>
+                        <div class="styled-form__row">
+                            <label class="styled-form__left-label styled-form__left-label--width-auto">КПП</label>
+                            <div class="styled-form__right-value">
+                                <input 
+                                    formControlName="kpp"
+                                    [textMask]="numberMaskOptions"
+                                    type="text" 
+                                    class="styled-input" 
+                                        />
+                                <div class="input-error" *ngIf="addSupplierForm.get('kpp').hasError('required') && addSupplierForm.get('kpp').touched" >Введите КПП</div>
+                            </div>
+                        </div>
+                        <div *ngIf="ifCheckInn" class="styled-form__row align-top">
+                            <label class="switch">
+                                <input type="checkbox" (change)="changeEdit($event)">
+                                <span class="switch__slider"></span>
+                                <div class="switch__text">
+                                        Редактировать данные об организации
                                 </div>
-                            </div>
-                            <div class="styled-form__row">
-                                <label class="styled-form__left-label styled-form__left-label--width-auto">КПП</label>
-                                <div class="styled-form__right-value">
-                                    <input 
-                                        formControlName="iec"
-                                        [textMask]="numberMaskOptions"
-                                        type="text" 
-                                        class="styled-input" 
-                                         />
-                                    <div class="input-error" *ngIf="addSupplierForm.get('iec').hasError('required') && addSupplierForm.get('iec').touched" >Введите КПП</div>
-                                </div>
-                            </div>
-                            <div class="styled-form__row align-top">
-                                <label class="switch">
-                                    <input type="checkbox" (change)="changeEdit($event)">
-                                    <span class="switch__slider"></span>
-                                    <div class="switch__text">
-                                            Редактировать данные об организации
-                                    </div>
-                            
-                                </label>
-                            </div>
+                        
+                            </label>
+                        </div>
+                     
                     </div>
-                
-                
+                 
                     <!---->
                     <!---->
                     <div class="styled-form__row">
