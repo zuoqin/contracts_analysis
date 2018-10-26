@@ -2,8 +2,8 @@ import { Component, ViewChild, OnInit, Input, } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalComponent } from 'ng2-bs3-modal';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /*Services*/
 import { SuppliersServices } from '@core';
@@ -18,6 +18,7 @@ import { CONFIG } from '@config';
     templateUrl:"./add-commercial-proposal-modal.component.html"
 })
 export class AddCommercialProposalModalComponent implements OnInit{
+    unsubscribeAll = new Subject();
     @Input('noShowSupplier') noShowSupplier;
     @ViewChild('addCommercialProposalModal')
     addCommercialProposalModal: BsModalComponent;
@@ -39,7 +40,7 @@ export class AddCommercialProposalModalComponent implements OnInit{
     ifSendSuccess:boolean = false;
     ifSubmit:boolean = false;
 
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
+ 
     ifDisabledProduct:boolean = false;
     answerMessage = {
         text:null,
@@ -87,14 +88,14 @@ export class AddCommercialProposalModalComponent implements OnInit{
         private productServices:ProductServices
     ){
         this.suppliersServices.addDynamicSupplierObservable
-            .takeUntil(this.ngUnsubscribe)
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(value=>{
                 this.initialValueSupplier = value;
                 this.addProposalForm.controls['supplier'].setValue(value);
                 this.open();
             })
         this.suppliersServices.openAddCPModalObservable
-            .takeUntil(this.ngUnsubscribe)
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(value=>{
                 console.log(1)
                 this.open();
@@ -125,10 +126,7 @@ export class AddCommercialProposalModalComponent implements OnInit{
     ngOnInit(){
         this.initForm()
     }
-    ngOnDestroy() {
-		this.ngUnsubscribe.next();
-		this.ngUnsubscribe.complete();
-	}
+ 
     initForm(){
         this.addProposalForm = this.formBuilder.group({
             supplier: ['', [Validators.required]],
@@ -235,7 +233,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
 
     onFileChange($event) {
         let file = $event.target.files[0];
-        console.log()
         if(file.size>1024*1024*100){
             alert('Максимальный размер файла 100 мб')
         }else{
@@ -291,17 +288,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
             volume: parseFloat(this.addProposalForm.value.volume.replace(/ /g,""))
         }
 
-        // let body = {
-        //     comment: "+",
-        //     delivery: "10 дней",
-        //     phone: "495-1112233",
-        //     price: 12,
-        //     product: 98,
-        //     supplier: 14,
-        //     unit_id: 1,
-        //     url: "https://agroserver.ru/b/lopatka-goyazhya-808971.htm",
-        //     volume: 11
-        // }
     
         this.productServices.addCommercialOffer(body)
             .subscribe(
@@ -318,5 +304,9 @@ export class AddCommercialProposalModalComponent implements OnInit{
                     console.log(err)
                 }
             );
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
 }

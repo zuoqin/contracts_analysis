@@ -25,7 +25,9 @@ export class SuppliersServices{
     
     public openAddCPModal:Subject<any> = new Subject<any>();
     public openAddCPModalObservable = this.openAddCPModal.asObservable()
-    
+        
+    public suppliersCountSubject:ReplaySubject<any> = new ReplaySubject<any>(1);
+    public suppliersCountObservable = this.suppliersCountSubject.asObservable()
 
     constructor(
         private productServices:ProductServices,

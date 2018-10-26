@@ -1,8 +1,8 @@
 import { Component,ViewChild,OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /*Services*/
 import { SuppliersServices } from '@core';
@@ -19,6 +19,7 @@ import { CONFIG } from '@config';
     templateUrl:"./add-supplier-modal.component.html"
 })
 export class AddSupplierModalComponent implements OnInit{
+    unsubscribeAll = new Subject();
     @ViewChild('addSupplierModal')
     addSupplierModal: BsModalComponent;
     addSupplierForm: FormGroup;
@@ -33,7 +34,6 @@ export class AddSupplierModalComponent implements OnInit{
     ifCheckInn:boolean = false;
     supplierInfo;
     private currentDate = null;
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     addSupplierDynamic: false;
     public myDatePickerOptions: IMyDpOptions = {
@@ -76,7 +76,7 @@ export class AddSupplierModalComponent implements OnInit{
         private suppliersServices:SuppliersServices
     ){
         this.suppliersServices.addSupplierFromModalObservable
-            .takeUntil(this.ngUnsubscribe)
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(value=>{
                 this.addSupplierDynamic = value;
                 this.open();
@@ -101,10 +101,7 @@ export class AddSupplierModalComponent implements OnInit{
         this.initCurrentDay();
         this.initDisabledDate();
     }
-    ngOnDestroy() {
-		this.ngUnsubscribe.next();
-		this.ngUnsubscribe.complete();
-	}
+  
     changeType(value){
         console.log(value)
     }
@@ -270,5 +267,9 @@ export class AddSupplierModalComponent implements OnInit{
         // }
 
         console.log( this.addSupplierForm)
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
 }

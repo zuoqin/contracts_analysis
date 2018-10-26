@@ -11,10 +11,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'thousandsSpace'})
 export class ThousandsSpacePipe implements PipeTransform {
   transform(value): string {
-    if(value){
-      value = parseFloat(value.toFixed(2)).toString();
+    if(value && value.length>3){
+      if(typeof value =="string"){
+        value = parseFloat(
+                  parseFloat(value).toFixed(2)
+                ).toString();
+      }else{
+        value = parseFloat(value.toFixed(2)).toString();
+      }
+   
 
       return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }else{
+      return value;
     }
  
   }

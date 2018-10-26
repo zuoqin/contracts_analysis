@@ -1,8 +1,9 @@
 
-import { OnInit,ViewChild } from '@angular/core';
+import { OnInit,ViewChild,OnDestroy } from '@angular/core';
 import { Component } from '@angular/core';
 import { environment } from '@environments';
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /*Services */
 import { ProductServices,FilterServices } from '@core';
 /*Models*/
@@ -14,7 +15,9 @@ import { CONFIG } from '@config';
     templateUrl:"./purchase-table.component.html"
 })
 export class PurchaseTableComponent{
+    unsubscribeAll = new Subject();
     @ViewChild('selectedRangeDate') selectedRangeDate;
+
     tooltipOptions;
     selectedProduct:ProductSearch;
     ifLoadData:boolean = false;
@@ -25,8 +28,8 @@ export class PurchaseTableComponent{
     ){
         this.tooltipOptions = CONFIG.tooltipOptions;
         this.productServices.SelectProductObservable
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
-        
                 this.selectedProduct = selectedProduct;
                 this.getPurchases()
             })
@@ -206,7 +209,7 @@ export class PurchaseTableComponent{
         this.filterArray.contract_status.value = this.filterServices.findAllDiffValue(data,'contract_status');
         
         
-        console.log(this.filterArray)
+    
         this.initalData = data;
         this.purchaseData = data;
 
@@ -349,5 +352,8 @@ export class PurchaseTableComponent{
         this.purchaseColumns = value;
     }
    
-
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
+    }
 }

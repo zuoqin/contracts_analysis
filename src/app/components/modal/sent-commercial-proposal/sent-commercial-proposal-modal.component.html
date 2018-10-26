@@ -29,7 +29,7 @@
                         <td>{{cp.send_date}}</td>
                         <td>{{cp.answer_date}}</td>
                         <td class="break-word">{{cp.email}}</td>
-                        <td>{{ cp.text ? cp.text : '-'}}</td>
+                        <td>{{cp.name ? cp.name : '-'}}</td>
                         <td>{{cp.result}}</td>
                     </tr>
                     <tr *ngIf="cp.active">

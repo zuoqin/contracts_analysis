@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /*Services*/
 import { ProductServices } from '@core';
 
@@ -7,6 +9,7 @@ import { ProductServices } from '@core';
     templateUrl:"./search-product.component.html"
 })
 export class SearchProductComponent implements OnInit{
+    unsubscribeAll = new Subject();
     loadData:boolean = false;
     suppliersData;
     selectedProduct;
@@ -14,9 +17,10 @@ export class SearchProductComponent implements OnInit{
         private productServices:ProductServices
     ){
         this.productServices.SearchByNewProductObservable
-        .subscribe((selectedProduct)=>{
-            this.loadData = false;
-        })
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe((selectedProduct)=>{
+                this.loadData = false;
+            })
     }
     onLoadData(data){
         this.selectedProduct = data;
@@ -149,7 +153,10 @@ export class SearchProductComponent implements OnInit{
            
         })
     }
-   
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
+    }
     
 
 

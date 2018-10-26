@@ -78,7 +78,7 @@ export class DateRangeFilterComponent implements OnInit{
         }else{
             date = new Date();
         }
-        console.log(date)
+
         this.currentDate = {
             day:date.getDate(),
             month:date.getMonth()+1,

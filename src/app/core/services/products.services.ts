@@ -131,9 +131,16 @@ export class ProductServices{
     getPriceDynamics(selectedProduct:ProductSearch): Observable<any>{
         let params = this.getHttpParams(selectedProduct);
         
+        return this.apiService.get('/pivot_price',params)
+        .pipe(map(data => data));
+    }
+    getPredictionPrice(selectedProduct:ProductSearch): Observable<any>{
+        let params = this.getHttpParams(selectedProduct);
+        
         return this.apiService.get('/prediction_price',params)
         .pipe(map(data => data));
     }
+    
     getPurchases(selectedProduct: ProductSearch): Observable<any>{
         let params = this.getHttpParams(selectedProduct);
          //params = params.set('limit', '2')

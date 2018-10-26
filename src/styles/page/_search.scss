@@ -290,8 +290,8 @@
         div{
             width: 50%;
             position: relative;
-            padding-right: 14px;
             .value{
+                display: block;
                 white-space: nowrap;
             }
         }
@@ -301,7 +301,8 @@
         white-space: nowrap;
         right: 0;
         font-size: 13.5px;
-        padding-right: 15px;
+        padding: 0 15px;
+        position: relative;
         &:after{
             content:"";
             display: block;   

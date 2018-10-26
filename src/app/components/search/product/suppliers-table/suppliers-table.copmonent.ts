@@ -1,4 +1,6 @@
 import { Component,ViewChild,Input,OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /*Services*/
 import { SuppliersServices,ProductServices,FilterServices } from '@core';
 /*Models*/
@@ -12,6 +14,7 @@ import { CONFIG } from '@config';
     templateUrl:"./suppliers-table.component.html"
 })
 export class SuppliersTableComponent implements OnInit{
+    unsubscribeAll = new Subject();
     selectedProduct:ProductSearch;
     initalData;
     suppliersData;
@@ -112,10 +115,9 @@ export class SuppliersTableComponent implements OnInit{
         private filterServices:FilterServices
     ){
         this.productServices.SelectProductObservable
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct:ProductSearch)=>{
-          
                 this.selectedProduct = selectedProduct;
-              //  console.log(this.selectedProduct)
             })
     }
     ngOnInit(){
@@ -128,6 +130,7 @@ export class SuppliersTableComponent implements OnInit{
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;
                 }else{
+                    this.suppliersServices.suppliersCountSubject.next(response.data.length)
                     this.formatData(response.data)
                    
                 }
@@ -157,7 +160,7 @@ export class SuppliersTableComponent implements OnInit{
 
          this.filterArray.date.min = this.filterServices.findMinMaxDate(data,'date','min');
          this.filterArray.date.max = this.filterServices.findMinMaxDate(data,'date','max');
-        console.log(this.filterArray)
+       
         this.initalData = data;
         this.suppliersData = data;
     }
@@ -265,8 +268,12 @@ export class SuppliersTableComponent implements OnInit{
                 }
             }
         }
-        console.log(str)
+       
         window.open(environment.apiUrl+'/export_suppliers?'+str, '_blank');
     }
-    
+      
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
+    }
 }

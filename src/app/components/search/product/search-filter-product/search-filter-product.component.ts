@@ -1,4 +1,6 @@
 import { Component, OnInit,Output,EventEmitter,Input,HostListener,ViewChild,ElementRef } from "@angular/core";
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CONFIG } from '@config';
@@ -13,6 +15,7 @@ import { ProductSearch } from '@core';
 })
 
 export class SearchFilterProduct implements OnInit{
+    unsubscribeAll = new Subject();
     searchForm: FormGroup;
     checkRequired:boolean = true;
     ifLoadData:boolean = false;
@@ -48,6 +51,7 @@ export class SearchFilterProduct implements OnInit{
     ){
         
         this.productServices.SearchByNewProductObservable
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 /*Select new product from catgeries select */
                 selectedProduct['selectedFromCategory'] = true;
@@ -86,7 +90,6 @@ export class SearchFilterProduct implements OnInit{
         this.router.navigate(['search',this.searchForm.controls.type.value]);
     }
     selectProduct(selected){
-        console.log(selected)
         this.resetFilters()
         if(selected){
             if(selected.selectedFromCategory){
@@ -173,7 +176,6 @@ export class SearchFilterProduct implements OnInit{
     getUnits(){
         this.productServices.getUnits(this.selectedProduct.kpgz_id).subscribe(
             response => {
-                console.log(response)
                 if(response.data.length){
                     this.units = response.data;
                     this.ifDisabledProduct = false;
@@ -220,7 +222,6 @@ export class SearchFilterProduct implements OnInit{
             this.searchForm.controls['region'].setValue(false);
         }
         this.shortFilterInit();
-        //console.log(this.selectedProduct.region_id)
         this.selectedProduct.region_id = [];
         this.selectedRegions.map(item=>{
             this.selectedProduct.region_id.push(item.id);
@@ -252,7 +253,6 @@ export class SearchFilterProduct implements OnInit{
         this.ifLoadData = true;
         this.btnText.text = this.btnText.defaultValue;
         this.onLoadData.emit(true);
-        console.log(this.selectedProduct)
         this.productServices.SelectProductSubject.next(this.selectedProduct)
 
     }
@@ -404,5 +404,9 @@ export class SearchFilterProduct implements OnInit{
                 console.log(err)
             }
         );
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
 }

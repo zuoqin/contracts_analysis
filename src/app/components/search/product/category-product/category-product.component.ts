@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /*Services */
 import { ProductServices } from '@core';
 /*Models*/
@@ -9,6 +10,7 @@ import { ProductSearch } from '@core';
     templateUrl:"./category-product.component.html"
 })
 export class CategoryProductComponent implements OnInit{
+    unsubscribeAll = new Subject();
     @HostListener('document:click', ['$event'])
     public documentClick(event): void {
         if(!event.target.closest(".catergory-select") && (this.isOpenSubcategory || this.isOpenProduct)){
@@ -28,6 +30,7 @@ export class CategoryProductComponent implements OnInit{
     ){
 
         this.productServices.SelectProductObservable
+            .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
                 if(!this.selectedProduct.selectedFromCategory){
@@ -44,7 +47,9 @@ export class CategoryProductComponent implements OnInit{
     }
 
     getCategoriesTree(){
-        this.productServices.getProductTree(this.selectedProduct.kpgz_id).subscribe(
+        this.productServices.getProductTree(this.selectedProduct.kpgz_id)
+        .pipe(takeUntil(this.unsubscribeAll))
+        .subscribe(
             response => {
                 let path = response.data.path;
                 this.selectedCategory = response.data.tree;
@@ -101,5 +106,9 @@ export class CategoryProductComponent implements OnInit{
     openProducts(){
         this.isOpenSubcategory=false;
         this.isOpenProduct=true;
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
 }

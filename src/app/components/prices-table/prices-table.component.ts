@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs/Subject';
-
-import { ProductServices } from '@core';
+import { ProductServices,SuppliersServices } from '@core';
 import { CONFIG } from '@config';
 
 /*Models*/
@@ -12,9 +12,12 @@ import { ProductSearch } from '@core';
     templateUrl:"./prices-table.component.html"
 })
 export class PriceTableComponent{
+    unsubscribeAll = new Subject();
     selectedProduct:ProductSearch;
     pricesDynamics;
+    predictionPrice;
     currentDate = {};
+    suppliersCount;
     averagePrice = {
         year:{
             market:null,
@@ -23,31 +26,51 @@ export class PriceTableComponent{
         all:{
             market:null,
             purchase:null
-        },
-        count:Math.floor(Math.random() * 3000) + 1000 
+        }
     }
-    private ngUnsubscribe: Subject<void> = new Subject<void>();
-    constructor(
 
+    constructor(
+        private suppliersServices:SuppliersServices,
         private productServices:ProductServices
         ){
-          
-
             let date = new Date()
             this.currentDate["month"] = date.getMonth();
             this.currentDate["monthText"] = CONFIG.months[date.getMonth()];
             this.currentDate["year"] = date.getFullYear()
 
+
+
+            this.suppliersServices.suppliersCountObservable
+                .pipe(takeUntil(this.unsubscribeAll))
+                .subscribe(count=>{
+                    this.suppliersCount = count
+                })
             this.productServices.SelectProductObservable
+                .pipe(takeUntil(this.unsubscribeAll))
                 .subscribe((selectedProduct)=>{
                     this.selectedProduct = selectedProduct;
                     this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
                         response => {
-                           // this.getAveragePrice(response)
-                            //this.setPriceDifference(response);
-                           
+                            this.getAveragePrice(response.data)
+                            this.setPriceDifference(response.data);
+                        },
+                        err => {
+                            console.log(err)
+                        }
+                    );
 
-                         
+                    this.productServices.getPredictionPrice(this.selectedProduct).subscribe(
+                        response => {
+                            if(response.data.length){
+                                response.data["monthText"] = CONFIG.months[response.data.month-1]
+                                response.data["currency"] = this.declOfNum(parseInt(response.data.price), ['рубль', 'рубля', 'рублей']);
+                                
+                                
+                                this.predictionPrice = response.data;
+                            }else{
+                                this.predictionPrice = null
+                            }
+                       
                         },
                         err => {
                             console.log(err)
@@ -57,26 +80,35 @@ export class PriceTableComponent{
                 })
 
         }
+        declOfNum(number, titles) {  
+            console.log(number)
+            let cases = [2, 0, 1, 1, 1, 2];  
+            return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
+        }
     getAveragePrice(data){
-        let yearSumm = 0;
+        let yearSummMarket = 0;
+        let yearSummPurchase = 0;
         let yearSummCount = 0;
-        let summ = 0;
-        
+        let summAllMarket = 0;
+        let summAllPurchase = 0;
         data.map(item=>{
-            summ += item.avg_purchase_price;
+
+            summAllMarket += item.market;
+            summAllPurchase += item.purchase;
             if(item.year == this.currentDate["year"]){
                 yearSummCount++;
-                yearSumm += item.avg_purchase_price;
+                yearSummMarket += item.market;
+                yearSummPurchase += item.purchase;
                
             }
           
         })
         if(yearSummCount){
-            this.averagePrice.year.market = yearSumm/yearSummCount;
-            this.averagePrice.year.purchase = yearSumm/yearSummCount;
+            this.averagePrice.year.market = (yearSummMarket/yearSummCount).toFixed(2);
+            this.averagePrice.year.purchase = (yearSummPurchase/yearSummCount).toFixed(2);
         }
-        this.averagePrice.all.market = summ/data.length;
-        this.averagePrice.all.purchase = summ/data.length;
+        this.averagePrice.all.market = (summAllMarket/data.length).toFixed(2);
+        this.averagePrice.all.purchase = (summAllPurchase/data.length).toFixed(2);
     
     }
     setMonthPricesDynamics(data){
@@ -113,8 +145,9 @@ export class PriceTableComponent{
                 priceArrayTemp.push(newarray)
             }
         })
+   
         this.pricesDynamics = priceArrayTemp;
-    
+        console.log( this.pricesDynamics)
 
     }
     setPriceDifference(data){
@@ -125,19 +158,16 @@ export class PriceTableComponent{
         data = data.sort(this.dynamicSort("-date"))
 
         data.map((item,index)=>{
-            // item.avg_purchase_price = item.avg_purchase_price+20000;
-            if(data[index+1]){
 
+            if(data[index+1]){
                 item['diffMarket'] = data[index].market - data[index+1].market;
                 item['diffPurchase'] = data[index].purchase - data[index+1].purchase
-
-                // item['diffMarket'] = (data[index].avg_purchase_price - data[index+1].avg_purchase_price).toFixed(2);
-                // item['diffPurchase'] = (data[index].avg_purchase_price - data[index+1].avg_purchase_price).toFixed(2)
             }else{
                 item['diffMarket'] = 0;
                 item['diffPurchase'] = 0;
             }
         })
+
 
      
         
@@ -156,9 +186,9 @@ export class PriceTableComponent{
             return result * sortOrder;
         }
     }
-    ngOnDestroy() {
-		this.ngUnsubscribe.next();
-		this.ngUnsubscribe.complete();
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
     toggleYearsPrice(value){
         value.active =!value.active;
