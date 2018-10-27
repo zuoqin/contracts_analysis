@@ -110,7 +110,7 @@ export class SearchFilterProduct implements OnInit{
     resetFilters(){
         this.attrsProduct = [];
         this.units = [];
-        this.searchForm.controls['unit'].setValue('')
+        this.searchForm.controls['unit'].setValue(null)
         this.selectedProduct = {
             name: null,
             spgz_id: [],
@@ -161,10 +161,14 @@ export class SearchFilterProduct implements OnInit{
         return this.productServices.getSpgz(this.selectedProduct.kpgz_id,atrr).subscribe(
             response => {
                 this.selectedProduct.spgz_id = response.data;
-                if(!response.data.length){
-                    this.ifDisabledProduct = true;
-                }else{
+
+      
+                   
+                if(response.data.length && this.searchForm.value.unit){
                     this.ifDisabledProduct = false;
+                  
+                }else{
+                    this.ifDisabledProduct = true;
                 }
                 
             },
@@ -187,7 +191,7 @@ export class SearchFilterProduct implements OnInit{
                 }else{
                     this.units = [];
                     this.ifDisabledProduct = true;
-                    this.searchForm.controls['unit'].setValue('')
+                    this.searchForm.controls['unit'].setValue(null)
                 }
             },
             err => {
@@ -226,13 +230,12 @@ export class SearchFilterProduct implements OnInit{
         this.selectedRegions.map(item=>{
             this.selectedProduct.region_id.push(item.id);
         })
-   
     }
     search(){
-      
-
-
-
+       if(!this.searchForm.value.unit){
+        this.ifDisabledProduct = true;;
+       }
+       
         if(!this.checkRequired || this.ifDisabledProduct){
             return;
         }

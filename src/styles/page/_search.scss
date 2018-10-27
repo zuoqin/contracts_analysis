@@ -510,12 +510,15 @@
     }
     &__title{
         color: #B12726;
-      
         font-size: 30px;
         line-height: 40px;
     }
+    &__rating{
+        padding-left: 50px;
+    }
 }
 .rating{
+    white-space: nowrap;
     &__title{
         color: #2C4155;
         font-size: 14px;

@@ -1,13 +1,12 @@
 <search-filter-supplier  (onLoadData)="onLoadData($event)"  [loadData]="loadData"></search-filter-supplier>
 <ng-container *ngIf="loadData">
-    <div class="title-supplier">
+    <div *ngIf="infoSupplier" class="title-supplier">
         <div class="container">
-            <h1 class="title-supplier__title">ООО «РегионПродукт»</h1>
+            <h1 class="title-supplier__title">{{infoSupplier.name}}</h1>
             <div class="rating title-supplier__rating">
                 <div class="rating__title">Рейтинг поставщика</div>
                 <div class="rating__count">100 из 100</div>
             </div>
-            
         </div>
     </div>
     

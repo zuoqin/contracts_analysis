@@ -1,5 +1,5 @@
 
-    <div class="container">
+    <div class="container" *ngIf="aboutSuppliers">
         <div class="d-flex space-between align-items-center">
             <div class="bordered-title"><span>ИНФОРМАЦИЯ О КОМПАНИИ</span></div>
             <a href="/" target="_blank" class="gray-link gray-link--icon"><span class="icon icon--www"></span>Посетить сайт организации</a>
@@ -11,46 +11,74 @@
             <div class="list-info__column">
                 <div class="list-info__item">
                     <div class="list-info__title">Регионы регистрации: </div>
-                    <div class="list-info__value">{{aboutSuppliers.region}}</div>
+                    <div class="list-info__value">{{aboutSuppliers.region ? aboutSuppliers.region :'-'}}</div>
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">Дата регистрации:</div>
-                    <div class="list-info__value">{{aboutSuppliers.date}}</div>
+                    <div class="list-info__value">{{aboutSuppliers.reg_date ? aboutSuppliers.reg_date : '-'}}</div>
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">E-mail поставщика:</div>
-                    <div class="list-info__value">{{aboutSuppliers.email}}</div>
+                    <div class="list-info__value">{{aboutSuppliers.email ? aboutSuppliers.email : '-'}}</div>
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">Телефон поставщика:</div>
-                    <div class="list-info__value">{{aboutSuppliers.phone}}</div>
+                    <div class="list-info__value">телефон</div>
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">ИНН / КПП::</div>
-                    <div class="list-info__value">{{aboutSuppliers.itn}} / {{aboutSuppliers.iec}}</div>
+                    <div class="list-info__value">{{aboutSuppliers.inn ? aboutSuppliers.inn : '-'}} / {{aboutSuppliers.kpp ? aboutSuppliers.kpp : '-'}}</div>
                 </div>
             </div>
 
             <div class="list-info__column">
                 <div class="list-info__item list-info__item--less ">
                     <div class="list-info__title list-info__title--longer">Оборот за последний год:</div>
-                    <div class="list-info__value">{{aboutSuppliers.turnover | thousandsSpace}} руб.</div>
+                    <div class="list-info__value">
+                        <ng-container *ngIf="aboutSuppliers.turnover">
+                                {{aboutSuppliers.turnover | thousandsSpace}} руб.
+                        </ng-container>
+                        <ng-container *ngIf="!aboutSuppliers.turnover">
+                               -
+                        </ng-container>
+                    </div>
                 </div>
+
                 <div class="list-info__item list-info__item--less">
                     <div class="list-info__title list-info__title--longer">Распространение продукции:</div>
-                    <div class="list-info__value">{{aboutSuppliers.type}}</div>
+                    <div class="list-info__value">
+                        <ng-container *ngIf="aboutSuppliers.type_supplier=='provider'">
+                            Поставщик
+                        </ng-container>
+                        <ng-container *ngIf="aboutSuppliers.type_supplier=='producer'">
+                            Производитель
+                        </ng-container>
+
+                    </div>
                 </div>
                 <div class="list-info__item list-info__item--less">
                     <div class="list-info__title list-info__title--longer">Участие в закупках:</div>
-                    <div  class="list-info__value" [innerText]="aboutSuppliers.participation ? 'Да' : 'Нет'"></div>
+                    <ng-container *ngIf="aboutSuppliers.is_tender_member">
+                            <div  class="list-info__value" [innerText]="aboutSuppliers.is_tender_member ? 'Да' : 'Нет'"></div>
+                    </ng-container>
+                    <ng-container *ngIf="!aboutSuppliers.is_tender_member"> 
+                        <div  class="list-info__value" >-</div>
+                    </ng-container>
                 </div>
                 <div class="list-info__item list-info__item--less">
                     <div class="list-info__title list-info__title--longer">Сумма контрактов:</div>
-                    <div class="list-info__value">{{aboutSuppliers.sumOfContracts | thousandsSpace}} руб.</div>
+                    <div class="list-info__value">
+                        <ng-container *ngIf="aboutSuppliers.contracts_value">
+                                {{aboutSuppliers.contracts_value | thousandsSpace}} руб.
+                        </ng-container>
+                        <ng-container *ngIf="!aboutSuppliers.contracts_value">
+                              -
+                        </ng-container>
+                    </div>
                 </div>
                 <div class="list-info__item list-info__item--less">
                     <div class="list-info__title list-info__title--longer">Наличие склада:</div>
-                    <div class="list-info__value" [innerText]="aboutSuppliers.warehouse ? 'Да' : 'Нет'"></div>
+                    <div class="list-info__value" [innerText]="aboutSuppliers.has_warehouse ? 'Да' : 'Нет'"></div>
                 </div>
                 <div class="list-info__item list-info__item--less">
                     <div class="list-info__title list-info__title--longer">Статус:</div>

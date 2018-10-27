@@ -126,19 +126,17 @@
                     <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
                     <td *ngIf="isColumnActive('name')">
                     
-                        <a href="">
-                            <span   
-                                *ngIf="!purchase.safety"   
-                                tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{purchase.name}}
-                            </span>
-                            <ng-container   
-                                *ngIf="purchase.safety">
-                                {{purchase.name}}
-                            </ng-container>
-                        </a>
+                        <span   
+                            *ngIf="!purchase.safety"   
+                            tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.name}}
+                        </span>
+                        <ng-container   
+                            *ngIf="purchase.safety">
+                            {{purchase.name}}
+                        </ng-container>
                     </td>
                     <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} {{selectedProduct.unit_text}}</td>
                     <td *ngIf="isColumnActive('unitprice')" class="text-center">

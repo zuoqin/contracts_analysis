@@ -31,7 +31,7 @@
                     <td class="w11p">{{product.request_date}}</td>
                     <td class="w11p">Отправлено</td>
                     <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
-                    <td class="w13p">{{product.answer_date ? product.answer_date : ''}}</td>
+                    <td class="w13p">{{product.answer_date ? product.answer_date : '-'}}</td>
                     <td class="w9p">{{product.unit_price ? product.unit_price : 0}}</td>
                     <td class="w18p">{{product.comment ? product.comment : '-'}}</td>
                     <td class="w5p text-center">

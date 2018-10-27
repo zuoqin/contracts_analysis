@@ -32,6 +32,10 @@ export class SuppliersServices{
     public SelectSupplierSubject:ReplaySubject<any> = new ReplaySubject<any>(1);
     public SelectSupplierObservable = this.SelectSupplierSubject.asObservable()
 
+    public SupplierInfoSubject:Subject<any> = new Subject<any>();
+    public SupplierInfoObservable = this.SupplierInfoSubject.asObservable();
+
+
 
     constructor(
         private productServices:ProductServices,
@@ -75,6 +79,13 @@ export class SuppliersServices{
         .set('supplier_id', supplier_id.toString())
         
         return this.apiService.get('/price',params)
+          .pipe(map(data => data));
+    }
+    getInfoSupplier(supplier_id): Observable<any> {
+        const params = new HttpParams()
+        .set('supplier_id', supplier_id.toString())
+        
+        return this.apiService.get('/supplier',params)
           .pipe(map(data => data));
     }
     

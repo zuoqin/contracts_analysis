@@ -51,10 +51,10 @@ export class SearchFilterSupplierComponent implements OnInit{
         this.initForm();
         this.getRegions();
 
-        setTimeout(()=>{
-            this.selectSupplier({name: "ООО «МАКСВЕЛЛ ГРУПП»", supplier_id: 15})
-            this.search()
-        },100)
+        // setTimeout(()=>{
+        //     this.selectSupplier({name: "ООО «МАКСВЕЛЛ ГРУПП»", supplier_id: 15})
+        //     this.search()
+        // },100)
      
     }
     changeType(){

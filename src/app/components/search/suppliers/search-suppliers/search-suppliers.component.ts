@@ -1,16 +1,33 @@
 import { Component,OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+/*Services*/
+import { SuppliersServices } from '@core';
 
 @Component({
     selector:"search-suppliers",
     templateUrl:"./search-suppliers.component.html"
 })
 export class SearchSuppliersComponent implements OnInit{
+    unsubscribeAll = new Subject();
     loadData:boolean = false;
     showCardSupplier:boolean = false;
     dataColumns;
     suppliersData;
     currentProduct;
+    infoSupplier;
+    constructor(
+        private suppliersServices:SuppliersServices
+    ){
+        this.suppliersServices.SupplierInfoObservable
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe((infoSupplier)=>{
+                this.infoSupplier = infoSupplier;
+            })
+    }
     onLoadData(value){
+        this.infoSupplier = null;
         this.loadData = value;
     }
     toggleCardSupplier(){
@@ -20,6 +37,7 @@ export class SearchSuppliersComponent implements OnInit{
         this.currentProduct = value;
     }
     ngOnInit(){
+   
         let that = this;
         setTimeout(()=>{
             that.suppliersData = [

@@ -11,7 +11,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'thousandsSpace'})
 export class ThousandsSpacePipe implements PipeTransform {
   transform(value): string {
-    if(value && value.length>3){
+    if(value && value.toString().length>3){
       if(typeof value =="string"){
         value = parseFloat(
                   parseFloat(value).toFixed(2)
@@ -19,8 +19,6 @@ export class ThousandsSpacePipe implements PipeTransform {
       }else{
         value = parseFloat(value.toFixed(2)).toString();
       }
-   
-
       return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }else{
       return value;
