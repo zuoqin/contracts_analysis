@@ -29,6 +29,10 @@ export class SuppliersServices{
     public suppliersCountSubject:ReplaySubject<any> = new ReplaySubject<any>(1);
     public suppliersCountObservable = this.suppliersCountSubject.asObservable()
 
+    public SelectSupplierSubject:ReplaySubject<any> = new ReplaySubject<any>(1);
+    public SelectSupplierObservable = this.SelectSupplierSubject.asObservable()
+
+
     constructor(
         private productServices:ProductServices,
         private apiService: ApiService
@@ -59,6 +63,18 @@ export class SuppliersServices{
     getSuppliersForProduct(selectedProduct:ProductSearch): Observable<any> {
         let params = this.productServices.getHttpParams(selectedProduct);
         return this.apiService.get('/suppliers',params)
+          .pipe(map(data => data));
+    }
+    addSupplier(body): Observable<any>{
+  
+        return this.apiService.post('/add/supplier',body)
+        .pipe(map(data => data));
+    }
+    getPriceSupplier(supplier_id): Observable<any> {
+        const params = new HttpParams()
+        .set('supplier_id', supplier_id.toString())
+        
+        return this.apiService.get('/price',params)
           .pipe(map(data => data));
     }
     

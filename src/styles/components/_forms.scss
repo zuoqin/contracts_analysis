@@ -230,11 +230,12 @@ textarea.styled-input{
     }
     &__text{
         margin-left: 20px;
-        font-size: 18px;
-        line-height: 18px;
+        font-size: 16px;
+        line-height: 16px;
     }
     &__slider {
-        width: 28px;
+        width: 26px;
+        min-width: 26px;
         height: 15px;
         position: relative;
         display: block;
@@ -702,6 +703,7 @@ textarea.styled-input{
     &__3-column{
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
     }
     &__two-column{
         display: flex;
@@ -804,6 +806,7 @@ textarea.styled-input{
     }
     &__select-type{
         display: flex;
+        align-items: flex-start;
         &--selected{
             width: 170px;
             min-width: 170px;
@@ -814,7 +817,7 @@ textarea.styled-input{
         }
     }
     &__character{
-        margin-top: 23px;
+        margin-bottom: 10px;
         .styled-checkbox{
             width:50%;
             min-width: 50%;
@@ -1125,7 +1128,7 @@ html body .mydp{
         border: 1.5px solid #979797;
         border-left: none;
         border-right: none;
-        height: 133px;
+        max-height: 133px;
         overflow-y: auto;
         overflow-x: hidden;
         padding: 9px 0;

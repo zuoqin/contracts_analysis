@@ -34,6 +34,7 @@
         }
     }
     &__character{
+        margin-bottom: 10px;
         .styled-checkbox{
             font-size: 18px;
             line-height: 18px;
@@ -95,8 +96,7 @@
         font-size: 18px;
         line-height: 24px;
         div{
-            padding-left: 102px;
-            padding-right: 21px;
+            padding: 10px 21px 10px 102px;
          }
     }
     &__tooltip{

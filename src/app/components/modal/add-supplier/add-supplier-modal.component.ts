@@ -5,8 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 /*Services*/
-import { SuppliersServices } from '@core';
-
+import { SuppliersServices,ProductServices } from '@core';
 /*Plugins*/
 import { BsModalComponent } from 'ng2-bs3-modal';
 import {IMyDpOptions} from 'mydatepicker';
@@ -24,6 +23,7 @@ export class AddSupplierModalComponent implements OnInit{
     addSupplierModal: BsModalComponent;
     addSupplierForm: FormGroup;
     autocompleteProduct = CONFIG.autocompleteProduct;
+    autocompleteSPGZ = CONFIG.autocompleteSPGZ;
     maskPhoneSettings = CONFIG.maskPhoneSettings;
     numberMaskOptions = CONFIG.numberMaskOptions;
     numberDecimalSpaceMaskOptions = CONFIG.numberDecimalSpaceMaskOptions;
@@ -33,11 +33,19 @@ export class AddSupplierModalComponent implements OnInit{
     lastLoadedInn:number;
     ifCheckInn:boolean = false;
     supplierInfo;
+
+    ifSendSuccess:boolean = false;
+    ifSubmit:boolean = false;
+    attrsProduct;
+    selectedAttrs = [];
+    units = [];
+    selectedProductKpgz;
+
+    ifDisabledProduct:boolean = false;
     private currentDate = null;
 
     addSupplierDynamic: false;
-    public myDatePickerOptions: IMyDpOptions = {
-        // other options...
+    myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd.mm.yyyy',
         disableSince: {year: 0, month: 0, day: 0},
         dayLabels:CONFIG.dayLabels,
@@ -51,29 +59,18 @@ export class AddSupplierModalComponent implements OnInit{
     // Initialized to specific date (09.10.2018).
     public model: any = { date: { year: 2018, month: 10, day: 9 } };
 
-
-    public volumeUnits = [
-        {
-            id:"1",
-            name:"Кг",
-            placeholder:"кг"
-        },
-        {
-            id:"2",
-            name:"Литр",
-            placeholder:"литрах"
-        },
-        {
-            id:"3",
-            name:"Упаковка",
-            placeholder:"упаковках"
-        }
-    ]
+    answerMessage = {
+        text:null,
+        sucess:"Поставщик успешно добавлен",
+        error:"Ошибка, попробуйте позже"
+    }
+    
 
     
     constructor(      
         private formBuilder: FormBuilder,
-        private suppliersServices:SuppliersServices
+        private suppliersServices:SuppliersServices,
+        private productServices:ProductServices
     ){
         this.suppliersServices.addSupplierFromModalObservable
             .pipe(takeUntil(this.unsubscribeAll))
@@ -82,10 +79,13 @@ export class AddSupplierModalComponent implements OnInit{
                 this.open();
             })
     }
-    
 
     open(){
+        this.resetForm();
+        this.ifSubmit = false;
+        this.ifSendSuccess = false;
         this.ifCheckInn = false;
+        this.answerMessage.text = null;
         this.addSupplierModal.open();
     }
     close(){
@@ -97,18 +97,24 @@ export class AddSupplierModalComponent implements OnInit{
     }
     ngOnInit(){
         this.initForm();
-        this.changeVolumeUnit();
         this.initCurrentDay();
         this.initDisabledDate();
     }
-  
+
     changeType(value){
+        this.resetForm()
         console.log(value)
     }
-
+    resetForm(){
+        this.units = [];
+        this.attrsProduct = null;
+        this.selectedAttrs = [];
+        this.addSupplierForm.controls['product'].setValue(null);
+    }
     initForm(){
         this.addSupplierForm = this.formBuilder.group({
-            typeSupplier: ['1', [Validators.required]],
+            switchEdit:[false],
+            supplier_type: ['producer', [Validators.required]],
             inn: ['', [Validators.required]],//инн
             kpp: ['', [Validators.required]],//кпп
             name: [{value:'',disabled:true}, [Validators.required]],
@@ -117,14 +123,15 @@ export class AddSupplierModalComponent implements OnInit{
             email:[{value:'',disabled:true}, [Validators.required]],
             phone:[{value:'',disabled:true}, [Validators.required]],
             dataRegistration:[{value:null,disabled:true}, [Validators.required]],
-            turnover:['', [Validators.required]],
-            scale:['1', [Validators.required]],
-            stock:[false],
+            year_value:['', [Validators.required]],
+            scale:['Мелкий', [Validators.required]],
+            product:[null, [Validators.required]],
+            has_warehouse :[false],
+            spgz_id:[],
             typeProduct:['product', [Validators.required]],
-            product: ['', [Validators.required]],
-            volume:['', [Validators.required]],
-            pricePerItem:['', [Validators.required]],
-            volumeUnit:['1', [Validators.required]],
+            value:['', [Validators.required]],
+            price_per_unit:['', [Validators.required]],
+            unit_id:[null, [Validators.required]],
         });
 
 
@@ -151,7 +158,7 @@ export class AddSupplierModalComponent implements OnInit{
 		}
 	}
     changeEdit(event){
-        this.isEditDisabled = !event.target.checked;
+        this.isEditDisabled = !event;
         const state = this.isEditDisabled ? 'disable' : 'enable';
 
         this.addSupplierForm.controls['name'][state]();
@@ -162,14 +169,17 @@ export class AddSupplierModalComponent implements OnInit{
         this.addSupplierForm.controls['dataRegistration'][state]();
     }
     changeVolumeUnit(){
-        this.volumeUnitPlaceholder = this.changeUnit(this.volumeUnits,'volumeUnit')
+        this.volumeUnitPlaceholder = this.changeUnit(this.units,'unit_id')
     }
     changeUnit(array,filed){
         let currentId = this.addSupplierForm.controls[filed].value;
-        let unit = array.filter(item => item.id==currentId)[0];
-        return unit.placeholder
+        let unit = array.filter(item => item.unit_id==currentId)[0];
+        return unit.abbreviation
     }
     onBulrInn(){
+        if(this.addSupplierForm.controls['inn'].value.length<5){
+            return;
+        }
         if(this.lastLoadedInn && this.lastLoadedInn==this.addSupplierForm.controls['inn'].value){
             return;
         }
@@ -186,8 +196,15 @@ export class AddSupplierModalComponent implements OnInit{
                         this.supplierInfo = response.data;
                         this.addSupplierForm.controls['kpp'].setValue(this.supplierInfo.kpp)
                         this.addSupplierForm.controls['name'].setValue(this.supplierInfo.name)
-               
-                        this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address);
+                        if(this.supplierInfo.address && this.supplierInfo.address.full){
+                            console.log(1)
+                            this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address.full);
+                        }else{
+                            if(this.supplierInfo.address && this.supplierInfo.address.length){
+                                this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address);
+                            }
+                        }
+                   
                         this.addSupplierForm.controls['site'].setValue(this.supplierInfo.site);
                         this.addSupplierForm.controls['email'].setValue(this.supplierInfo.email);
                         this.addSupplierForm.controls['phone'].setValue(this.supplierInfo.phones[0]);
@@ -207,14 +224,19 @@ export class AddSupplierModalComponent implements OnInit{
                         }
                         this.addSupplierForm.controls['dataRegistration'].setValue(date);
                     }else{
+                        this.supplierInfo = response.data;
+                        this.addSupplierForm.controls['kpp'].setValue(null)
+                        this.addSupplierForm.controls['name'].setValue(null);
+                        this.addSupplierForm.controls['addres'].setValue(null);
+                        this.addSupplierForm.controls['site'].setValue(null);
+                        this.addSupplierForm.controls['email'].setValue(null);
+                        this.addSupplierForm.controls['phone'].setValue(null);
+
+
                         if(response.data.error){
                             console.log(response.data.error)
                         }
                     }
-                    
-                 
-
-                    
 
                 },
                 err => {
@@ -247,18 +269,166 @@ export class AddSupplierModalComponent implements OnInit{
     getCopyOfOptions(): IMyDpOptions {
 		return JSON.parse(JSON.stringify(this.myDatePickerOptions));
     }
+    selectProduct(event){
+        this.addSupplierForm.controls['product'].setValue(event)
+        console.log()
+        this.selectedProductKpgz = event.kpgz_id;
+        this.getUnits();
+        this.getAttrs();
+        this.getSpgz();
+    }
+    selectProductSpgz(event){
+        this.addSupplierForm.controls['product'].setValue(event)
+        console.log(event)
+        this.selectedProductKpgz = event.kpgz_id;
+        this.getUnits();
+        this.addSupplierForm.controls['spgz_id'].setValue([event.spgz_id])
+    }
+    getAttrs(){
+        this.productServices.getAttrs(this.selectedProductKpgz).subscribe(
+            response => {
+                this.attrsProduct = response.data;
+            },
+            err => {
+                console.log(err)
+            }
+        );
+    }
+    getSpgz(atrr?){
+        return this.productServices.getSpgz(this.selectedProductKpgz,atrr).subscribe(
+            response => {
+                this.addSupplierForm.controls['spgz_id'].setValue(response.data)
+                if(!response.data.length){
+                    this.ifDisabledProduct = true;
+                }else{
+                    this.ifDisabledProduct = false;
+                }
+                
+            },
+            err => {
+                console.log(err)
+            }
+        );
+    }
+    getUnits(){
+        this.productServices.getUnits(this.selectedProductKpgz).subscribe(
+            response => {
+                if(response.data.length){
+                    this.units = response.data;
+                    this.ifDisabledProduct = false;
+                    this.addSupplierForm.controls['unit_id'].setValue(this.units[0].unit_id);
+                    this.changeVolumeUnit()
 
-    submit(){
-        if(this.addSupplierDynamic){
-            this.close()
-            let supplier = this.addSupplierForm.controls['name'].value
-            let that = this;
-            setTimeout(()=>{
-                that.suppliersServices.addDynamicSupplier.next(supplier);
-            },600)
-            this.addSupplierDynamic = false;
-         
+                }else{
+                    this.units = [];
+                    this.ifDisabledProduct = true;
+                    this.addSupplierForm.controls['unit_id'].setValue('')
+                }
+            },
+            err => {
+                console.log(err)
+            }
+        );
+    }
+    selectAttr(event,attr){
+        if(event.target.checked){
+            this.selectedAttrs.push(attr)
+        }else{
+            let index = this.selectedAttrs.indexOf(attr);
+            if(index>=0){
+                this.selectedAttrs.splice(index, 1);
+            }
         }
+        if(this.selectedAttrs.length){
+            let arrayAttr = [];
+            this.selectedAttrs.map(item=>arrayAttr.push(item.value_id))
+            this.getSpgz(arrayAttr)
+        }else{
+            this.getSpgz()
+        }
+   
+    }
+    submit(){
+        console.log(this.addSupplierForm.value.spgz_id)
+  
+        if(this.ifDisabledProduct || this.ifSubmit){
+            return;
+        }
+        if(
+            this.ifCheckInn &&
+            (!this.addSupplierForm.controls['dataRegistration'].value ||
+            !this.addSupplierForm.controls['kpp'].value ||
+            !this.addSupplierForm.controls['name'].value ||
+            !this.addSupplierForm.controls['addres'].value ||
+            !this.addSupplierForm.controls['phone'].value ||
+            !this.addSupplierForm.controls['email'].value ||
+            !this.addSupplierForm.controls['dataRegistration'].value)
+        ){
+            this.addSupplierForm.controls['switchEdit'].setValue(true)
+            this.changeEdit(true);
+        }
+        if (this.addSupplierForm.invalid) {
+            const controls = this.addSupplierForm.controls;
+            Object.keys(controls)
+                .forEach(controlName => controls[controlName].markAsTouched());
+                return;
+        }
+  
+  
+        let reg_date = this.formatDate(this.addSupplierForm.controls['dataRegistration'].value.date);
+        console.log(reg_date)
+        let body = {
+            supplier_type:this.addSupplierForm.value.supplier_type,//текст, только 'producer' или 'provider'
+            inn:this.addSupplierForm.value.inn,
+            kpp:this.addSupplierForm.value.kpp,
+            name:this.addSupplierForm.controls['name'].value,
+            address:this.addSupplierForm.controls['addres'].value,
+            site:this.addSupplierForm.controls['site'].value,
+            email:this.addSupplierForm.controls['email'].value,
+            phone:this.addSupplierForm.controls['phone'].value,
+            reg_date:reg_date,
+            year_value:parseFloat(this.addSupplierForm.value.year_value.replace(/ /g,"")),
+            scale:this.addSupplierForm.value.scale,
+            has_warehouse:this.addSupplierForm.value.has_warehouse.toString(),
+            spgz_id:this.addSupplierForm.value.spgz_id,
+            value:parseFloat(this.addSupplierForm.value.value.replace(/ /g,"")),
+            price_per_unit:parseFloat(this.addSupplierForm.value.price_per_unit.replace(/ /g,"")),
+            unit_id:this.addSupplierForm.value.unit_id
+        }
+
+
+        console.log(body)
+        console.log(this.addSupplierForm.value)
+        this.suppliersServices.addSupplier(body)
+            .subscribe(
+                response => {
+                    this.ifSubmit = false;
+                    this.ifSendSuccess = true;
+                    this.addSupplierForm.reset();
+                    this.answerMessage.text = this.answerMessage.sucess;
+                    console.log(response)
+
+
+                    if(this.addSupplierDynamic){
+                        this.close()
+                        let supplier = this.addSupplierForm.controls['name'].value
+                        let that = this;
+                        setTimeout(()=>{
+                            that.suppliersServices.addDynamicSupplier.next(supplier);
+                        },600)
+                        this.addSupplierDynamic = false;
+                    
+                    }
+
+                },
+                err => {
+                    this.ifSubmit = false;
+                    this.answerMessage.text = this.answerMessage.error;
+                    console.log(err)
+                }
+            );
+
+
         // if (this.addSupplierForm.invalid) {
         //     const controls = this.addSupplierForm.controls;
         //     Object.keys(controls)
@@ -267,6 +437,9 @@ export class AddSupplierModalComponent implements OnInit{
         // }
 
         console.log( this.addSupplierForm)
+    }
+    formatDate(date){
+        return `${("0" + date.day).slice(-2)}/${("0" + date.month).slice(-2)}/${date.year}`;
     }
     ngOnDestroy(): void {
         this.unsubscribeAll.next();

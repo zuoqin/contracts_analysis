@@ -79,14 +79,14 @@ export class SearchFilterProduct implements OnInit{
         // this.selectProduct({kpgz_id: 6568, name: "Огурцы"})
         // setTimeout(()=>{
         //     this.search()
-        // },1500)
+        // },500)
 
 
         
 
     }
     changeType(){
-  
+        this.resetFilters()
         this.router.navigate(['search',this.searchForm.controls.type.value]);
     }
     selectProduct(selected){

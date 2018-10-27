@@ -1,107 +1,116 @@
 <sent-commercial-proposal-modal #sentCPModal></sent-commercial-proposal-modal>
 <div class="container">
     <div class="bordered-title "><span class="mb0">ЦЕНЫ НА ПОСТАВЛЯЕМЫЕ ТОВАРЫ</span></div>
-    <table class="no-border-table">
-        <thead>
-            <tr>
-                <th class="w11p">Товар</th>
-                <th class="w7-5p">ID</th>
-                <th class="w9p">Звонок</th>
-                <th class="w11p">Дата<br>запроса</th>
-                <th class="w11p">Запрос<br>статуса КП</th>
-                <th class="w7p text-center">Ответ</th>
-                <th class="w13p">Дата<br>получения<br>цены</th>
-                <th class="w9p">Цена,<br>руб.</th>
-                <th class="w18p">Комментарий<br>аналитика </th>
-                <th class="w5p">Ссылка<br>на<br>товар</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="w11p">Кефир 1%</td>
-                <td class="w7-5p">2707</td>
-                <td class="w9p">
-                    <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
-                </td>
-                <td class="w11p">11.04.2018</td>
-                <td class="w11p">Отправлено</td>
-                <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
-                <td class="w13p">19.04.2018</td>
-                <td class="w9p">44 346</td>
-                <td class="w18p">Цена выше рыночной</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-            <tr>
-                <td class="w11p">Йогурт</td>
-                <td class="w7-5p">69</td>
-                <td class="w9p">
-                    <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
-                </td>
-                <td class="w11p">11.05.2018</td>
-                <td class="w11p">Отправлено</td>
-                <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
-                <td class="w13p">26.05.2018</td>
-                <td class="w9p">454 346</td>
-                <td class="w18p">Ответ ч/з неделю</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-            <tr>
-                <td class="w11p">Сметана</td>
-                <td class="w7-5p">223</td>
-                <td class="w9p">
-                    <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
-                </td>
-                <td class="w11p">12.06.2018</td>
-                <td class="w11p">Отправлено</td>
-                <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
-                <td class="w13p">12.06.2018</td>
-                <td class="w9p">690 346</td>
-                <td class="w18p">+</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-            <tr>
-                <td class="w11p">Сливки</td>
-                <td class="w7-5p">268</td>
-                <td class="w9p">
-                   -
-                </td>
-                <td class="w11p">25.05.2018</td>
-                <td class="w11p">Сохранено</td>
-                <td class="w7p text-center">-</td>
-                <td class="w13p">25.05.2018</td>
-                <td class="w9p">44 346</td>
-                <td class="w18p">+</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-            <tr>
-                <td class="w11p">Кефир 1%</td>
-                <td class="w7-5p">2707</td>
-                <td class="w9p">
+    <ng-container *ngIf="productsArray">
+        <div *ngIf="!productsArray.length">
+            <br>
+            Нет данных для отображение
+        </div>
+        <table *ngIf="productsArray.length"  class="no-border-table">
+            <thead>
+                <tr>
+                    <th class="w11p">Товар</th>
+                    <th class="w7-5p">ID</th>
+                    <th class="w9p">Звонок</th>
+                    <th class="w11p">Дата<br>запроса</th>
+                    <th class="w11p">Запрос<br>статуса КП</th>
+                    <th class="w7p text-center">Ответ</th>
+                    <th class="w13p">Дата<br>получения<br>цены</th>
+                    <th class="w9p">Цена,<br>руб.</th>
+                    <th class="w18p">Комментарий<br>аналитика </th>
+                    <th class="w5p">Ссылка<br>на<br>товар</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of productsArray">
+                    <td class="w11p">{{product.product_name}}</td>
+                    <td class="w7-5p">{{product.id}}</td>
+                    <td class="w9p">
+                        <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
+                    </td>
+                    <td class="w11p">{{product.request_date}}</td>
+                    <td class="w11p">Отправлено</td>
+                    <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
+                    <td class="w13p">{{product.answer_date ? product.answer_date : ''}}</td>
+                    <td class="w9p">{{product.unit_price ? product.unit_price : 0}}</td>
+                    <td class="w18p">{{product.comment ? product.comment : '-'}}</td>
+                    <td class="w5p text-center">
+                        <a *ngIf="product.product_url && product.product_url.length>5" href="{{product.product_url}}" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a>
+                        <div *ngIf="!product.product_url || product.product_url.length<=5" >-</div>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td class="w11p">Йогурт</td>
+                    <td class="w7-5p">69</td>
+                    <td class="w9p">
+                        <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
+                    </td>
+                    <td class="w11p">11.05.2018</td>
+                    <td class="w11p">Отправлено</td>
+                    <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
+                    <td class="w13p">26.05.2018</td>
+                    <td class="w9p">454 346</td>
+                    <td class="w18p">Ответ ч/з неделю</td>
+                    <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
+                </tr>
+                <tr>
+                    <td class="w11p">Сметана</td>
+                    <td class="w7-5p">223</td>
+                    <td class="w9p">
+                        <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
+                    </td>
+                    <td class="w11p">12.06.2018</td>
+                    <td class="w11p">Отправлено</td>
+                    <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
+                    <td class="w13p">12.06.2018</td>
+                    <td class="w9p">690 346</td>
+                    <td class="w18p">+</td>
+                    <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
+                </tr>
+                <tr>
+                    <td class="w11p">Сливки</td>
+                    <td class="w7-5p">268</td>
+                    <td class="w9p">
                     -
-                </td>
-                <td class="w11p">11.04.2018</td>
-                <td class="w11p">Отправлено</td>
-                <td class="w7p text-center">-</td>
-                <td class="w13p">-</td>
-                <td class="w9p">-</td>
-                <td class="w18p">+</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-            <tr>
-                <td class="w11p">Кефир 1%</td>
-                <td class="w7-5p">2707</td>
-                <td class="w9p">
-                    <div class="btn-control-audio"><div class="icon icon--play v-align-middle"></div></div>
-                </td>
-                <td class="w11p">11.04.2018</td>
-                <td class="w11p">Отправлено</td>
-                <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
-                <td class="w13p">19.04.2018</td>
-                <td class="w9p">44 346</td>
-                <td class="w18p">Цена выше рыночной</td>
-                <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                    <td class="w11p">25.05.2018</td>
+                    <td class="w11p">Сохранено</td>
+                    <td class="w7p text-center">-</td>
+                    <td class="w13p">25.05.2018</td>
+                    <td class="w9p">44 346</td>
+                    <td class="w18p">+</td>
+                    <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
+                </tr>
+                <tr>
+                    <td class="w11p">Кефир 1%</td>
+                    <td class="w7-5p">2707</td>
+                    <td class="w9p">
+                        -
+                    </td>
+                    <td class="w11p">11.04.2018</td>
+                    <td class="w11p">Отправлено</td>
+                    <td class="w7p text-center">-</td>
+                    <td class="w13p">-</td>
+                    <td class="w9p">-</td>
+                    <td class="w18p">+</td>
+                    <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
+                </tr>
+                <tr>
+                    <td class="w11p">Кефир 1%</td>
+                    <td class="w7-5p">2707</td>
+                    <td class="w9p">
+                        <div class="btn-control-audio"><div class="icon icon--play v-align-middle"></div></div>
+                    </td>
+                    <td class="w11p">11.04.2018</td>
+                    <td class="w11p">Отправлено</td>
+                    <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
+                    <td class="w13p">19.04.2018</td>
+                    <td class="w9p">44 346</td>
+                    <td class="w18p">Цена выше рыночной</td>
+                    <td class="w5p text-center"><a href="/" target="_blank"><div class="icon icon--link cursor v-align-middle"></div></a></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </ng-container>
 </div>
 <br><br>

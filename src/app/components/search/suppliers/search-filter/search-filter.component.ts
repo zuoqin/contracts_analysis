@@ -9,7 +9,7 @@ import { CONFIG } from '@config';
 import { NgOption } from '@ng-select/ng-select';
 
 /*Services*/
-import { ProductServices } from '@core';
+import { ProductServices,SuppliersServices } from '@core';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class SearchFilterSupplierComponent implements OnInit{
     selectedSupplier;
     dataService: RemoteData;
     ifLoadData:boolean = false;
+    selectedRegions = [];
     seacrhType = CONFIG.seacrhType;
     autocompleteSupplier = CONFIG.autocompleteSupplier;
     @Input() loadData: boolean;
@@ -39,7 +40,8 @@ export class SearchFilterSupplierComponent implements OnInit{
         private formBuilder: FormBuilder,
         private router: Router,
         private productServices:ProductServices,
-        private completerService: CompleterService){
+        private completerService: CompleterService,
+        private suppliersServices: SuppliersServices){
             this.dataService = completerService.remote(`${environment.apiUrl}/search_supplier?query=` ,'supplier_name','supplier_name');
             this.dataService.dataField("suppliers");
         }
@@ -47,7 +49,13 @@ export class SearchFilterSupplierComponent implements OnInit{
 
     ngOnInit() {
         this.initForm();
-        this.getRegions()   
+        this.getRegions();
+
+        setTimeout(()=>{
+            this.selectSupplier({name: "ООО «МАКСВЕЛЛ ГРУПП»", supplier_id: 15})
+            this.search()
+        },100)
+     
     }
     changeType(){
         this.router.navigate(['search',this.searchForm.controls.type.value]);
@@ -55,27 +63,28 @@ export class SearchFilterSupplierComponent implements OnInit{
     }
     selectSupplier(selected){
     
-
+        console.log(selected)
 
         if(selected){
-            this.selectedSupplier = selected.originalObject;
-            this.searchForm.controls['query'].setValue(this.selectedSupplier.name)
+            this.selectedSupplier = selected;
+            this.searchForm.controls['query'].setValue(selected.name)
             this.checkRequired = true;
         }else{
             this.selectedSupplier = null;
             this.searchForm.controls['query'].setValue('')
             this.checkRequired = false;
         }
+        this.onLoadData.emit(false);
     }
     initForm(){
         this.searchForm = this.formBuilder.group({
             type: ['supplier', [Validators.required]],
             query: ['', [Validators.required]],
-            volumeFrom: ['', [Validators.required]],
-			volumeTo: ['', [Validators.required]],
-            unit:['1', [Validators.required]],
-            region:['1', [Validators.required]],
-            typeSupplier:['1', [Validators.required]],
+            volume_from: ['', [Validators.required]],
+			volume_to: ['', [Validators.required]],
+            unit_id:['1', [Validators.required]],
+            region_id:[null, [Validators.required]],
+            is_producer:[false, [Validators.required]],
 		});
     }
 
@@ -87,12 +96,31 @@ export class SearchFilterSupplierComponent implements OnInit{
         
         this.btnText.text = this.btnText.load;
 
-
+        
         /*TODO: временно */
         this.ifLoadData = true;
-        this.onLoadData.emit(this.selectedSupplier);
+        this.suppliersServices.SelectSupplierSubject.next(this.selectedSupplier)
+        this.onLoadData.emit(true);
         this.btnText.text = this.btnText.defaultValue;
         return;
+    }
+    selectRegions(value){
+        if(value){
+            this.selectedRegions = value;
+            let array = [];
+            this.selectedRegions.map(region=>{
+                array.push(region.id)
+            })
+            this.searchForm.controls['region'].setValue(array);
+        }else{
+            this.selectedRegions = [];
+            this.searchForm.controls['region'].setValue(false);
+        }
+        this.selectedSupplier.region_id = [];
+        this.selectedRegions.map(item=>{
+            this.selectedSupplier.region_id.push(item.id);
+        })
+   
     }
     getRegions(){
         this.productServices.getRegions().subscribe(

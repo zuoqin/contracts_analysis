@@ -209,7 +209,7 @@ export class PurchaseTableComponent{
         this.filterArray.contract_status.value = this.filterServices.findAllDiffValue(data,'contract_status');
         
         
-    
+   
         this.initalData = data;
         this.purchaseData = data;
 

@@ -10,8 +10,8 @@ export class SearchSuppliersComponent implements OnInit{
     dataColumns;
     suppliersData;
     currentProduct;
-    onLoadData(){
-        this.loadData = true;
+    onLoadData(value){
+        this.loadData = value;
     }
     toggleCardSupplier(){
         this.showCardSupplier = !this.showCardSupplier;

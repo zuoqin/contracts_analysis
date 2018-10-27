@@ -4,20 +4,20 @@
         <h2 class="modal-title" >Карточка поставщика</h2>
     </bs-modal-header>
     <bs-modal-body>
-        <form [formGroup]="addSupplierForm" novalidate *ngIf="addSupplierForm">
-            <div class="styled-form">
+        <form  [formGroup]="addSupplierForm" novalidate *ngIf="addSupplierForm">
+            <div *ngIf="!ifSendSuccess" class="styled-form">
                 <div class="styled-form__border mb50">
                     <!---->
                     <div class="styled-form__row mb15">
                         <label class="styled-form__left-label styled-form__left-label--w165"></label>
                         <div class="styled-form__right-value">
                             <label class="styled-radio mr68">
-                                <input type="radio" name="typeSupplier" value="1" formControlName="typeSupplier" >
+                                <input type="radio" name="supplier_type" value="producer" formControlName="supplier_type" >
                                 <span class="styled-radio__icon"></span>
                                 Производитель
                             </label>
                             <label class="styled-radio">
-                                <input type="radio" name="typeSupplier"  value="2" formControlName="typeSupplier">
+                                <input type="radio" name="supplier_type"  value="provider" formControlName="supplier_type">
                                 <span class="styled-radio__icon"></span>
                                 Поставщик
                             </label>
@@ -38,11 +38,11 @@
                                     class="styled-input" 
                                         />
                                 <div class="input-error" *ngIf="addSupplierForm.get('inn').hasError('required') && addSupplierForm.get('inn').touched" >Введите ИНН</div>
-                                <div *ngIf="ifLoadInn">Загрузка ...</div>
+                                <div *ngIf="ifLoadInn" style="position: absolute;">Загрузка ...</div>
                             </div>
                           
                         </div>
-                        <div class="styled-form__row">
+                        <div *ngIf="ifCheckInn" class="styled-form__row">
                             <label class="styled-form__left-label styled-form__left-label--width-auto">КПП</label>
                             <div class="styled-form__right-value">
                                 <input 
@@ -56,10 +56,10 @@
                         </div>
                         <div *ngIf="ifCheckInn" class="styled-form__row align-top">
                             <label class="switch">
-                                <input type="checkbox" (change)="changeEdit($event)">
+                                <input type="checkbox"  formControlName="switchEdit"  (change)="changeEdit($event.target.checked)">
                                 <span class="switch__slider"></span>
                                 <div class="switch__text">
-                                        Редактировать данные об организации
+                                    Редактировать данные об организации
                                 </div>
                         
                             </label>
@@ -168,9 +168,9 @@
                                         [textMask]="numberDecimalSpaceMaskOptions" 
                                         type="text" 
                                         class="styled-input" 
-                                        formControlName="turnover" 
+                                        formControlName="year_value" 
                                         placeholder="В рублях"/>
-                                    <div class="input-error" *ngIf="addSupplierForm.get('turnover').hasError('required') && addSupplierForm.get('turnover').touched" >Введите обороты</div>
+                                    <div class="input-error" *ngIf="addSupplierForm.get('year_value').hasError('required') && addSupplierForm.get('year_value').touched" >Введите обороты</div>
                                 </div>
                         </div>
                         <div class="styled-form__row styled-form__row--w31">
@@ -181,16 +181,16 @@
                                     [clearable]="false"
                                     formControlName="scale" 
                                     >
-                                        <ng-option value="1">Мелкий</ng-option>
-                                        <ng-option value="2">Средний</ng-option>
-                                        <ng-option value="3">Крупный</ng-option>
+                                        <ng-option value="Мелкий">Мелкий</ng-option>
+                                        <ng-option value="Средний">Средний</ng-option>
+                                        <ng-option value="Крупный">Крупный</ng-option>
                                 </ng-select>
                             </div>
                         </div>
-                        <div class="styled-form__row align-items-center">
+                        <div class="styled-form__row align-items-center mt7">
                             <div class="styled-form__right-value ">
                                     <label class="styled-checkbox">
-                                        <input type="checkbox"  formControlName="stock" />
+                                        <input type="checkbox"  formControlName="has_warehouse" />
                                         <span class="checkmark"></span>
                                         Наличие склада
                                     </label>
@@ -217,54 +217,51 @@
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product'">
                                             <autocomplete-field 
                                             class="autocomplete-input"
-                                                (onSelectedValue)="selectItem($event)"
+                                                (onSelectedValue)="selectProduct($event)"
                                                 [urlSearch]="autocompleteProduct.url"
                                                 [searchFields]="autocompleteProduct.searchField"
                                                 [titleField]="autocompleteProduct.titleField"
                                                 [placeholder]="'Поиск по продукту'"
                                             ></autocomplete-field>
+                                            <div *ngIf="ifDisabledProduct"  class="input-error" >Такого продукта нет среди закупок, выберите другой продукт из списка.</div>
                                     </ng-container>
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='spgz'">
                                             <autocomplete-field 
                                             class="autocomplete-input"
-                                                (onSelectedValue)="selectItem($event)"
-                                                [urlSearch]="autocompleteProduct.url"
-                                                [searchFields]="autocompleteProduct.searchField"
-                                                [titleField]="autocompleteProduct.titleField"
+                                                (onSelectedValue)="selectProductSpgz($event)"
+                                                [urlSearch]="autocompleteSPGZ.url"
+                                                [searchFields]="autocompleteSPGZ.searchField"
+                                                [titleField]="autocompleteSPGZ.titleField"
                                                 [placeholder]="'Поиск по ID СПГЗ'"
                                             ></autocomplete-field>
                                     </ng-container>
                                     <div class="input-error" *ngIf="addSupplierForm.get('product').hasError('required') && addSupplierForm.get('product').touched" >Выберите продутк</div>
                                 </div>
                             </div>
-                            <div class="styled-form__character">
-                                <label class="styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Питьевой
-                                </label>
-                                <label class="styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Густой
-                                </label>
-                                <label class="styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Фруктовый
-                                </label>
-                                <label class="styled-checkbox">
-                                    <input type="checkbox"/>
-                                    <span class="checkmark"></span>
-                                    Обогощенный
-                                </label>
-                            </div>
+
+                            <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product' && attrsProduct">
+                                <div   *ngIf="attrsProduct.length" class="mt20" >
+                                
+                                    <ng-container *ngFor="let attr of attrsProduct">
+                                        <label class="styled-label">{{attr.name}}</label>
+                                        <div class="styled-form__character">
+                                            <label class="styled-checkbox"
+                                                *ngFor="let item of attr.values">
+                                                <input type="checkbox" value="{{item.id}}" (change)="selectAttr($event,item)"/>
+                                                <span class="checkmark"></span>
+                                                {{item.name}}
+                                            </label>
+                                        </div>
+                                    </ng-container>
+                             
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                     <!---->
 
                     <!---->
-                    <div class="styled-form__3-column">
+                    <div *ngIf="units.length"  class="styled-form__3-column">
                         <div class="styled-form__row styled-form__row--w39">
                             <label class="styled-form__left-label styled-form__left-label--w165">Объем</label>
                             <div class="styled-form__right-value">
@@ -272,23 +269,23 @@
                                     type="text" 
                                     class="styled-input" 
                                     [textMask]="numberDecimalSpaceMaskOptions" 
-                                    formControlName="volume" 
+                                    formControlName="value" 
                                     placeholder="В {{volumeUnitPlaceholder}}"
                                     />
-                                <div class="input-error" *ngIf="addSupplierForm.get('volume').hasError('required') && addSupplierForm.get('volume').touched" >Введите объем</div>
+                                <div class="input-error" *ngIf="addSupplierForm.get('value').hasError('required') && addSupplierForm.get('value').touched" >Введите объем</div>
                             </div>
                         </div>
                         <div class="styled-form__row styled-form__row--w33">
                             <label class="styled-form__left-label styled-form__left-label--width-auto">Цена&nbsp;за&nbsp;единицу, руб.</label>
                             <div class="styled-form__right-value">
                                     <input 
-                                    formControlName="pricePerItem" 
+                                    formControlName="price_per_unit" 
                                     [textMask]="numberDecimalSpaceMaskOptions" 
                                     type="text" 
                                     class="styled-input" 
                                     
                                     />
-                                    <div class="input-error" *ngIf="addSupplierForm.get('pricePerItem').hasError('required') && addSupplierForm.get('pricePerItem').touched" >Введите цену</div>
+                                    <div class="input-error" *ngIf="addSupplierForm.get('price_per_unit').hasError('required') && addSupplierForm.get('price_per_unit').touched" >Введите цену</div>
                             </div>
                         </div>
                         <div class="styled-form__row">
@@ -297,10 +294,10 @@
                                 <ng-select 
                                     [searchable]="false" 
                                     [clearable]="false"
-                                    formControlName="volumeUnit" 
+                                    formControlName="unit_id" 
                                     (change)="changeVolumeUnit()"
                                     >
-                                    <ng-option value="{{unit.id}}" *ngFor="let unit of volumeUnits" >{{unit.name}}</ng-option>
+                                    <ng-option *ngFor="let unit of units" [value]="unit.unit_id" >{{unit.name}}</ng-option>
                                 </ng-select>
                             </div>
                                 
@@ -309,11 +306,19 @@
                     <!---->
                 </div>
             </div>
+            <div *ngIf="this.answerMessage.text" class="alertMessage"><br>{{answerMessage.text}}</div>  
         </form>
        
     </bs-modal-body>
     <bs-modal-footer>
-            <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
-            <div class="btn btn--icon" (click)="submit()"><div class="icon icon--circle-green-active"></div>Сохранить</div>
+            <div *ngIf="ifSendSuccess" class="btn btn--icon" (click)="close()">Закрыть</div>
+            <ng-container *ngIf="!ifSendSuccess">
+                    <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
+                    <div class="btn btn--icon" (click)="submit()">
+                        <div class="icon icon--circle-green-active"></div>
+                        {{ifSubmit ? 'Отправка...':'Отправить'}}
+                    </div>
+            </ng-container>
+    
     </bs-modal-footer>
 </bs-modal>

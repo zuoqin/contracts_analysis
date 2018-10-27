@@ -91,15 +91,21 @@ export class DateRangeFilterComponent implements OnInit{
         let copy = this.getCopyOfOptions();
 
         if(this.maxDate){
+
+
+  
+            var tomorrowMaxDate = this.maxDate;
+            tomorrowMaxDate.setDate(tomorrowMaxDate.getDate()+1)
+
+
+
+
             copy.disableSince = {
-                year:new Date(this.maxDate).getFullYear(),
-                month:new Date(this.maxDate).getMonth()+1,
-                day:new Date(this.maxDate).getDate()+1
+                year:new Date(tomorrowMaxDate).getFullYear(),
+                month:new Date(tomorrowMaxDate).getMonth()+1,
+                day:new Date(tomorrowMaxDate).getDate()
             };
-            this.defaultMonth = `${new Date(this.maxDate).getMonth()+1}/${new Date(this.maxDate).getFullYear()}`;
-            
-
-
+            this.defaultMonth = `${("0" + (new Date(tomorrowMaxDate).getMonth() + 1)).slice(-2)}/${new Date(tomorrowMaxDate).getFullYear()}`;
         }else{
             copy.disableSince = {
                 year:this.currentDate.year,
@@ -108,12 +114,18 @@ export class DateRangeFilterComponent implements OnInit{
             };
         }
         if(this.minDate){
+
+            var yesterdayMaxDate = this.minDate;
+            yesterdayMaxDate.setDate(yesterdayMaxDate.getDate()-1)
+
+            
             copy.disableUntil = {
-                year:new Date(this.minDate).getFullYear(),
-                month:new Date(this.minDate).getMonth()+1,
-                day:new Date(this.minDate).getDate()-1
+                year:new Date(yesterdayMaxDate).getFullYear(),
+                month:new Date(yesterdayMaxDate).getMonth()+1,
+                day:new Date(yesterdayMaxDate).getDate()
             }; 
         }
+
         this.myDateRangePickerOptions = copy;
     }
 
