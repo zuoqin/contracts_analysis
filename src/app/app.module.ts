@@ -25,7 +25,8 @@ import {
 		FoodPricesComponent,
 		SupplierRiskIndexComponent,
 		CategorySliderComponent,
-		ProductSuplierComponent
+		ProductSuplierComponent,
+		CommercialOffersComponent
 	} from './components/search/suppliers';
 
 
@@ -35,7 +36,8 @@ import {
 		ColumnsFilterComponent,
 		InputFilterComponent,
 		InputFilterRangeComponent,
-		ListFilterComponent
+		ListFilterComponent,
+		RadioFilterComponent
 	 } from './components/filters';
 
 
@@ -116,6 +118,8 @@ import { SlickModule } from 'ngx-slick';
 		InputFilterComponent,
 		InputFilterRangeComponent,
 		ListFilterComponent,
+		RadioFilterComponent,
+		CommercialOffersComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,

@@ -125,17 +125,33 @@
                 >
                     <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
                     <td *ngIf="isColumnActive('name')">
-                    
-                        <span   
-                            *ngIf="!purchase.safety"   
-                            tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
-                            [options]="tooltipOptions"
-                            show-delay="500">
-                            {{purchase.name}}
-                        </span>
-                        <ng-container   
-                            *ngIf="purchase.safety">
-                            {{purchase.name}}
+                        <ng-container *ngIf="purchase.url && purchase.url.length>5">
+                            <a href="{{purchase.url}}" target="_blank">
+                                <span   
+                                    *ngIf="!purchase.safety"   
+                                    tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                                    [options]="tooltipOptions"
+                                    show-delay="500">
+                                    {{purchase.name}}
+                                </span>
+                                <ng-container   
+                                    *ngIf="purchase.safety">
+                                    {{purchase.name}}
+                                </ng-container>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="!purchase.url || purchase.url.length<=5">
+                                <span   
+                                    *ngIf="!purchase.safety"   
+                                    tooltip="Внесен в реестр рисковых поставщиков ИП Октябрева" 
+                                    [options]="tooltipOptions"
+                                    show-delay="500">
+                                    {{purchase.name}}
+                                </span>
+                                <ng-container   
+                                    *ngIf="purchase.safety">
+                                    {{purchase.name}}
+                                </ng-container>
                         </ng-container>
                     </td>
                     <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} {{selectedProduct.unit_text}}</td>

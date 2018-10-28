@@ -106,9 +106,14 @@ export class ProductServices{
         return this.apiService.get('/units/product',params)
         .pipe(map(data => data));
     }
-    getAttrs(kpgz_id: number): Observable<any>{
-        const params = new HttpParams()
-        .set('kpgz_id', kpgz_id.toString())
+    getAttrs(kpgz_id: number,type?:string): Observable<any>{
+        let params = new HttpParams();
+        if(type && type=="spgz"){
+            params = params.set('spgz_id', kpgz_id.toString())
+        }else{
+            params = params.set('kpgz_id', kpgz_id.toString())
+        }
+   
 
         return this.apiService.get('/attributes/product',params)
         .pipe(map(data => data));

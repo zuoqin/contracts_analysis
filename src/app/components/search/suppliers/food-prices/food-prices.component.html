@@ -23,14 +23,17 @@
             </thead>
             <tbody>
                 <tr *ngFor="let product of productsArray">
-                    <td class="w11p">{{product.product_name}}</td>
+                    <td class="w11p break-all">{{product.product_name}}</td>
                     <td class="w7-5p">{{product.id}}</td>
                     <td class="w9p">
                         <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
                     </td>
-                    <td class="w11p">{{product.request_date}}</td>
+                    <td class="w11p">{{product.request_date ? product.request_date : '-'}}</td>
                     <td class="w11p">Отправлено</td>
-                    <td class="w7p text-center"><div (click)="showSendingCPModal()" class="icon icon--letter  cursor v-align-middle"></div></td>
+                    <td class="w7p text-center">
+                        <ng-container  *ngIf="!product.answer">-</ng-container>
+                        <div *ngIf="product.answer" (click)="showSendingCPModal(product.id)" class="icon icon--letter  cursor v-align-middle"></div>
+                    </td>
                     <td class="w13p">{{product.answer_date ? product.answer_date : '-'}}</td>
                     <td class="w9p">{{product.unit_price ? product.unit_price : 0}}</td>
                     <td class="w18p">{{product.comment ? product.comment : '-'}}</td>

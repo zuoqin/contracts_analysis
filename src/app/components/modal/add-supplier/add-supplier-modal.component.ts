@@ -33,6 +33,7 @@ export class AddSupplierModalComponent implements OnInit{
     lastLoadedInn:number;
     ifCheckInn:boolean = false;
     supplierInfo;
+    isSupplierExists:boolean = false;
 
     ifSendSuccess:boolean = false;
     ifSubmit:boolean = false;
@@ -124,11 +125,11 @@ export class AddSupplierModalComponent implements OnInit{
             phone:[{value:'',disabled:true}, [Validators.required]],
             dataRegistration:[{value:null,disabled:true}, [Validators.required]],
             year_value:['', [Validators.required]],
-            scale:['Мелкий', [Validators.required]],
+            scale:['1', [Validators.required]],
             product:[null, [Validators.required]],
             has_warehouse :[false],
             spgz_id:[],
-            typeProduct:['product', [Validators.required]],
+            typeProduct:['spgz', [Validators.required]],
             value:['', [Validators.required]],
             price_per_unit:['', [Validators.required]],
             unit_id:[null, [Validators.required]],
@@ -192,12 +193,14 @@ export class AddSupplierModalComponent implements OnInit{
                 response => {
                     this.ifCheckInn = true;
                     this.ifLoadInn = false;
-                    if(response.result){
+                 
+                    
+                    if(response.result && !response.data.inn_exists){
+                        this.isSupplierExists = false;
                         this.supplierInfo = response.data;
                         this.addSupplierForm.controls['kpp'].setValue(this.supplierInfo.kpp)
                         this.addSupplierForm.controls['name'].setValue(this.supplierInfo.name)
                         if(this.supplierInfo.address && this.supplierInfo.address.full){
-                            console.log(1)
                             this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address.full);
                         }else{
                             if(this.supplierInfo.address && this.supplierInfo.address.length){
@@ -219,19 +222,19 @@ export class AddSupplierModalComponent implements OnInit{
                                         day: parseInt(regDate[2])
                                     }
                                 }
-                            console.log(regDate)
-                            console.log(date)
                         }
                         this.addSupplierForm.controls['dataRegistration'].setValue(date);
                     }else{
-                        this.supplierInfo = response.data;
+                        this.supplierInfo = [];
                         this.addSupplierForm.controls['kpp'].setValue(null)
                         this.addSupplierForm.controls['name'].setValue(null);
                         this.addSupplierForm.controls['addres'].setValue(null);
                         this.addSupplierForm.controls['site'].setValue(null);
                         this.addSupplierForm.controls['email'].setValue(null);
                         this.addSupplierForm.controls['phone'].setValue(null);
-
+                        if(response.data.inn_exists){
+                            this.isSupplierExists = true;
+                        }
 
                         if(response.data.error){
                             console.log(response.data.error)
@@ -282,7 +285,7 @@ export class AddSupplierModalComponent implements OnInit{
         console.log(event)
         this.selectedProductKpgz = event.kpgz_id;
         this.getUnits();
-        this.addSupplierForm.controls['spgz_id'].setValue([event.spgz_id])
+        this.addSupplierForm.controls['spgz_id'].setValue(event.spgz_id)
     }
     getAttrs(){
         this.productServices.getAttrs(this.selectedProductKpgz).subscribe(
@@ -351,7 +354,7 @@ export class AddSupplierModalComponent implements OnInit{
     submit(){
         console.log(this.addSupplierForm.value.spgz_id)
   
-        if(this.ifDisabledProduct || this.ifSubmit){
+        if(this.ifDisabledProduct || this.ifSubmit || this.isSupplierExists){
             return;
         }
         if(
@@ -402,6 +405,17 @@ export class AddSupplierModalComponent implements OnInit{
         this.suppliersServices.addSupplier(body)
             .subscribe(
                 response => {
+                    if(this.addSupplierDynamic){
+                        this.close()
+                        this.suppliersServices.addDynamicSupplier.next({
+                            supplier_id:response.info.supplier_id,
+                            name:this.addSupplierForm.controls['name'].value
+                        });
+                        this.addSupplierDynamic = false;
+                    }
+
+
+
                     this.ifSubmit = false;
                     this.ifSendSuccess = true;
                     this.addSupplierForm.reset();
@@ -409,17 +423,7 @@ export class AddSupplierModalComponent implements OnInit{
                     console.log(response)
 
 
-                    if(this.addSupplierDynamic){
-                        this.close()
-                        let supplier = this.addSupplierForm.controls['name'].value
-                        let that = this;
-                        setTimeout(()=>{
-                            that.suppliersServices.addDynamicSupplier.next(supplier);
-                        },600)
-                        this.addSupplierDynamic = false;
-                    
-                    }
-
+                
                 },
                 err => {
                     this.ifSubmit = false;

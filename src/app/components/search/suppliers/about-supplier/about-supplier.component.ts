@@ -27,6 +27,7 @@ export class AboutSupplierComponent{
             response => {
                 if(response.data[0]){
                     this.aboutSuppliers = response.data[0];
+                    console.log( this.aboutSuppliers)
                     this.suppliersServices.SupplierInfoSubject.next(this.aboutSuppliers)
                 }
             },

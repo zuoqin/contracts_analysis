@@ -1,28 +1,18 @@
-<div class="container">
+<div *ngIf="supplierRiskInfo" class="container">
     <div class="bordered-title"><span>ИНДЕКС РИСКОВАННОСТИ ПОСТАВЩИКА</span></div>
-    <div class="supplier-risk">
+    <div *ngIf="supplierRiskInfo" class="supplier-risk">
         <div class="supplier-risk__row">
-            <div class="supplier-risk__column">
+            <div *ngIf="supplierRiskInfo && supplierRiskInfo.data.length" class="supplier-risk__column">
                 <table class="supplier-risk__table">
                     <tr>
                         <th>Контракты</th>
                         <th>Количество</th>
                         <th>Объем (руб.)</th>
                     </tr>
-                    <tr>
-                        <td>Заключенные:</td>
-                        <td>7</td>
-                        <td>2 474 400</td>
-                    </tr>
-                    <tr>
-                        <td>Исполненные:</td>
-                        <td>7</td>
-                        <td>2 474 000</td>
-                    </tr>
-                    <tr>
-                        <td>Расторгнутые:</td>
-                        <td>0</td>
-                        <td>0</td>
+                    <tr *ngFor="let info of supplierRiskInfo.data">
+                        <td>{{info.name}}:</td>
+                        <td>{{info.count | thousandsSpace}}</td>
+                        <td>{{info.value | thousandsSpace}}</td>
                     </tr>
                 </table>
                 <div class="supplier-risk__info">
@@ -42,7 +32,7 @@
 
             </div>
             <div class="supplier-risk__column">
-                <div class="supplier-risk__chart" [chart]="chart"></div>
+                <div *ngIf="supplierRiskInfo && supplierRiskInfo.data.length" class="supplier-risk__chart" [chart]="chart"></div>
                 <div class="supplier-risk__legend">
                     <div class="supplier-risk__legend__row">
                         <div>Масштаб:</div>
@@ -50,7 +40,7 @@
                     </div>
                     <div class="supplier-risk__legend__row">
                         <div>Рейтинг:</div>
-                        <div>100 из 100</div>
+                        <div>{{supplierRiskInfo.risk_index}} из 100</div>
                     </div>
                 </div>
             </div>

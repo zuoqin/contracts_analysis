@@ -1,44 +1,20 @@
-<div class="container">
-    <div class="bordered-title  bordered-title--large"><span>{{currentProduct.name}}</span></div>
-</div>
-<div class="character bg-gray">
+<ng-container *ngIf="selectedProduct">
     <div class="container">
-        <div class="title-red">ХАРАКТЕРИСТИКИ</div>
-        <div class="character__list">
-            <label class="styled-checkbox">
-                <input type="checkbox"/>
-                <span class="checkmark"></span>
-                Питьевой
-            </label>
-            <label class="styled-checkbox">
-                <input type="checkbox"/>
-                <span class="checkmark"></span>
-                Густой
-            </label>
-            <label class="styled-checkbox">
-                <input type="checkbox"/>
-                <span class="checkmark"></span>
-                Фруктовый
-            </label>
-            <label class="styled-checkbox">
-                <input type="checkbox"/>
-                <span class="checkmark"></span>
-                Обогащенный бифидобактериями
-            </label>
-        </div>
+        <div class="bordered-title  bordered-title--large"><span>{{selectedProduct.spgz_name}}</span></div>
     </div>
-</div>
-<div class="supplier-price">
-    <div class="container supplier-price__content">
-        <div class="supplier-price__left">
-            <prices-table></prices-table>
-            <chart-legend class="supplier-price__legend" *ngIf="legendData" [legendData]="legendData"  (onChanged)="onChangedChartLegend($event)"></chart-legend>
-        </div>
-        <div class="supplier-price__right">
-            <price-chart *ngIf="priceProductCharts"  [data]="priceProductCharts"></price-chart> 
-        </div>
-    </div>
-</div>
 
+    <div class="supplier-price">
+        <div class="container supplier-price__content">
+            <div class="supplier-price__left">
+                <prices-table></prices-table>
+                <chart-legend class="supplier-price__legend" *ngIf="legendData" [legendData]="legendData"  (onChanged)="onChangedChartLegend($event)"></chart-legend>
+            </div>
+            <div class="supplier-price__right">
+                <price-chart *ngIf="priceProductCharts"  [data]="priceProductCharts"></price-chart> 
+            </div>
+        </div>
+    </div>
+    <hr class="red">
+</ng-container>
 
 

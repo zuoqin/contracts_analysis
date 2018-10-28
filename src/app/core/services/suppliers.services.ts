@@ -36,6 +36,9 @@ export class SuppliersServices{
     public SupplierInfoObservable = this.SupplierInfoSubject.asObservable();
 
 
+    public selectProductSupplierSubject:Subject<any> = new Subject<any>();
+    public selectProductSupplierObservable = this.selectProductSupplierSubject.asObservable();
+
 
     constructor(
         private productServices:ProductServices,
@@ -51,11 +54,11 @@ export class SuppliersServices{
         return this.apiService.get('/inn_info',params)
           .pipe(map(data => data));
     }
-    getCategories(id): Observable<any> {
+    getCategoriesSupplier(supplier_id): Observable<any> {
         const params = new HttpParams()
-            .set('id', id)
+            .set('supplier_id', supplier_id)
 
-        return this.apiService.get('/suppliers/categories.json',params,'../../assets/mock')
+        return this.apiService.get('/supplier_products',params)
           .pipe(map(data => data));
     }
     getCommercialOffersSent(supplier_id:number): Observable<any> {
@@ -88,5 +91,26 @@ export class SuppliersServices{
         return this.apiService.get('/supplier',params)
           .pipe(map(data => data));
     }
+    getRiskSupplier(supplier_id): Observable<any> {
+        const params = new HttpParams()
+        .set('supplier_id', supplier_id.toString())
+        
+        return this.apiService.get('/risk_index',params)
+          .pipe(map(data => data));
+    }
+    getCommercialOffersSuppliers(spgz_id): Observable<any> {
+        const params = new HttpParams()
+        .set('product', spgz_id.toString())
+        
+        return this.apiService.get('/commercial_offers',params)
+          .pipe(map(data => data));
+    }
+    // getProductPriceSupplier(): Observable<any> {
+    //     const params = new HttpParams()
+    //     .set('product', spgz_id.toString())
+        
+    //     return this.apiService.get('/price',params)
+    //       .pipe(map(data => data));
+    // }
     
 }

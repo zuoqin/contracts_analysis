@@ -5,3 +5,4 @@ export * from './food-prices/food-prices.component';
 export * from './supplier-risk-index/supplier-risk-index.component';
 export * from './category-slider/category-slider.component';
 export * from './product-suplier/product-suplier.component';
+export * from './commercial-offers/commercial-offers.component';

@@ -8,7 +8,6 @@ export class TriggerActiveDirective {
     @HostBinding('class.active') isActive = false;
     @HostListener('click', ['$event']) onClick(btn) {
         this.removeAllActive();
-        console.log(btn.target.closest(".toggle-class").classList)
         btn.target.closest(".toggle-class").classList.toggle("active");
     }
 

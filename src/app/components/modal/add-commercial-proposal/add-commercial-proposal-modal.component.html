@@ -11,11 +11,11 @@
                 <div class="styled-form__row" >
                     <label class="styled-form__left-label">Поставщик</label>
                     <div class="styled-form__right-value input-right-icon">
-                        <input *ngIf="noShowSupplier"type="text" class="styled-input" formControlName="supplier" disabled placeholder="Введите поставщика" />
+                        <input *ngIf="supplierInfo" type="text" class="styled-input" formControlName="supplierName" disabled/>
 
                     
                         <autocomplete-field 
-                            *ngIf="!noShowSupplier"
+                            *ngIf="!supplierInfo"
                             class="autocomplete-input "
                             (onSelectedValue)="selectSupplier($event)"
                             [urlSearch]="autocompleteSupplier.url"
@@ -24,7 +24,7 @@
                             [placeholder]="'Поиск по поставщику'"
                             [initialValue]="initialValueSupplier"
                         ></autocomplete-field>
-                        <div *ngIf="!noShowSupplier" class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
+                        <div *ngIf="!supplierInfo" class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
 
                         <div class="input-error" *ngIf="addProposalForm.get('supplier').hasError('required') && addProposalForm.get('supplier').touched" >Выберите поставщика</div>
                     </div>

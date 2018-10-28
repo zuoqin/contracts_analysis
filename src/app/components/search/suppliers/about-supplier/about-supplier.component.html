@@ -2,7 +2,7 @@
     <div class="container" *ngIf="aboutSuppliers">
         <div class="d-flex space-between align-items-center">
             <div class="bordered-title"><span>ИНФОРМАЦИЯ О КОМПАНИИ</span></div>
-            <a href="/" target="_blank" class="gray-link gray-link--icon"><span class="icon icon--www"></span>Посетить сайт организации</a>
+            <a *ngIf="aboutSuppliers.site && aboutSuppliers.site.length>5" href="{{aboutSuppliers.site}}" target="_blank" class="gray-link gray-link--icon"><span class="icon icon--www"></span>Посетить сайт организации</a>
         
         </div>
         
@@ -23,7 +23,7 @@
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">Телефон поставщика:</div>
-                    <div class="list-info__value">телефон</div>
+                    <div class="list-info__value">{{aboutSuppliers.phone ? aboutSuppliers.phone : '-'}} </div>
                 </div>
                 <div class="list-info__item">
                     <div class="list-info__title">ИНН / КПП::</div>

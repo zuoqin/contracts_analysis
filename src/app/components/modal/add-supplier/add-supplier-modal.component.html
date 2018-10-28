@@ -37,7 +37,8 @@
                                     (keyup.enter)="onBulrInn()"
                                     class="styled-input" 
                                         />
-                                <div class="input-error" *ngIf="addSupplierForm.get('inn').hasError('required') && addSupplierForm.get('inn').touched" >Введите ИНН</div>
+                                <div  *ngIf="addSupplierForm.get('inn').hasError('required') && addSupplierForm.get('inn').touched" >Введите ИНН</div>
+                                <div class="input-error" *ngIf="isSupplierExists && !ifLoadInn"  style="position: absolute;">Этот поставщик уже добавлен, введите ИНН другого поставщика</div>
                                 <div *ngIf="ifLoadInn" style="position: absolute;">Загрузка ...</div>
                             </div>
                           
@@ -66,7 +67,7 @@
                         </div>
                      
                     </div>
-                 
+                    
                     <!---->
                     <!---->
                     <div class="styled-form__row">
@@ -181,9 +182,9 @@
                                     [clearable]="false"
                                     formControlName="scale" 
                                     >
-                                        <ng-option value="Мелкий">Мелкий</ng-option>
-                                        <ng-option value="Средний">Средний</ng-option>
-                                        <ng-option value="Крупный">Крупный</ng-option>
+                                        <ng-option value="1">Мелкий</ng-option>
+                                        <ng-option value="2">Средний</ng-option>
+                                        <ng-option value="3">Крупный</ng-option>
                                 </ng-select>
                             </div>
                         </div>
@@ -210,7 +211,7 @@
                                     (change)="changeType($event)"
                                     class="styled-form__select-type--selected"
                                     >
-                                    <ng-option value="product" selected>Продукт</ng-option>
+                                    <!-- <ng-option value="product" selected>Продукт</ng-option> -->
                                     <ng-option value="spgz">ID SPGZ</ng-option>
                                 </ng-select>
                                 <div class="styled-form__select-type--input">

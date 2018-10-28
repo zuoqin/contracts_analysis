@@ -1,0 +1,28 @@
+<div class="filter popup-form popup-form--270 toggle-class">
+    <div class="filter__icon" trigger-active></div>
+    <div 
+        *ngIf="ifSubmit"
+        class="filter__icon filter__icon--clear" 
+        (click)="clear($event)"></div>
+    <div class="popup-form__container">
+        <div>
+            <label class="popup-form__radio styled-radio ">
+                <input type="radio" name="{{fieldName}}" [value]="true" [(ngModel)]="value"/>
+                <span class="styled-radio__icon"></span>
+                Имеются
+            </label>
+            <label class="popup-form__radio styled-radio ">
+                <input type="radio" name="{{fieldName}}" [value]="false" [(ngModel)]="value"/>
+                <span class="styled-radio__icon"></span>
+                Отсутствуют
+            </label>
+        </div>
+
+        <div class="popup-form__bottom-btn">
+            <div class="btn" (click)="clear($event)">Сбросить</div>
+            <div 
+                class="btn" 
+                (click)="save($event)">Подтвердить</div>
+        </div>
+    </div>
+</div>

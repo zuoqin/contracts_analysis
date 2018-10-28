@@ -19,7 +19,7 @@ import { CONFIG } from '@config';
 })
 export class AddCommercialProposalModalComponent implements OnInit{
     unsubscribeAll = new Subject();
-    @Input('noShowSupplier') noShowSupplier;
+    @Input('supplierInfo') supplierInfo;
     @ViewChild('addCommercialProposalModal')
     addCommercialProposalModal: BsModalComponent;
     addProposalForm: FormGroup;
@@ -129,6 +129,7 @@ export class AddCommercialProposalModalComponent implements OnInit{
  
     initForm(){
         this.addProposalForm = this.formBuilder.group({
+            supplierName: [''],
             supplier: ['', [Validators.required]],
             type: ['product', [Validators.required]],
             product: ['', [Validators.required]],
@@ -146,8 +147,12 @@ export class AddCommercialProposalModalComponent implements OnInit{
 
         this.changeTermUnit()
         //this.changeVolumeUnit()
-        if(this.noShowSupplier){
-            this.addProposalForm.controls['supplier'].setValue('ООО «РегионПродукт»')
+        if(this.supplierInfo){
+            
+            this.addProposalForm.controls['supplierName'].setValue(this.supplierInfo.name)
+            this.addProposalForm.controls['supplier'].setValue(this.supplierInfo.supplier_id)
+            this.selectSupplier(this.supplierInfo)
+            //
         }
        
    

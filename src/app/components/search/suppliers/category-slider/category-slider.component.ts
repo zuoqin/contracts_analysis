@@ -1,5 +1,6 @@
-import { Component,OnInit, ViewEncapsulation, Output,EventEmitter } from '@angular/core';
-
+import { Component,OnInit, ViewEncapsulation} from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /*Srvices */
 import { SuppliersServices } from '@core';
 
@@ -10,27 +11,37 @@ import { SuppliersServices } from '@core';
     encapsulation: ViewEncapsulation.None
 })
 export class CategorySliderComponent implements OnInit{
+    unsubscribeAll = new Subject();
     categories;
     selectedCategory;
     selectedProduct;
-
-    @Output() onSelect = new EventEmitter<any>();
+    selectedSupplier;
     constructor(
           private suppliersServices:SuppliersServices
-    ){}
+    ){
+        this.suppliersServices.SelectSupplierObservable
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe((selectedSupplier)=>{
+                this.selectedSupplier = selectedSupplier;
+    
+                this.getCategories()
+            })
+    }
       ngOnInit(){
-            this.getCategories()
+           // this.getCategories()
       }
       getCategories(){
-            this.suppliersServices.getCategories('1')
-            .subscribe(
-                request => {
-                    this.categories = request;
-                },
-                err => {
-                    
-                }
-            );
+            this.suppliersServices.getCategoriesSupplier(this.selectedSupplier.supplier_id)
+                .subscribe(
+                    response => {
+                        this.categories = response.data;
+                        console.log(response)
+                        //this.categories = request;
+                    },
+                    err => {
+                        
+                    }
+                );
       }
 
       slideConfig = {
@@ -41,14 +52,20 @@ export class CategorySliderComponent implements OnInit{
      
      
     selectProduct(category,product){
+  
         this.selectedCategory = category;
         this.selectedProduct = product;
-        this.onSelect.emit(this.selectedProduct);
+        this.suppliersServices.selectProductSupplierSubject.next(this.selectedProduct)
+        console.log(this.selectedCategory)
     }
      
-      afterChange(e) {
+    afterChange(e) {
         console.log('afterChange');
-      }
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
+    }
 }
 
 

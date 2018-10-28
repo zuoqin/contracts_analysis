@@ -3,9 +3,9 @@
     <div *ngIf="infoSupplier" class="title-supplier">
         <div class="container">
             <h1 class="title-supplier__title">{{infoSupplier.name}}</h1>
-            <div class="rating title-supplier__rating">
+            <div *ngIf="infoSupplier.rating" class="rating title-supplier__rating">
                 <div class="rating__title">Рейтинг поставщика</div>
-                <div class="rating__count">100 из 100</div>
+                <div class="rating__count">{{infoSupplier.rating}} из 100</div>
             </div>
         </div>
     </div>
@@ -28,14 +28,16 @@
         <food-prices></food-prices>
         <supplier-risk-index></supplier-risk-index>
     </div>
-    <category-slider (onSelect)="selectProduct($event)"></category-slider>
-    <ng-container *ngIf="currentProduct">
-        <product-suplier [currentProduct]="currentProduct"></product-suplier>
-        <hr class="red">
-        <!-- <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table> -->
-        <purchase-table></purchase-table>
-    </ng-container>
+    <category-slider></category-slider>
+
+    <product-suplier ></product-suplier>
+ 
+    <commercial-offers></commercial-offers>
+    <!-- <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table> -->
+    <!-- <purchase-table></purchase-table> -->
+
 </ng-container>
+
 
 
 <br><br><br><br><br><br><br>

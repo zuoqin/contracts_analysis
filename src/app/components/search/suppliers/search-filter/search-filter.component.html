@@ -29,48 +29,6 @@
                                 
                         </div>
                     </fieldset>
-                    <fieldset  class="search-form__right">
-                            <label class="styled-label">ВИД ПОСТАВЩИКА</label>
-                            <ng-select [searchable]="false" formControlName="is_producer" [clearable]="false" class="w200">
-                                <ng-option [value]="false">Производитель</ng-option>
-                                <ng-option [value]="true">Поставщик</ng-option>
-                            </ng-select>
-                    </fieldset>
-                </div>
-                <div class="search-form__row">
-                    <fieldset class="search-form__left">
-                        <label class="styled-label">РЕГИОН</label>
-                        <regions-tag-selected  [regions]="regions" (onSelected)="selectRegions($event)"></regions-tag-selected>
-                    </fieldset>
-                    <fieldset  class="search-form__right">
-                            <label class="styled-label">ОБЪЕМ</label>
-                            <div class="field-3-column">
-                                <input 
-                                    type="text" 
-                                    formControlName="volume_from"  
-                                    class="styled-input" 
-                                    placeholder="От" 
-                                    OnlyNumber="true"
-                                    [MaxValue]="searchForm.controls['volume_to'].value" 
-                                    [FormControl]="searchForm.controls['volume_from']"
-                                    />
-                                <span class="field-3-column__line">-</span>
-                                <input 
-                                    type="text" 
-                                    formControlName="volume_to"  
-                                    class="styled-input" 
-                                    placeholder="До" 
-                                    OnlyNumber="true"
-                                    [MinValue]="searchForm.controls['volume_from'].value" 
-                                    [FormControl]="searchForm.controls['volume_to']"
-                                    />
-                                <ng-select [searchable]="false" formControlName="unit_id" [clearable]="false" class="field-3-column__last">
-                                    <ng-option value="1">Кг.</ng-option>
-                                    <ng-option value="2">Литр</ng-option>
-                                    <ng-option value="3">Упаковка</ng-option>
-                                </ng-select>
-                            </div>
-                    </fieldset>
                 </div>
                 <div class="search-form__bottom-btn">
                     <div class="btn btn--red btn--40" (click)="search()">{{btnText.text}}</div>

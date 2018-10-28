@@ -587,6 +587,17 @@ textarea.styled-input{
         display: block;
         margin-bottom: 2px;
     }
+    &__radio{
+        display: block;
+        margin-bottom: 6px;
+        &:last-child{
+            margin-bottom: 10px;
+        }
+        .styled-radio__icon{
+            top: 0px;
+        }
+        
+    }
 }
 .filter{
     display: flex;

@@ -29,7 +29,6 @@ export class SearchFilterSupplierComponent implements OnInit{
     autocompleteSupplier = CONFIG.autocompleteSupplier;
     @Input() loadData: boolean;
     @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
-    regions: NgOption[] = []
     btnText = {
         text:"Найти",
         defaultValue:"Найти",
@@ -49,10 +48,9 @@ export class SearchFilterSupplierComponent implements OnInit{
 
     ngOnInit() {
         this.initForm();
-        this.getRegions();
 
         // setTimeout(()=>{
-        //     this.selectSupplier({name: "ООО «МАКСВЕЛЛ ГРУПП»", supplier_id: 15})
+        //     this.selectSupplier({supplier_id: 3129, name: "ООО «РегионПродукт»"})
         //     this.search()
         // },100)
      
@@ -80,11 +78,6 @@ export class SearchFilterSupplierComponent implements OnInit{
         this.searchForm = this.formBuilder.group({
             type: ['supplier', [Validators.required]],
             query: ['', [Validators.required]],
-            volume_from: ['', [Validators.required]],
-			volume_to: ['', [Validators.required]],
-            unit_id:['1', [Validators.required]],
-            region_id:[null, [Validators.required]],
-            is_producer:[false, [Validators.required]],
 		});
     }
 
@@ -104,33 +97,6 @@ export class SearchFilterSupplierComponent implements OnInit{
         this.btnText.text = this.btnText.defaultValue;
         return;
     }
-    selectRegions(value){
-        if(value){
-            this.selectedRegions = value;
-            let array = [];
-            this.selectedRegions.map(region=>{
-                array.push(region.id)
-            })
-            this.searchForm.controls['region'].setValue(array);
-        }else{
-            this.selectedRegions = [];
-            this.searchForm.controls['region'].setValue(false);
-        }
-        this.selectedSupplier.region_id = [];
-        this.selectedRegions.map(item=>{
-            this.selectedSupplier.region_id.push(item.id);
-        })
-   
-    }
-    getRegions(){
-        this.productServices.getRegions().subscribe(
-            response => {
-                this.regions = response.data
-            },
-            err => {
-                console.log(err)
-            }
-        );
-    }
+
     
 }

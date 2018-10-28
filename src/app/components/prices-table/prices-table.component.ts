@@ -160,8 +160,8 @@ export class PriceTableComponent{
         data.map((item,index)=>{
 
             if(data[index+1]){
-                item['diffMarket'] = data[index].market - data[index+1].market;
-                item['diffPurchase'] = data[index].purchase - data[index+1].purchase
+                item['diffMarket'] = (data[index].market - data[index+1].market).toFixed(2);
+                item['diffPurchase'] = (data[index].purchase - data[index+1].purchase).toFixed(2);
             }else{
                 item['diffMarket'] = 0;
                 item['diffPurchase'] = 0;
