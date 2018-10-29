@@ -27,4 +27,19 @@
 </div>
 
 
+    <div *ngIf="units" class="container select-units-supplier">
+        Единицы объема
+        <ng-select 
+            [searchable]="false" 
+            [clearable]="false"
+            [(ngModel)]="currentUnits"
+            (change)="changeUnits()"
+        >
+            <ng-option *ngFor="let unit of units" [value]="unit.unit_id">{{unit.name}}</ng-option>
+    
+        </ng-select>
+
+    </div>
+
+
 

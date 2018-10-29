@@ -126,87 +126,55 @@
                     >
                         <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
                         <td *ngIf="isColumnActive('name')">
-                            <a *ngIf="supplier.contract_url && supplier.contract_url.length>5" target="_blank" href="{{supplier.contract_url}}">{{supplier.name}}</a>
-                            <div *ngIf="!supplier.contract_url">{{supplier.name}}</div>
+                           {{supplier.name}}
                         </td>
                         <td *ngIf="isColumnActive('volume')" class="text-center">{{supplier.volume ? (supplier.volume  | thousandsSpace) : '-'}}</td>
                         <td *ngIf="isColumnActive('price_per_unit')" class="text-center">
-                                <span 
-                            
-                                class="red-color cursor"
-                                tooltip="Значительное отклонение" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.price_per_unit ? (supplier.price_per_unit  | thousandsSpace) : '-'}}
-                            </span>
-                            <!-- <span 
-                                *ngIf="supplier.price.status == 1" 
-                                class="red-color cursor"
-                                tooltip="Значительное отклонение" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.price_per_unit}}
-                            </span>
-        
+                     
                             <span 
-                                *ngIf="supplier.price.status == 2"
+                                *ngIf="supplier.percentDiff<15" 
                                 class="green-color cursor"
-                                tooltip="Цена на рынке"
+                                tooltip="Нормальная цена" 
                                 [options]="tooltipOptions"
                                 show-delay="500">
-                                {{supplier.price.value}}
-                            </span> -->
+                                {{supplier.price_per_unit | thousandsSpace}} руб.
+                            </span>
+
+                            <span 
+                                *ngIf="supplier.percentDiff>15 && supplier.percentDiff<30" 
+                                class="yellow-color cursor"
+                                tooltip="Средняя цена" 
+                                [options]="tooltipOptions"
+                                show-delay="500">
+                                {{supplier.price_per_unit | thousandsSpace}} руб.
+                            </span>
+                            <span 
+                                *ngIf="supplier.percentDiff>=30" 
+                                class="red-color cursor"
+                                tooltip="Завышеная цена" 
+                                [options]="tooltipOptions"
+                                show-delay="500">
+                                {{supplier.price_per_unit | thousandsSpace}} руб.
+                            </span>
+
+
                             
                         </td>
                         <td *ngIf="isColumnActive('delivery')" class="text-center">
-                                <span 
-        
-                                class="red-color cursor"
-                                tooltip="Значительное отклонение" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
                                 {{supplier.delivery ? ((supplier.delivery  | thousandsSpace)+' дней') : '-'}}
-
-                            </span>
-                                <!-- <span 
-                                *ngIf="supplier.term.status == 1" 
-                                class="red-color cursor"
-                                tooltip="Значительное отклонение" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.term.value}} {{supplier.term.unit}}
-                            </span>
-        
-                            <span 
-                                *ngIf="supplier.term.status == 2"
-                                class="yellow-color cursor"
-                                tooltip="Цена на рынке"
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.term.value}} {{supplier.term.unit}}
-                            </span> -->
-                            
                         </td>
                         <td *ngIf="isColumnActive('volume_count')" class="text-center">
                                 {{supplier.volume_count ? (supplier.volume_count  | thousandsSpace) : '-'}}
                         
                         </td>
                         <td *ngIf="isColumnActive('comm_offer')"class="text-center" >
-                            <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier.supplier_id)"></div>
+                            <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier)"></div>
                             <div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(supplier.supplier_id)"></div>
 
                         </td>
                         <td *ngIf="isColumnActive('calls')" class="text-center">
                             <ng-container *ngIf="supplier.calls.length">
-                                <div class="btn-control-audio">
-                                    <div class="icon icon--play"></div>
-                                </div>
-                                <div class="btn-control-audio">
-                                    <div class="icon icon--stop"></div>
-                                </div>
-                                <div class="btn-control-audio">
-                                    <div class="icon icon--pause"></div>
-                                </div>
+                                <audio-player *ngFor="let call of supplier.calls" [src]="call"></audio-player>
                             </ng-container>
                             <ng-container *ngIf="!supplier.calls.length">-</ng-container>
                         </td>

@@ -4,7 +4,7 @@
 
     <div class="product-price">
         <div class="product-price__left">
-            <prices-table></prices-table>
+            <prices-table *ngIf="priceDynamicsArray" [priceArray]="priceDynamicsArray" [predictionPrice]="predictionPrice"></prices-table>
         </div>
         <div class="chart-legend product-price__right">
             <div *ngIf="!priceChartsData">Загрузка легенды для графика...</div>

@@ -10,7 +10,8 @@ import {
     ApiService,
     ProductServices,
     SuppliersServices,
-    FilterServices
+    FilterServices,
+    UserServices
 
 } from './services';
 
@@ -24,7 +25,8 @@ import {
     ApiService,
     ProductServices,
     SuppliersServices,
-    FilterServices
+    FilterServices,
+    UserServices
   ],
   declarations: []
 })

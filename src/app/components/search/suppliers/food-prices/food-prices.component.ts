@@ -9,6 +9,7 @@ import { SuppliersServices } from '@core';
 })
 export class FoodPricesComponent{
     unsubscribeAll = new Subject();
+    @ViewChild('textModal') textModal;
     loadData:boolean = true;
     showCardSupplier:boolean = true;
     selectedSupplier;
@@ -24,12 +25,11 @@ export class FoodPricesComponent{
                 this.getPriceSupplier()
             })
     }
-    @ViewChild('sentCPModal') sentCPModal;
+  
     getPriceSupplier(){
         this.suppliersServices.getPriceSupplier(this.selectedSupplier.supplier_id).subscribe(
             response => {
                 this.productsArray = response.data;
-                console.log(response.data)
 
             },
             err => {
@@ -47,8 +47,8 @@ export class FoodPricesComponent{
     toggleCardSupplier(){
         this.showCardSupplier = !this.showCardSupplier;
     }
-    showSendingCPModal(){
-        this.sentCPModal.open()
+    showAnswer(text,){
+        this.textModal.open(text,'Просмотр ответа')
     }
     ngOnDestroy(): void {
         this.unsubscribeAll.next();

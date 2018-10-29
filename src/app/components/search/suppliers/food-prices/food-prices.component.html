@@ -1,4 +1,4 @@
-<sent-commercial-proposal-modal #sentCPModal></sent-commercial-proposal-modal>
+<text-modal #textModal></text-modal>
 <div class="container">
     <div class="bordered-title "><span class="mb0">ЦЕНЫ НА ПОСТАВЛЯЕМЫЕ ТОВАРЫ</span></div>
     <ng-container *ngIf="productsArray">
@@ -29,10 +29,10 @@
                         <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
                     </td>
                     <td class="w11p">{{product.request_date ? product.request_date : '-'}}</td>
-                    <td class="w11p">Отправлено</td>
+                    <td class="w11p">{{product.result ? product.result : '-'}}</td>
                     <td class="w7p text-center">
                         <ng-container  *ngIf="!product.answer">-</ng-container>
-                        <div *ngIf="product.answer" (click)="showSendingCPModal(product.id)" class="icon icon--letter  cursor v-align-middle"></div>
+                        <div *ngIf="product.answer" (click)="showAnswer(product.answer)" class="icon icon--letter  cursor v-align-middle"></div>
                     </td>
                     <td class="w13p">{{product.answer_date ? product.answer_date : '-'}}</td>
                     <td class="w9p">{{product.unit_price ? product.unit_price : 0}}</td>

@@ -1,16 +1,16 @@
 <div class="container">
     <div class="title-with-button">
             <h2>ЗАКУПКИ</h2>
-            <div class="title-with-button__right" *ngIf="purchaseData && purchaseData.length && ifLoadData">
-                <div *ngIf="purchaseData && purchaseData.length && ifLoadData" class="btn btn--icon" (click)="downloadfile()">
+            <div class="title-with-button__right" *ngIf="purchaseData && purchaseData.length">
+                <div *ngIf="purchaseData && purchaseData.length" class="btn btn--icon" (click)="downloadfile()">
                     <div class="icon icon--download"></div>Скачать файл
                 </div>
-                <columns-filter  *ngIf="purchaseData && purchaseData.length && ifLoadData" (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
+                <columns-filter  *ngIf="purchaseData && purchaseData.length" (onSelectedColumns)="onSelectedColumns($event)" [columns]="purchaseColumns"></columns-filter>
             </div>
     </div>
-    <div *ngIf="!ifLoadData">{{messageResponse.text}}</div>
-    <div *ngIf="ifLoadData && !purchaseData">{{messageResponse.text}}</div>
-    <ng-container  *ngIf="initalData && initalData.length && ifLoadData" >
+
+    <div *ngIf="!purchaseData">{{messageResponse.text}}</div>
+    <ng-container  *ngIf="initalData && initalData.length" >
         <table class="styled-table" [mfData]="purchaseData" #mf="mfDataTable">
             <thead>
                 <tr>
@@ -154,45 +154,41 @@
                                 </ng-container>
                         </ng-container>
                     </td>
-                    <td *ngIf="isColumnActive('contract_value')">{{purchase.contract_value | thousandsSpace}} {{selectedProduct.unit_text}}</td>
+                    <td *ngIf="isColumnActive('contract_value')">
+                        {{purchase.contract_value | thousandsSpace}}
+                        <ng-container *ngIf="selectedProduct && !unitName">
+                                {{selectedProduct.unit_text}}
+                        </ng-container> 
+                        <ng-container *ngIf="!selectedProduct && unitName">
+                                {{unitName}}
+                        </ng-container> 
+                    </td>
                     <td *ngIf="isColumnActive('unitprice')" class="text-center">
-                        <!-- <span 
-                            *ngIf="purchase.price.status == 1" 
-                            class="red-color cursor"
-                            tooltip="Значительное отклонение" 
-                            [options]="tooltipOptions"
-                            show-delay="500">
-                            {{purchase.price.value}}
-                        </span> -->
-    <!-- 
                         <span 
-                            *ngIf="purchase.price.status == 2"
+                            *ngIf="purchase.percentDiff<15" 
                             class="green-color cursor"
-                            tooltip="Цена на рынке"
+                            tooltip="Нормальная цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.price.value}}
-                        </span> -->
-
-                        <span 
-                    
-                            class="green-color cursor"
-                            tooltip="Цена на рынке"
-                            [options]="tooltipOptions"
-                            show-delay="500">
-                            {{purchase.unitprice | thousandsSpace}}
+                            {{purchase.unitprice | thousandsSpace}} руб.
                         </span>
 
-                        
-                        <!-- <span 
-                            *ngIf="purchase.price.status == 3" 
+                        <span 
+                            *ngIf="purchase.percentDiff>15 && purchase.percentDiff<30" 
                             class="yellow-color cursor"
-                            tooltip="Незначительное отклонение"
+                            tooltip="Средняя цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.price.value}}
-                        </span> -->
-                        
+                            {{purchase.unitprice | thousandsSpace}} руб.
+                        </span>
+                        <span 
+                            *ngIf="purchase.percentDiff>=30" 
+                            class="red-color cursor"
+                            tooltip="Завышеная цена" 
+                            [options]="tooltipOptions"
+                            show-delay="500">
+                            {{purchase.unitprice | thousandsSpace}} руб.
+                        </span>
                     </td>
                     <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
                     <td *ngIf="isColumnActive('contract_price')" class="text-center">{{purchase.contract_price | thousandsSpace}}</td>

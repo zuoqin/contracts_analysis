@@ -99,10 +99,13 @@ export class ProductServices{
         return this.apiService.get('/search',params)
           .pipe(map(data => data));
     }
-    getUnits(kpgz_id: number): Observable<any>{
-        const params = new HttpParams()
-        .set('kpgz_id', kpgz_id.toString())
-
+    getUnits(kpgz_id: number,spgz_id?: number): Observable<any>{
+        let params= new HttpParams();
+        if(kpgz_id){
+            params =  params.set('kpgz_id', kpgz_id.toString())
+        }else{
+            params =  params.set('spgz_id', spgz_id.toString())
+        }
         return this.apiService.get('/units/product',params)
         .pipe(map(data => data));
     }
@@ -189,13 +192,14 @@ export class ProductServices{
     getHttpParams(selectedProduct:ProductSearch){
         let params = new HttpParams()
             .set('spgz_id',selectedProduct.spgz_id.toString())
-    
-            .set('risk', selectedProduct.risk.toString())
 
+        if(selectedProduct.risk){
+            params = params.set('risk', selectedProduct.risk.toString())
+        } 
         if(selectedProduct.unit_id){
             params = params.set('unit_id', selectedProduct.unit_id.toString())
         }  
-        if(selectedProduct.region_id.length){
+        if(selectedProduct.region_id && selectedProduct.region_id.length){
             params = params.set('region_id', selectedProduct.region_id.toString())
         }       
         if(selectedProduct.delivery_from){

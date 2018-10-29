@@ -19,7 +19,7 @@ export class SuppliersTableComponent implements OnInit{
     initalData;
     suppliersData;
     ifLoadData:boolean = false;
-
+    averagePrice;
     
     messageResponse = CONFIG.messageResponse;
     @ViewChild('addCommercialProposalModal') addCommercialProposalModal;
@@ -141,6 +141,7 @@ export class SuppliersTableComponent implements OnInit{
                     this.messageResponse.text =  this.messageResponse.noData;
                 }else{
                     this.suppliersServices.suppliersCountSubject.next(response.data.length)
+                    
                     this.formatData(response.data)
                    
                 }
@@ -156,9 +157,19 @@ export class SuppliersTableComponent implements OnInit{
 
     }
     
-    
+    getPriceInfo(){
+       
+    }
     formatData(data){
+        let summ = 0;
         data.map(item=>{
+            summ += item.price_per_unit;
+        })
+        this.averagePrice = summ/data.length;
+
+
+        data.map(item=>{
+            item['percentDiff'] = ((item.price_per_unit-this.averagePrice)/this.averagePrice)*100
             if(item.date){
                 let date = item.date.split('/');
                 item.date = {
@@ -301,8 +312,8 @@ export class SuppliersTableComponent implements OnInit{
     showSentCPModal(supplier_id){
         this.sentCPModal.open(supplier_id)
     }
-    showSendingCPModal(supplier_id){
-        this.sendingCPModal.open(supplier_id)
+    showSendingCPModal(supplier){
+        this.sendingCPModal.open(supplier.offer_line_id,supplier.email)
     }
     downloadfile(){
         var str = "";
@@ -329,4 +340,5 @@ export class SuppliersTableComponent implements OnInit{
         this.unsubscribeAll.next();
         this.unsubscribeAll.complete();
     }
+ 
 }

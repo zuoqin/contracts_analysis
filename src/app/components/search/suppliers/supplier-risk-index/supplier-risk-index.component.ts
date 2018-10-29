@@ -25,8 +25,8 @@ export class SupplierRiskIndexComponent implements OnInit{
     unsubscribeAll = new Subject();
     selectedSupplier;
     supplierRiskInfo;
-    supplierRiskInfoCharts = [];
-    colorArray = ['#2C4155','#C8C8C8','#B12726']
+    supplierRiskInfoCharts;
+    priceChartsData;
     constructor(
         private suppliersServices:SuppliersServices
     ){
@@ -42,22 +42,54 @@ export class SupplierRiskIndexComponent implements OnInit{
         this.suppliersServices.getRiskSupplier(this.selectedSupplier.supplier_id)
             .subscribe(
                 response => {
-                    this.supplierRiskInfoCharts = [];
-                    this.supplierRiskInfo = response;
-                    if(this.supplierRiskInfo.data){
-                        this.supplierRiskInfo.data.map(item=>{
-                            this.supplierRiskInfoCharts.push({
-                                name:item.name,
-                                y:item.value,
-                                color: '#2C4155'
-                            })
-                            item
+                    
+                    let data = response.data;
+                    this.supplierRiskInfoCharts = {
+                        progress:{
+                            name:"Заключенные",
+                            chartName:"Заключенные",
+                            count:data.progress.count,
+                            sum:data.progress.sum,
+                            color:'#2c4155'
+                        },
+                        done:{
+                            name:"Своевременно исполненные",
+                            chartName:"Исполненные",
+                            count:data.done.count,
+                            sum:data.done.sum,
+                            color:'#c8c8c8'
+                        },
+                     
+                        reject:{
+                            name:"Расторгнутые",
+                            chartName:"Расторгнутые",
+                            count:data.reject.count,
+                            sum:data.reject.sum,
+                            color:'#b33434'
+                        }
+                    };
+
+                    this.priceChartsData = [];
+                    for (let key in this.supplierRiskInfoCharts) {
+                        let value = this.supplierRiskInfoCharts[key];
+                        this.priceChartsData.push({
+                            name: value.chartName,
+                            y: value.sum,
+                            color: value.color
                         })
-                        this.showGraph();
+                        
                     }
-                
-                    console.log(response)
-                    //this.categories = request;
+                    this.supplierRiskInfoCharts['scale'] = response.scale;
+                    this.supplierRiskInfoCharts['is_new'] = response.is_new;
+                    this.supplierRiskInfoCharts['risk_index'] = response.risk_index;
+                    this.supplierRiskInfoCharts['is_one_customer'] = response.is_one_customer;
+                    this.supplierRiskInfoCharts['is_affiliate'] = response.is_affiliate;
+
+
+
+                    this.showGraph();
+
+            
                 },
                 err => {
                     
@@ -66,26 +98,28 @@ export class SupplierRiskIndexComponent implements OnInit{
     }
      
 
-    priceChartsData = [
-        {
-            "name": "Заключенные",
-            "y": 2474400,
-            color: '#2C4155'
+    // priceChartsData = [
+      
+    //     {
+    //         "name": "Заключенные",
+    //         "y": 2474400,
+    //         color: '#2C4155'
     
-        },
-        {
-            "name": "Своевременно исполненные",
-            "y": 2474400,
-            color: '#C8C8C8'
+    //     },
+    //     {
+            
+    //         "name": "Своевременно исполненные",
+    //         "y": 2474400,
+    //         color: '#C8C8C8'
    
-        },
-        {
-            "name": "Расторгнутые",
-            "y": 0,
-            color: '#B12726'
+    //     },
+    //     {
+    //         "name": "Расторгнутые",
+    //         "y": 0,
+    //         color: '#B12726'
         
-        }
-    ]
+    //     }
+    // ]
     chart = new Chart({
         chart: {
             type: 'column',
@@ -158,10 +192,11 @@ export class SupplierRiskIndexComponent implements OnInit{
        
     }
     showGraph(){
+
         if(this.chart.ref){
             this.removeSerie();
         }
-        this.chart.addSerie({data: this.supplierRiskInfoCharts}) 
+        this.chart.addSerie({data: this.priceChartsData}) 
     }
 
     

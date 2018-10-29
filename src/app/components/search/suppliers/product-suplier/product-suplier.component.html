@@ -6,15 +6,16 @@
     <div class="supplier-price">
         <div class="container supplier-price__content">
             <div class="supplier-price__left">
-                <prices-table></prices-table>
+                <prices-table *ngIf="priceDynamicsArray" [priceArray]="priceDynamicsArray" [predictionPrice]="predictionPrice" [isSupplierPage]="true"></prices-table>
                 <chart-legend class="supplier-price__legend" *ngIf="legendData" [legendData]="legendData"  (onChanged)="onChangedChartLegend($event)"></chart-legend>
             </div>
             <div class="supplier-price__right">
-                <price-chart *ngIf="priceProductCharts"  [data]="priceProductCharts"></price-chart> 
+                <price-chart *ngIf="priceChartsData"  [data]="priceChartsData"></price-chart> 
             </div>
         </div>
     </div>
     <hr class="red">
 </ng-container>
+
 
 

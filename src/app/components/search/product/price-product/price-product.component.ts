@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { ProductServices } from '@core';
 /*Models*/
 import { ProductSearch } from '@core';
+
+import { CONFIG } from '@config';
 @Component({
     selector:"price-product",
     templateUrl:"./price-product.component.html"
@@ -15,6 +17,8 @@ export class PriceProductComponent  implements OnInit{
     priceChartsData;
     legendData;
     unsubscribeAll = new Subject();
+    priceDynamicsArray;
+    predictionPrice;
     constructor(
         private productServices:ProductServices
     ){
@@ -23,11 +27,44 @@ export class PriceProductComponent  implements OnInit{
             .subscribe((selectedProduct)=>{
                 this.priceChartsData=null;
                 this.selectedProduct = selectedProduct;
-                this.getChartsData()
+                this.getChartsData();
+
+                this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
+                    response => {
+                        this.priceDynamicsArray = response.data;
+                    },
+                    err => {
+                        console.log(err)
+                    }
+                );
+
+                
+                this.productServices.getPredictionPrice(this.selectedProduct).subscribe(
+                    response => {
+                        this.predictionPrice
+                        if(response.data.length){
+                            response.data["monthText"] = CONFIG.months[response.data.month-1]
+                            response.data["currency"] = this.declOfNum(parseInt(response.data.price), ['рубль', 'рубля', 'рублей']);
+                            this.predictionPrice = response.data;
+                        }else{
+                            this.predictionPrice = null
+                        }
+                   
+                    },
+                    err => {
+                        console.log(err)
+                    }
+                );
+
+
             })
     }
     ngOnInit(){
 
+    }
+    declOfNum(number, titles) {  
+        let cases = [2, 0, 1, 1, 1, 2];  
+        return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
     }
     getChartsData(){
         this.productServices.getChartsData(this.selectedProduct)

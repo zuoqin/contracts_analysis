@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -11,13 +11,16 @@ import { ProductSearch } from '@core';
     selector:"prices-table",
     templateUrl:"./prices-table.component.html"
 })
-export class PriceTableComponent{
+export class PriceTableComponent implements OnInit{
+    @Input('priceArray') priceArray;
+    @Input('predictionPrice') predictionPrice;
+    @Input('isSupplierPage') isSupplierPage;
     unsubscribeAll = new Subject();
     selectedProduct:ProductSearch;
     pricesDynamics;
-    predictionPrice;
     currentDate = {};
     suppliersCount;
+    
     averagePrice = {
         year:{
             market:null,
@@ -45,46 +48,18 @@ export class PriceTableComponent{
                 .subscribe(count=>{
                     this.suppliersCount = count
                 })
-            this.productServices.SelectProductObservable
-                .pipe(takeUntil(this.unsubscribeAll))
-                .subscribe((selectedProduct)=>{
-                    this.selectedProduct = selectedProduct;
-                    this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
-                        response => {
-                            this.getAveragePrice(response.data)
-                            this.setPriceDifference(response.data);
-                        },
-                        err => {
-                            console.log(err)
-                        }
-                    );
+      
 
-                    this.productServices.getPredictionPrice(this.selectedProduct).subscribe(
-                        response => {
-                            if(response.data.length){
-                                response.data["monthText"] = CONFIG.months[response.data.month-1]
-                                response.data["currency"] = this.declOfNum(parseInt(response.data.price), ['рубль', 'рубля', 'рублей']);
-                                
-                                
-                                this.predictionPrice = response.data;
-                            }else{
-                                this.predictionPrice = null
-                            }
-                       
-                        },
-                        err => {
-                            console.log(err)
-                        }
-                    );
-  
-                })
+    }
+    ngOnInit(){
 
+        if(this.priceArray){
+            this.getAveragePrice(this.priceArray)
+            this.setPriceDifference(this.priceArray);
         }
-        declOfNum(number, titles) {  
-            console.log(number)
-            let cases = [2, 0, 1, 1, 1, 2];  
-            return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
-        }
+   
+    }
+
     getAveragePrice(data){
         let yearSummMarket = 0;
         let yearSummPurchase = 0;

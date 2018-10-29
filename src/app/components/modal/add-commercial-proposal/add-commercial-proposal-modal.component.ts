@@ -36,7 +36,7 @@ export class AddCommercialProposalModalComponent implements OnInit{
     selectedProduct:ProductSearch;
     volumeUnitPlaceholder:string = '';
     termUnitPlaceholder:string;
-    initialValueSupplier:string;
+    initialValueSupplier;
     ifSendSuccess:boolean = false;
     ifSubmit:boolean = false;
 
@@ -91,7 +91,9 @@ export class AddCommercialProposalModalComponent implements OnInit{
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(value=>{
                 this.initialValueSupplier = value;
-                this.addProposalForm.controls['supplier'].setValue(value);
+
+                this.addProposalForm.controls['supplierName'].setValue(this.initialValueSupplier.name)
+                this.addProposalForm.controls['supplier'].setValue(this.initialValueSupplier.supplier_id)
                 this.open();
             })
         this.suppliersServices.openAddCPModalObservable
@@ -145,10 +147,12 @@ export class AddCommercialProposalModalComponent implements OnInit{
             document:[null],
         });
 
+
         this.changeTermUnit()
         //this.changeVolumeUnit()
+    
         if(this.supplierInfo){
-            
+          
             this.addProposalForm.controls['supplierName'].setValue(this.supplierInfo.name)
             this.addProposalForm.controls['supplier'].setValue(this.supplierInfo.supplier_id)
             this.selectSupplier(this.supplierInfo)

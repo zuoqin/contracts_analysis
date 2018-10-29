@@ -4,7 +4,8 @@
         <div class="price-table__title"></div>
         <div class="price-table__price">
             <div>Рыночная</div>
-            <div>Закупочная</div>
+            <div *ngIf="!isSupplierPage">Закупочная</div>
+            <div *ngIf="isSupplierPage">Поставщика</div>
         </div>
     </div>
     <ng-container *ngIf="pricesDynamics">

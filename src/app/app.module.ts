@@ -8,6 +8,10 @@ import { RegionsTagSelectedComponent } from './components/regions-tag-selected/r
 import { SearchComponent } from './components/search/search.component';
 import { PriceTableComponent } from './components/prices-table/prices-table.component';
 import { ChartLegendComponent } from './components/chart-legend/chart-legend.component';
+import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+
+
+
 import { 
 		SearchProductComponent,
 		CategoryProductComponent,
@@ -49,7 +53,8 @@ import {
 		AddCommercialProposalModalComponent,
 		AddSupplierModalComponent,
 		SentCommercialProposalModalComponent,
-		SendingCPModalComponent
+		SendingCPModalComponent,
+		TextModalComponent
 	} from './components/modal';
 
 /*Directives*/
@@ -120,6 +125,8 @@ import { SlickModule } from 'ngx-slick';
 		ListFilterComponent,
 		RadioFilterComponent,
 		CommercialOffersComponent,
+		TextModalComponent,
+		AudioPlayerComponent,
 		OnlyNumber,
 		MaxValue,
 		MinValue,

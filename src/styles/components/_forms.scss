@@ -1161,3 +1161,12 @@ html body .mydp{
         }
     }
 }
+.select-units-supplier{
+    display: flex;
+    align-items: center;
+    margin-top: 29px;
+    .ng-select{
+        padding-left: 24px;
+        width: 194px;
+    }
+}

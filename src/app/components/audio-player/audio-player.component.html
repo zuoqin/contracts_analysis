@@ -1,0 +1,9 @@
+<div *ngIf="!ifPlay" class="btn-control-audio" (click)="playCall()">
+    <div class="icon icon--play"></div>
+</div>
+<div *ngIf="ifPlay" class="btn-control-audio" (click)="pauseCall()">
+    <div class="icon icon--pause"></div>
+</div>
+<div *ngIf="ifStopShow" class="btn-control-audio" (click)="stopCall()">
+    <div class="icon icon--stop"></div>
+</div>

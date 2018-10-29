@@ -21,8 +21,9 @@ export class CommercialOffersComponent implements OnInit{
     commercialOffers;
     ifLoadData:boolean = false;
     noShowSupplier:boolean = true;
-    
+    infoSupplier;
     messageResponse = CONFIG.messageResponse;
+    averagePrice;
     @ViewChild('addCommercialProposalModal') addCommercialProposalModal;
     @ViewChild('addSupplierModal') addSupplierModal;
     @ViewChild('sentCPModal') sentCPModal;
@@ -49,14 +50,14 @@ export class CommercialOffersComponent implements OnInit{
             filterMax:null,
             filter:false
         },
-        unit_id:{
+        participation:{
             min:null,
             max:null,
             filterMin:null,
             filterMax:null,
             filter:false
         }, 
-        maildesc:{
+        result:{
             active:true,
             filter:false
         },
@@ -90,12 +91,12 @@ export class CommercialOffersComponent implements OnInit{
             active:true
         },
         {
-            id:"unit_id",
+            id:"participation",
             text:"Участий в закупках",
             active:true
         },
         {
-            id:"maildesc",
+            id:"result",
             text:"КП",
             active:true
         },
@@ -113,13 +114,23 @@ export class CommercialOffersComponent implements OnInit{
         this.suppliersServices.SelectSupplierObservable
         .pipe(takeUntil(this.unsubscribeAll))
         .subscribe((selectedSupplier)=>{
+            this.initalData = null;
+            this.selectedProduct = null;
+            this.commercialOffers = null;
             this.selectedSupplier = selectedSupplier;
         })
+        this.suppliersServices.SupplierInfoObservable
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe(infoSupplier=>{
+                this.infoSupplier = infoSupplier;
+            })
         this.suppliersServices.selectProductSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectProduct=>{
-                console.log(selectProduct)
+   
                 this.selectedProduct = selectProduct;
+                this.initalData = null;
+                this.commercialOffers = null;
                 this.getData()
             })
     }
@@ -127,11 +138,12 @@ export class CommercialOffersComponent implements OnInit{
 
  
 
+        
 
     }
     getData(){
 
-        this.suppliersServices.getCommercialOffersSuppliers(this.selectedProduct.spgz_id).subscribe(
+        this.suppliersServices.getCommercialOffersSuppliers(this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id).subscribe(
             response => {
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;
@@ -140,7 +152,7 @@ export class CommercialOffersComponent implements OnInit{
                     this.formatData(response.data)
                    
                 }
-               console.log(response)
+    
                this.ifLoadData = true;
             },
             err => {
@@ -153,7 +165,18 @@ export class CommercialOffersComponent implements OnInit{
     
     
     formatData(data){
+
+
+            let summ = 0;
+            data.map(item=>{
+                summ += item.unitprice;
+            })
+            this.averagePrice = summ/data.length;
+
+
+
         data.map(item=>{
+            item['percentDiff'] = ((item.unitprice-this.averagePrice)/this.averagePrice)*100
             if(item.zakup_date){
                 let date = item.zakup_date.split('/');
                 item.zakup_date = {
@@ -163,25 +186,21 @@ export class CommercialOffersComponent implements OnInit{
             }  
         })
 
-        // this.filterArray.zakup_date.min = this.filterServices.findMinMaxDate(data,'zakup_date','min');
-        // this.filterArray.zakup_date.max = this.filterServices.findMinMaxDate(data,'zakup_date','max');
+        this.filterArray.zakup_date.min = this.filterServices.findMinMaxDate(data,'zakup_date','min');
+        this.filterArray.zakup_date.max = this.filterServices.findMinMaxDate(data,'zakup_date','max');
        
-        // this.filterArray.volume.min = this.filterServices.findMinMax(data,'volume','min');
-        // this.filterArray.volume.max = this.filterServices.findMinMax(data,'volume','max');
+        this.filterArray.contract_value.min = this.filterServices.findMinMax(data,'contract_value','min');
+        this.filterArray.contract_value.max = this.filterServices.findMinMax(data,'contract_value','max');
 
 
-        // this.filterArray.price_per_unit.min = this.filterServices.findMinMax(data,'price_per_unit','min');
-        // this.filterArray.price_per_unit.max = this.filterServices.findMinMax(data,'price_per_unit','max');
+        this.filterArray.unitprice.min = this.filterServices.findMinMax(data,'unitprice','min');
+        this.filterArray.unitprice.max = this.filterServices.findMinMax(data,'unitprice','max');
 
-        // this.filterArray.delivery.min = this.filterServices.findMinMax(data,'delivery','min');
-        // this.filterArray.delivery.max = this.filterServices.findMinMax(data,'delivery','max');
 
-        // this.filterArray.volume_count.min = this.filterServices.findMinMax(data,'volume_count','min');
-        // this.filterArray.volume_count.max = this.filterServices.findMinMax(data,'volume_count','max');
+        this.filterArray.participation.min = this.filterServices.findMinMax(data,'participation','min');
+        this.filterArray.participation.max = this.filterServices.findMinMax(data,'participation','max');
 
-        
-        //this.filterArray.comm_offer.value = this.filterServices.findAllDiffValue(data,'comm_offer');
-        console.log(data)
+      
         this.initalData = data;
         this.commercialOffers = data;
     }
@@ -219,48 +238,23 @@ export class CommercialOffersComponent implements OnInit{
         let filtered:boolean = false;
         array = this.initalData;
 
-        // if(this.filterArray.date.filter){
-        //     filtered = true;
-        //     array = array.filter(item=>item.date.value>=this.filterArray.date.filterMin && item.date.value<=this.filterArray.date.filterMax);
-        // }
-        // // if(this.filterArray.dateEnd.filter && array.length){
-        // //     filtered = true;
-        // //     array = array.filter(item=>item.dateEnd.value>=this.filterArray.dateEnd.filterMin && item.dateEnd.value<=this.filterArray.dateEnd.filterMax)
-        // // }
-        // if(this.filterArray.name.filter && array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.name.toLowerCase().indexOf(this.filterArray.name.filterValue)>=0)
-        // }
+        if(this.filterArray.zakup_date.filter){
+            filtered = true;
+            array = array.filter(item=>item.zakup_date.value>=this.filterArray.zakup_date.filterMin && item.zakup_date.value<=this.filterArray.zakup_date.filterMax);
+        }
 
-        // if(this.filterArray.volume.filter && array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.volume>=this.filterArray.volume.filterMin && item.volume<=this.filterArray.volume.filterMax)
-        // }
-        // if(this.filterArray.price_per_unit.filter && array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.price_per_unit>=this.filterArray.price_per_unit.filterMin && item.price_per_unit<=this.filterArray.price_per_unit.filterMax)
-        // }
-        // if(this.filterArray.delivery.filter && array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.delivery>=this.filterArray.delivery.filterMin && item.delivery<=this.filterArray.delivery.filterMax)
-        // }
-        // if(this.filterArray.volume_count.filter && array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.volume_count>=this.filterArray.volume_count.filterMin && item.volume_count<=this.filterArray.volume_count.filterMax)
-        // }
-        // if(array.length){
-        //     filtered = true;
-        //     array = array.filter(item=>item.comm_offer==this.filterArray.comm_offer.active)
-        // }
-        // if(array.length){
-        //     filtered = true;
-        //     if(this.filterArray.calls.active){
-        //         array = array.filter(item=>item.calls.length>0)
-        //     }else{
-        //         array = array.filter(item=>item.calls.length==0)
-        //     }
-         
-        // }
+        if(this.filterArray.contract_value.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.contract_value>=this.filterArray.contract_value.filterMin && item.contract_value<=this.filterArray.contract_value.filterMax)
+        }
+        if(this.filterArray.unitprice.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.unitprice>=this.filterArray.unitprice.filterMin && item.unitprice<=this.filterArray.unitprice.filterMax)
+        }
+        if(this.filterArray.participation.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.participation>=this.filterArray.participation.filterMin && item.participation<=this.filterArray.participation.filterMax)
+        }
   
         
         if(filtered){
@@ -288,28 +282,12 @@ export class CommercialOffersComponent implements OnInit{
     showSentCPModal(supplier_id){
         this.sentCPModal.open(supplier_id)
     }
-    showSendingCPModal(supplier_id){
-        this.sendingCPModal.open(supplier_id)
+    showSendingCPModal(supplier){
+        this.sendingCPModal.open(supplier.offer_line_id,this.infoSupplier.email)
     }
     downloadfile(){
-        var str = "";
-        for (var key in this.selectedProduct) {
-            if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
-                if(Array.isArray(this.selectedProduct[key])){
-                    if(this.selectedProduct[key].length){
-                        let string = `${key}=`;
-                        string +=this.selectedProduct[key].join(',')
-                        str +=string;
-                        str += "&";
-                    } 
-                }else{
-                    str += key + "=" + this.selectedProduct[key];
-                    str += "&";
-                }
-            }
-        }
-       
-        window.open(environment.apiUrl+'/export_suppliers?'+str, '_blank');
+        console.log(`${environment.apiUrl}/export_commercial_offers?spgz_id=${this.selectedProduct.spgz_id}&unit_id=${this.selectedProduct.unit_id}`)
+        window.open(`${environment.apiUrl}/export_commercial_offers?spgz_id=${this.selectedProduct.spgz_id}&unit_id=${this.selectedProduct.unit_id}`, '_blank');
     }
       
     ngOnDestroy(): void {

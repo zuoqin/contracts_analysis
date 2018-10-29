@@ -11,7 +11,7 @@
                 <div class="styled-form__row" >
                     <label class="styled-form__left-label">Поставщик</label>
                     <div class="styled-form__right-value input-right-icon">
-                        <input *ngIf="supplierInfo" type="text" class="styled-input" formControlName="supplierName" disabled/>
+                         <input *ngIf="supplierInfo" type="text" class="styled-input" formControlName="supplierName" disabled/>
 
                     
                         <autocomplete-field 
@@ -22,7 +22,7 @@
                             [searchFields]="autocompleteSupplier.searchField"
                             [titleField]="autocompleteSupplier.titleField"
                             [placeholder]="'Поиск по поставщику'"
-                            [initialValue]="initialValueSupplier"
+                            [initialValue]="initialValueSupplier ? initialValueSupplier.name : ''"
                         ></autocomplete-field>
                         <div *ngIf="!supplierInfo" class="icon icon--circle-add input-right-icon__icon" (click)="addSupplier()"></div>
 

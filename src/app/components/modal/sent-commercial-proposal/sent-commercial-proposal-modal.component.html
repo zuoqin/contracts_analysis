@@ -17,10 +17,12 @@
             </thead>
             <tbody *ngFor="let cp of sentCP">
             
-                    <tr class="cursor"  (click)="cp.active = !cp.active;">
+                    <tr  
+                    [class.cursor]="cp.messages.length>1 || cp.messages[0].text.length>0"
+                    (click)="cp.active = !cp.active;">
                         <td>
                             <div 
-                                *ngIf="cp.messages && cp.messages.length" 
+                                *ngIf="(cp.messages && cp.messages.length) && (cp.messages.length>1 || cp.messages[0].text.length>0)" 
                                 [class.active]="cp.active"
                                 
                                 class="btn-toggle">
@@ -32,7 +34,7 @@
                         <td>{{cp.name ? cp.name : '-'}}</td>
                         <td>{{cp.result}}</td>
                     </tr>
-                    <tr *ngIf="cp.active">
+                    <tr *ngIf="cp.active && (cp.messages.length>1 || cp.messages[0].text.length>0)">
                         <td colspan="6" class="p0">
                             <div class="messages-list" >
                                 <ng-container  *ngFor="let message of cp.messages">

@@ -1,5 +1,5 @@
 
-import { OnInit,ViewChild,OnDestroy } from '@angular/core';
+import { OnInit,ViewChild,OnDestroy, Input } from '@angular/core';
 import { Component } from '@angular/core';
 import { environment } from '@environments';
 import { Subject } from 'rxjs';
@@ -14,13 +14,15 @@ import { CONFIG } from '@config';
     selector:"purchase-table",
     templateUrl:"./purchase-table.component.html"
 })
-export class PurchaseTableComponent{
+export class PurchaseTableComponent implements OnInit{
     unsubscribeAll = new Subject();
     @ViewChild('selectedRangeDate') selectedRangeDate;
-
+    @Input('purchaseDataArray') purchaseDataArray;
+    @Input('spgzId') spgzId;
+    @Input('unitName') unitName;
     tooltipOptions;
     selectedProduct:ProductSearch;
-    ifLoadData:boolean = false;
+    averagePrice;
     messageResponse = CONFIG.messageResponse;
     constructor(
         private filterServices:FilterServices,
@@ -31,7 +33,6 @@ export class PurchaseTableComponent{
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
-                this.getPurchases()
             })
     }
     filterArray = {
@@ -140,29 +141,33 @@ export class PurchaseTableComponent{
         
     initalData;
     purchaseData;
-    getPurchases(){
-
-        this.productServices.getPurchases(this.selectedProduct).subscribe(
-            response => {
-                if(response.data.length){
-                    this.formatData(response.data)
-                }else{
-                    this.messageResponse.text =  this.messageResponse.noData;
-                }
-              
- 
-                this.ifLoadData = true;
-
-            },
-            err => {
-                this.messageResponse.text =  this.messageResponse.error;
-                this.ifLoadData = true;
-                console.log(err)
-            }
-        );
+    ngOnInit(){
+        this.initalData = null;
+        this.purchaseData = null;
+        if(this.purchaseDataArray.length){
+            this.getPriceInfo()
+            this.formatData(this.purchaseDataArray);
+      
+            this.messageResponse.text = '';
+        }else{
+            this.messageResponse.text = CONFIG.messageResponse.noData;
+        }
+    }
+    getPriceInfo(){
+        let summ = 0;
+        this.purchaseDataArray.map(item=>{
+            summ += item.unitprice;
+        })
+        this.averagePrice = summ/this.purchaseDataArray.length;
     }
     formatData(data){
+ 
+     
+
         data.map(item=>{
+
+            item['percentDiff'] = ((item.unitprice-this.averagePrice)/this.averagePrice)*100
+
 
             let dateCurrent = item.contract_sign_date.split('/');
             let dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
@@ -213,7 +218,6 @@ export class PurchaseTableComponent{
         this.initalData = data;
         this.purchaseData = data;
 
-        this.ifLoadData = true;
     }
 
    
@@ -326,18 +330,22 @@ export class PurchaseTableComponent{
     }
     downloadfile(){
         var str = "";
-        for (var key in this.selectedProduct) {
-            if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
-                if(Array.isArray(this.selectedProduct[key])){
-                    if(this.selectedProduct[key].length){
-                        let string = `${key}=`;
-                        string +=this.selectedProduct[key].join(',')
-                        str +=string;
+        if(this.spgzId){
+            str = 'spgz_id='+this.spgzId;
+        }else{
+            for (var key in this.selectedProduct) {
+                if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
+                    if(Array.isArray(this.selectedProduct[key])){
+                        if(this.selectedProduct[key].length){
+                            let string = `${key}=`;
+                            string +=this.selectedProduct[key].join(',')
+                            str +=string;
+                            str += "&";
+                        } 
+                    }else{
+                        str += key + "=" + this.selectedProduct[key];
                         str += "&";
-                    } 
-                }else{
-                    str += key + "=" + this.selectedProduct[key];
-                    str += "&";
+                    }
                 }
             }
         }

@@ -33,12 +33,7 @@ export class CategoryProductComponent implements OnInit{
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
-                if(!this.selectedProduct.selectedFromCategory){
-                    this.getCategoriesTree()
-                }else{
-                    this.selectedProduct.selectedFromCategory = false;
-                }
-           
+                this.getCategoriesTree()
             })
     }
     ngOnInit(){
@@ -96,6 +91,7 @@ export class CategoryProductComponent implements OnInit{
     }
     selectProduct(product){
         this.selectedProduct = product;
+        console.log(this.selectedProduct)
         this.productServices.SearchByNewProductSubject.next(this.selectedProduct)
         this.isOpenProduct = false;
     }

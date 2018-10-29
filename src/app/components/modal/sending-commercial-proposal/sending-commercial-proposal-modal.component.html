@@ -1,11 +1,11 @@
 <bs-modal [animation]="true" [keyboard]="false" [backdrop]="true"
-
    #sendingCommercialProposalModal #modal  [cssClass]="'styled-modal styled-modal--small'" (onClose)="onClose()" (onDismiss)="onClose()">
     <bs-modal-header [showDismiss]="true">
         <h2 class="modal-title" >Отправка КП</h2>
     </bs-modal-header>
     <bs-modal-body>
-        <div class="styled-form" >
+ 
+        <div *ngIf="!ifSucessSubmit" class="styled-form" >
             <form class="mb30" [formGroup]="commercialProposalForm" novalidate>
           
 
@@ -13,8 +13,8 @@
                 <div class="styled-form__row styled-form__row--mb15">
                     <label class="styled-form__left-label styled-form__left-label--w100 styled-form__left-label--f12">Тема письма</label>
                     <div class="styled-form__right-value styled-form__right-value--pr0">
-                        <input type="text" class="styled-input" formControlName="subject"/>
-                        <div class="input-error" *ngIf="commercialProposalForm.get('subject').hasError('required') && commercialProposalForm.get('subject').touched" >Введите темау письма</div>
+                        <input type="text" class="styled-input" formControlName="topic"/>
+                        <div class="input-error" *ngIf="commercialProposalForm.get('topic').hasError('required') && commercialProposalForm.get('topic').touched" >Введите темау письма</div>
                     </div>
                 </div>
                 <!---->
@@ -28,7 +28,7 @@
                 <!---->
 
                 <!---->
-                <div class="styled-form__row styled-form__row--mb15">
+                <div  *ngIf="emailManagerList" class="styled-form__row styled-form__row--mb15">
                     <label class="styled-form__left-label styled-form__left-label--w100 styled-form__left-label--f12">От</label>
                     <div class="styled-form__right-value styled-form__right-value--pr0 w190">
                         <ng-select 
@@ -36,7 +36,7 @@
                             [clearable]="false"
                             formControlName="from" 
                             >
-                            <ng-option value="{{email}}" *ngFor="let email of emailList" >{{email}}</ng-option>
+                            <ng-option [value]="email.user" *ngFor="let email of emailManagerList" >{{email.user}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -55,13 +55,22 @@
                  (blur)="onBlur($event)"
                 debounce="500">
             </ckeditor>
-            <div class="input-error" *ngIf="commercialProposalForm.get('message').hasError('required') && commercialProposalForm.get('message').touched" >Введите темау письма</div>
+            <div class="input-error" *ngIf="commercialProposalForm.get('content').hasError('required') && commercialProposalForm.get('content').touched" >Введите сообщение</div>
         
         </div>
+
+
+        <div *ngIf="messageAfterSubmit" class="alertMessage"><br>{{messageAfterSubmit}}</div>
     </bs-modal-body>
     <bs-modal-footer>
+        <ng-container *ngIf="ifSucessSubmit">
+                <div class="btn btn--icon" (click)="close()">Закрыть</div>
+        </ng-container>
+        <ng-container *ngIf="!ifSucessSubmit">
             <div class="btn btn--icon" (click)="close()"><div class="icon icon--circle-red-close"></div>Отменить</div>
             <div class="btn btn--icon" (click)="submit()"><div class="icon icon--circle-green-active"></div>Отправить</div>
             <div class="btn btn--icon" (click)="openAddCPModal()"><div class="icon icon--add" ></div>Добавить КП</div>
+        </ng-container>
+   
     </bs-modal-footer>
 </bs-modal>

@@ -4,7 +4,7 @@
         <br> <br>
         <price-product></price-product>
         <hr class="red">
-        <purchase-table></purchase-table>
+        <purchase-table *ngIf="purchaseDataArray" [purchaseDataArray]="purchaseDataArray"></purchase-table>
         <br><br>
         <suppliers-table></suppliers-table>
 </ng-container>

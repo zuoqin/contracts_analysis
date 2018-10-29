@@ -52,11 +52,14 @@ export class SearchFilterProduct implements OnInit{
         
         this.productServices.SearchByNewProductObservable
             .pipe(takeUntil(this.unsubscribeAll))
-            .subscribe((selectedProduct)=>{
+            .subscribe(selectedProduct=>{
+                this.searchType = 'product';
+                this.searchForm.controls['type'].setValue('product');
                 /*Select new product from catgeries select */
-                selectedProduct['selectedFromCategory'] = true;
+                console.log(selectedProduct)
                 this.autoCompleteProductInput.setValue(selectedProduct.name)
                 this.selectProduct(selectedProduct);
+                
             
             })
     }
@@ -76,7 +79,7 @@ export class SearchFilterProduct implements OnInit{
             this.shortFilterInit()
         })
         this.getRegions()   
-        // this.selectProduct({kpgz_id: 5870, name: "Йогурты"})
+        // this.selectProduct({kpgz_id: 8515, name: "Мясо индейки"})
         // setTimeout(()=>{
         //     this.search()
         // },500)
@@ -85,6 +88,9 @@ export class SearchFilterProduct implements OnInit{
         
 
     }
+    onChangeVolume(){
+        this.onLoadData.emit(false);
+    }
     changeType(){
         this.resetFilters()
         this.router.navigate(['search',this.searchForm.controls.type.value]);
@@ -92,9 +98,6 @@ export class SearchFilterProduct implements OnInit{
     selectProduct(selected){
         this.resetFilters()
         if(selected){
-            if(selected.selectedFromCategory){
-                this.selectedProduct.selectedFromCategory = true;
-            }
             this.selectedProduct.name = selected.name;
             this.selectedProduct.kpgz_id = selected.kpgz_id;
             this.searchForm.controls['query'].setValue(this.selectedProduct.name)
@@ -162,15 +165,12 @@ export class SearchFilterProduct implements OnInit{
             response => {
                 this.selectedProduct.spgz_id = response.data;
 
-      
-                   
                 if(response.data.length && this.searchForm.value.unit){
                     this.ifDisabledProduct = false;
                   
                 }else{
                     this.ifDisabledProduct = true;
                 }
-                
             },
             err => {
                 console.log(err)
@@ -180,14 +180,11 @@ export class SearchFilterProduct implements OnInit{
     getUnits(){
         this.productServices.getUnits(this.selectedProduct.kpgz_id).subscribe(
             response => {
+                console.log(this.selectedProduct)
                 if(response.data.length){
                     this.units = response.data;
                     this.ifDisabledProduct = false;
                     this.searchForm.controls['unit'].setValue(this.units[0].unit_id);
-                    if(this.selectedProduct.selectedFromCategory){
-                        this.selectedProduct.selectedFromCategory = true;
-                        this.search()
-                    }
                 }else{
                     this.units = [];
                     this.ifDisabledProduct = true;

@@ -352,8 +352,7 @@ export class AddSupplierModalComponent implements OnInit{
    
     }
     submit(){
-        console.log(this.addSupplierForm.value.spgz_id)
-  
+   
         if(this.ifDisabledProduct || this.ifSubmit || this.isSupplierExists){
             return;
         }
@@ -379,7 +378,6 @@ export class AddSupplierModalComponent implements OnInit{
   
   
         let reg_date = this.formatDate(this.addSupplierForm.controls['dataRegistration'].value.date);
-        console.log(reg_date)
         let body = {
             supplier_type:this.addSupplierForm.value.supplier_type,//текст, только 'producer' или 'provider'
             inn:this.addSupplierForm.value.inn,
@@ -400,30 +398,23 @@ export class AddSupplierModalComponent implements OnInit{
         }
 
 
-        console.log(body)
-        console.log(this.addSupplierForm.value)
+
         this.suppliersServices.addSupplier(body)
             .subscribe(
                 response => {
                     if(this.addSupplierDynamic){
-                        this.close()
                         this.suppliersServices.addDynamicSupplier.next({
-                            supplier_id:response.info.supplier_id,
+                            supplier_id:response.data.info.supplier_id,
                             name:this.addSupplierForm.controls['name'].value
                         });
+                        this.close()
                         this.addSupplierDynamic = false;
                     }
-
-
 
                     this.ifSubmit = false;
                     this.ifSendSuccess = true;
                     this.addSupplierForm.reset();
                     this.answerMessage.text = this.answerMessage.sucess;
-                    console.log(response)
-
-
-                
                 },
                 err => {
                     this.ifSubmit = false;
@@ -431,16 +422,6 @@ export class AddSupplierModalComponent implements OnInit{
                     console.log(err)
                 }
             );
-
-
-        // if (this.addSupplierForm.invalid) {
-        //     const controls = this.addSupplierForm.controls;
-        //     Object.keys(controls)
-        //         .forEach(controlName => controls[controlName].markAsTouched());
-        //         return;
-        // }
-
-        console.log( this.addSupplierForm)
     }
     formatDate(date){
         return `${("0" + date.day).slice(-2)}/${("0" + date.month).slice(-2)}/${date.year}`;

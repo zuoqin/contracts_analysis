@@ -1,46 +1,65 @@
-<div *ngIf="supplierRiskInfo" class="container">
+<div *ngIf="priceChartsData" class="container">
     <div class="bordered-title"><span>ИНДЕКС РИСКОВАННОСТИ ПОСТАВЩИКА</span></div>
-    <div *ngIf="supplierRiskInfo" class="supplier-risk">
+    <div  class="supplier-risk">
         <div class="supplier-risk__row">
-            <div *ngIf="supplierRiskInfo && supplierRiskInfo.data.length" class="supplier-risk__column">
+            <div class="supplier-risk__column">
                 <table class="supplier-risk__table">
                     <tr>
                         <th>Контракты</th>
                         <th>Количество</th>
                         <th>Объем (руб.)</th>
                     </tr>
-                    <tr *ngFor="let info of supplierRiskInfo.data">
-                        <td>{{info.name}}:</td>
-                        <td>{{info.count | thousandsSpace}}</td>
-                        <td>{{info.value | thousandsSpace}}</td>
+                    <tr >
+                        <td>{{supplierRiskInfoCharts.progress.name}}:</td>
+                        <td>{{supplierRiskInfoCharts.progress.count | thousandsSpace}}</td>
+                        <td>{{supplierRiskInfoCharts.progress.sum | thousandsSpace}}</td>
+                    </tr>
+                    <tr >
+                        <td>{{supplierRiskInfoCharts.done.name}}:</td>
+                        <td>{{supplierRiskInfoCharts.done.count | thousandsSpace}}</td>
+                        <td>{{supplierRiskInfoCharts.done.sum | thousandsSpace}}</td>
+                    </tr>
+                    <tr >
+                        <td>{{supplierRiskInfoCharts.reject.name}}:</td>
+                        <td>{{supplierRiskInfoCharts.reject.count | thousandsSpace}}</td>
+                        <td>{{supplierRiskInfoCharts.reject.sum | thousandsSpace}}</td>
                     </tr>
                 </table>
                 <div class="supplier-risk__info">
                     <div class="supplier-risk__info__row">
                         <div>Компания существует меньше года</div>
-                        <div>Нет</div>
+                        <div>{{supplierRiskInfoCharts.is_new  ? 'Да' :'Нет' }}</div>
                     </div>
                     <div class="supplier-risk__info__row">
                         <div>Совместное участие аффилированных компаний в закупках </div>
-                        <div>Нет</div>
+                        <div>{{supplierRiskInfoCharts.is_affiliate  ? 'Да' :'Нет' }}</div>
                     </div>
                     <div class="supplier-risk__info__row">
                         <div>Работа с одним заказчиком</div>
-                        <div>Нет</div>
+                        <div>{{supplierRiskInfoCharts.is_one_customer  ? 'Да' :'Нет' }}</div>
                     </div>
                 </div>
 
             </div>
             <div class="supplier-risk__column">
-                <div *ngIf="supplierRiskInfo && supplierRiskInfo.data.length" class="supplier-risk__chart" [chart]="chart"></div>
+                <div class="supplier-risk__chart" [chart]="chart"></div>
                 <div class="supplier-risk__legend">
                     <div class="supplier-risk__legend__row">
                         <div>Масштаб:</div>
-                        <div>Средний</div>
+                        <div *ngIf="!supplierRiskInfoCharts.scale">не оперделено</div>
+                        <div *ngIf="supplierRiskInfoCharts.scale=='1'">
+                            Мелкий
+                        </div>
+                        <div *ngIf="supplierRiskInfoCharts.scale=='2'">
+                            Средний
+                        </div>
+                        <div *ngIf="supplierRiskInfoCharts.scale=='3'">
+                            Крупный
+                        </div>
                     </div>
                     <div class="supplier-risk__legend__row">
                         <div>Рейтинг:</div>
-                        <div>{{supplierRiskInfo.risk_index}} из 100</div>
+                        <div>{{supplierRiskInfoCharts.risk_index}} из 100</div>
                     </div>
                 </div>
             </div>

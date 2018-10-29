@@ -20,7 +20,7 @@
                             <ng-container *ngIf="searchType=='spgz'">
                                 <div  class="search-form__search__query autocomplete-input">
                                     <autocomplete-field 
-                                        
+                                        #autoCompleteProductInput
                                         (onSelectedValue)="selectProduct($event)"
                                         [urlSearch]="autocompleteSpgz.url"
                                         [searchFields]="autocompleteSpgz.searchField"
@@ -70,7 +70,7 @@
                                     [MinValue]="searchForm.controls['volumeFrom'].value" 
                                     [FormControl]="searchForm.controls['volumeTo']"/>
                                     
-                                <ng-select  [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last">
+                                <ng-select  [searchable]="false" formControlName="unit" [clearable]="false" class="field-3-column__last" (change)="onChangeVolume()">
                                     <ng-option *ngFor="let unit of units" [value]="unit.unit_id" >{{unit.name}}</ng-option>
                                 </ng-select>
                             </div>

@@ -1,9 +1,9 @@
-<search-filter-supplier  (onLoadData)="onLoadData($event)"  [loadData]="loadData"></search-filter-supplier>
-<ng-container *ngIf="loadData">
+<search-filter-supplier></search-filter-supplier>
+<ng-container *ngIf="selectedSupplier">
     <div *ngIf="infoSupplier" class="title-supplier">
         <div class="container">
             <h1 class="title-supplier__title">{{infoSupplier.name}}</h1>
-            <div *ngIf="infoSupplier.rating" class="rating title-supplier__rating">
+            <div *ngIf="infoSupplier.rating !=null" class="rating title-supplier__rating">
                 <div class="rating__title">Рейтинг поставщика</div>
                 <div class="rating__count">{{infoSupplier.rating}} из 100</div>
             </div>
@@ -29,12 +29,9 @@
         <supplier-risk-index></supplier-risk-index>
     </div>
     <category-slider></category-slider>
-
     <product-suplier ></product-suplier>
- 
     <commercial-offers></commercial-offers>
-    <!-- <suppliers-table *ngIf="dataColumns && suppliersData" [dataColumns]="dataColumns" [suppliersData]="suppliersData" [noShowSupplier]="true"></suppliers-table> -->
-    <!-- <purchase-table></purchase-table> -->
+    <purchase-table *ngIf="purchaseDataArray" [purchaseDataArray]="purchaseDataArray" [spgzId]="this.selectedProduct.spgz_id" [unitName]="selectedProduct.unit.abbreviation"></purchase-table>
 
 </ng-container>
 

@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 /*Services*/
-import { SuppliersServices } from '@core';
+import { SuppliersServices, ProductServices } from '@core';
 
 @Component({
     selector:"search-suppliers",
@@ -11,181 +11,76 @@ import { SuppliersServices } from '@core';
 })
 export class SearchSuppliersComponent implements OnInit{
     unsubscribeAll = new Subject();
-    loadData:boolean = false;
+
     showCardSupplier:boolean = false;
-    dataColumns;
-    suppliersData;
-    currentProduct;
+    selectedSupplier;
+
+    unitsVolume;
     infoSupplier;
+    purchaseDataArray;
+    selectedProduct;
     constructor(
+        private productServices:ProductServices,
         private suppliersServices:SuppliersServices
     ){
+     
+
+        
+        this.suppliersServices.SelectSupplierObservable
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe(selectedSupplier=>{
+                this.selectedSupplier=selectedSupplier;
+            })
+
         this.suppliersServices.SupplierInfoObservable
             .pipe(takeUntil(this.unsubscribeAll))
-            .subscribe((infoSupplier)=>{
+            .subscribe(infoSupplier=>{
+                this.purchaseDataArray = null;
                 this.infoSupplier = infoSupplier;
             })
+        this.suppliersServices.selectProductSupplierObservable
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe(selectProduct=>{
+                this.purchaseDataArray = null;
+                this.selectedProduct = selectProduct;
+                this.getPurchases()
+
+            })
     }
-    onLoadData(value){
-        this.infoSupplier = null;
-        this.loadData = value;
-    }
+
     toggleCardSupplier(){
         this.showCardSupplier = !this.showCardSupplier;
     }
-    selectProduct(value){
-        this.currentProduct = value;
+
+    getPurchases(){
+        console.log(this.selectedProduct)
+        this.productServices.getPurchases(this.selectedProduct).subscribe(
+            response => {
+                this.purchaseDataArray = response.data;
+                // if(response.data.length){
+                //     this.formatData(response.data)
+                // }else{
+                //     this.messageResponse.text =  this.messageResponse.noData;
+                // }
+              
+ 
+                // this.ifLoadData = true;
+
+            },
+            err => {
+                // this.messageResponse.text =  this.messageResponse.error;
+                // this.ifLoadData = true;
+                console.log(err)
+            }
+        );
     }
     ngOnInit(){
    
-        let that = this;
-        setTimeout(()=>{
-            that.suppliersData = [
-                {
-                    date:{
-                        value: new Date(2018, 3, 3),
-                        text:"03.04.2018",
-                    }, 
-                    volume:{
-                        value:14000,
-                        unit:"кг"
-                    },
-                    price:{
-                        value:16.9,
-                        status:1
-                    },
-                    term:{
-                        value:"10 дней",
-                        status:1,
-                    },
-                    participation:1,
-                    commercialProposal:{
-                        send:true,
-                    },
-                    calls:{
-                        value: true,
-                    },
-                },
-                {
-                    date:{
-                        value: new Date(2018, 4, 22),
-                        text:"22.05.2018",
-                    }, 
-                    volume:{
-                        value:22000,
-                        unit:"кг"
-                    },
-                    price:{
-                        value:23,
-                        status:1
-                    },
-                    term:{
-                        value:"Месяц",
-                        status:2
-                    },
-                    participation:2,
-                    commercialProposal:{
-                        send:true,
-                    },
-                    calls:{
-                        value: false,
-                    },
-                },
-                {
-                    date:{
-                        value: new Date(2018, 4, 15),
-                        text:"22.05.2018",
-                    }, 
-                    volume:{
-                        value:480,
-                        unit:"кг"
-                    },
-                    price:{
-                        value:"95",
-                        status:2
-                    },
-                    term:{
-                        value:"3 месяца",
-                        status:2
-                    },
-                    participation:1,
-                    commercialProposal:{
-                        send:false,
-                    },
-                    calls:{
-                        value: false,
-                    },
-                },
-                {
-                    date:{
-                        value: new Date(2018, 6, 11),
-                        text:"22.05.2018",
-                    }, 
-                    supplier:{
-                        id:4234,
-                        name:'ООО "Астон"'
-                    },
-                    volume:{
-                        value:480,
-                        unit:"кг"
-                    },
-                    price:{
-                        value:"95",
-                        status:2
-                    },
-                    term:{
-                        value:"3 месяца",
-                        status:2
-                    },
-                    participation:1,
-                    commercialProposal:{
-                        send:true,
-                    },
-                    calls:{
-                        value: false,
-                    },
-                },
-            ]
-
-
-            that.dataColumns=[
-                {
-                    id:"date",
-                    text:"Дата получения цены",
-                    active:true
-                },
-                {
-                    id:"volume",
-                    text:"Объем",
-                    active:true
-                },
-                {
-                    id:"price",
-                    text:"Цена, руб.",
-                    active:true
-                },
-                {
-                    id:"term",
-                    text:"Срок поставки",
-                    active:true
-                },
-                {
-                    id:"participation",
-                    text:"Участий в закупках",
-                    active:true
-                },
-                {
-                    id:"commercialProposal",
-                    text:"КП",
-                    active:true
-                },
-                {
-                    id:"calls",
-                    text:"Звонки",
-                    active:true
-                },
-            ]
-        })
+   
+    }
+    ngOnDestroy(): void {
+        this.unsubscribeAll.next();
+        this.unsubscribeAll.complete();
     }
 
 }
