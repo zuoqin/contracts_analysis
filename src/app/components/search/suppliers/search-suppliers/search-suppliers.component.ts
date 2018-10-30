@@ -9,16 +9,15 @@ import { SuppliersServices, ProductServices } from '@core';
     selector:"search-suppliers",
     templateUrl:"./search-suppliers.component.html"
 })
-export class SearchSuppliersComponent implements OnInit{
+export class SearchSuppliersComponent{
     unsubscribeAll = new Subject();
-
     showCardSupplier:boolean = false;
-    selectedSupplier;
 
-    unitsVolume;
+    selectedSupplier;
     infoSupplier;
     purchaseDataArray;
     selectedProduct;
+
     constructor(
         private productServices:ProductServices,
         private suppliersServices:SuppliersServices
@@ -29,13 +28,14 @@ export class SearchSuppliersComponent implements OnInit{
         this.suppliersServices.SelectSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectedSupplier=>{
+                this.purchaseDataArray = null;
+                this.infoSupplier = null;
                 this.selectedSupplier=selectedSupplier;
             })
 
         this.suppliersServices.SupplierInfoObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(infoSupplier=>{
-                this.purchaseDataArray = null;
                 this.infoSupplier = infoSupplier;
             })
         this.suppliersServices.selectProductSupplierObservable
@@ -53,30 +53,14 @@ export class SearchSuppliersComponent implements OnInit{
     }
 
     getPurchases(){
-        console.log(this.selectedProduct)
         this.productServices.getPurchases(this.selectedProduct).subscribe(
             response => {
                 this.purchaseDataArray = response.data;
-                // if(response.data.length){
-                //     this.formatData(response.data)
-                // }else{
-                //     this.messageResponse.text =  this.messageResponse.noData;
-                // }
-              
- 
-                // this.ifLoadData = true;
-
             },
             err => {
-                // this.messageResponse.text =  this.messageResponse.error;
-                // this.ifLoadData = true;
                 console.log(err)
             }
         );
-    }
-    ngOnInit(){
-   
-   
     }
     ngOnDestroy(): void {
         this.unsubscribeAll.next();

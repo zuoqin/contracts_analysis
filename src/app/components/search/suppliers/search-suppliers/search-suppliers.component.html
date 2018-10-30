@@ -10,7 +10,7 @@
         </div>
     </div>
     
-    <div class="toggle-card">
+    <div  *ngIf="infoSupplier" class="toggle-card">
         <div class="container">
             <div 
                 [class.active]="showCardSupplier"
@@ -25,11 +25,11 @@
     
     <div [hidden]="!showCardSupplier">
         <about-supplier ></about-supplier>
-        <food-prices></food-prices>
+        <product-prices></product-prices>
         <supplier-risk-index></supplier-risk-index>
     </div>
     <category-slider></category-slider>
-    <product-suplier ></product-suplier>
+    <product-supplier ></product-supplier>
     <commercial-offers></commercial-offers>
     <purchase-table *ngIf="purchaseDataArray" [purchaseDataArray]="purchaseDataArray" [spgzId]="this.selectedProduct.spgz_id" [unitName]="selectedProduct.unit.abbreviation"></purchase-table>
 

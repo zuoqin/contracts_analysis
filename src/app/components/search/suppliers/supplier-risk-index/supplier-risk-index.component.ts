@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 /*Plugins*/
 import { Chart } from 'angular-highcharts';
 /*Srvices */
@@ -21,20 +22,20 @@ Highcharts.setOptions({
     templateUrl:"./supplier-risk-index.component.html"
 })
 
-export class SupplierRiskIndexComponent implements OnInit{
+export class SupplierRiskIndexComponent{
     unsubscribeAll = new Subject();
     selectedSupplier;
-    supplierRiskInfo;
     supplierRiskInfoCharts;
-    priceChartsData;
+    priceChartsData = [];
     constructor(
         private suppliersServices:SuppliersServices
     ){
         this.suppliersServices.SelectSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedSupplier)=>{
+                this.supplierRiskInfoCharts = null;
+                this.priceChartsData = [];
                 this.selectedSupplier = selectedSupplier;
-    
                 this.getRiskSupplier()
             })
     }
@@ -42,7 +43,6 @@ export class SupplierRiskIndexComponent implements OnInit{
         this.suppliersServices.getRiskSupplier(this.selectedSupplier.supplier_id)
             .subscribe(
                 response => {
-                    
                     let data = response.data;
                     this.supplierRiskInfoCharts = {
                         progress:{
@@ -69,7 +69,7 @@ export class SupplierRiskIndexComponent implements OnInit{
                         }
                     };
 
-                    this.priceChartsData = [];
+                  
                     for (let key in this.supplierRiskInfoCharts) {
                         let value = this.supplierRiskInfoCharts[key];
                         this.priceChartsData.push({
@@ -77,7 +77,6 @@ export class SupplierRiskIndexComponent implements OnInit{
                             y: value.sum,
                             color: value.color
                         })
-                        
                     }
                     this.supplierRiskInfoCharts['scale'] = response.scale;
                     this.supplierRiskInfoCharts['is_new'] = response.is_new;
@@ -85,41 +84,15 @@ export class SupplierRiskIndexComponent implements OnInit{
                     this.supplierRiskInfoCharts['is_one_customer'] = response.is_one_customer;
                     this.supplierRiskInfoCharts['is_affiliate'] = response.is_affiliate;
 
-
-
                     this.showGraph();
 
-            
                 },
                 err => {
-                    
+                    console.log(err)
                 }
             );
     }
      
-
-    // priceChartsData = [
-      
-    //     {
-    //         "name": "Заключенные",
-    //         "y": 2474400,
-    //         color: '#2C4155'
-    
-    //     },
-    //     {
-            
-    //         "name": "Своевременно исполненные",
-    //         "y": 2474400,
-    //         color: '#C8C8C8'
-   
-    //     },
-    //     {
-    //         "name": "Расторгнутые",
-    //         "y": 0,
-    //         color: '#B12726'
-        
-    //     }
-    // ]
     chart = new Chart({
         chart: {
             type: 'column',
@@ -187,12 +160,7 @@ export class SupplierRiskIndexComponent implements OnInit{
         series: [],
         credits: {enabled: false}
     })
-
-    ngOnInit(){
-       
-    }
     showGraph(){
-
         if(this.chart.ref){
             this.removeSerie();
         }

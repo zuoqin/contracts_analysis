@@ -26,10 +26,10 @@ import {
 		SearchFilterSupplierComponent,
 		SearchSuppliersComponent,
 		AboutSupplierComponent,
-		FoodPricesComponent,
+		ProductPricesComponent,
 		SupplierRiskIndexComponent,
 		CategorySliderComponent,
-		ProductSuplierComponent,
+		ProductSupplierComponent,
 		CommercialOffersComponent
 	} from './components/search/suppliers';
 
@@ -114,10 +114,10 @@ import { SlickModule } from 'ngx-slick';
 		SendingCPModalComponent,
 		SearchSuppliersComponent,
 		AboutSupplierComponent,
-		FoodPricesComponent,
+		ProductPricesComponent,
 		SupplierRiskIndexComponent,
 		CategorySliderComponent,
-		ProductSuplierComponent,
+		ProductSupplierComponent,
 		PriceTableComponent,
 		ChartLegendComponent,
 		InputFilterComponent,

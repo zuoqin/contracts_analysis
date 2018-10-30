@@ -1,6 +1,6 @@
 <div *ngIf="categories && categories.length" class="category-slider bg-gray">
     <div class="container ">
-        <ngx-slick class="carousel category-slider__slider" #slickModal="slick-modal" [config]="slideConfig" (afterChange)="afterChange($event)">
+        <ngx-slick class="carousel category-slider__slider" #slickModal="slick-modal" [config]="slideConfig">
             <div ngxSlickItem *ngFor="let category of categories" class="slide">
                 <div 
                     [class.selected]="selectedCategory && (category.kpgz_id == selectedCategory.kpgz_id)"
@@ -27,19 +27,18 @@
 </div>
 
 
-    <div *ngIf="units" class="container select-units-supplier">
-        Единицы объема
-        <ng-select 
-            [searchable]="false" 
-            [clearable]="false"
-            [(ngModel)]="currentUnits"
-            (change)="changeUnits()"
-        >
-            <ng-option *ngFor="let unit of units" [value]="unit.unit_id">{{unit.name}}</ng-option>
-    
-        </ng-select>
+<div *ngIf="units" class="container select-units-supplier">
+    Единицы объема
+    <ng-select 
+        [searchable]="false" 
+        [clearable]="false"
+        [(ngModel)]="currentUnits"
+        (change)="changeUnits()"
+    >
+        <ng-option *ngFor="let unit of units" [value]="unit.unit_id">{{unit.name}}</ng-option>
+    </ng-select>
 
-    </div>
+</div>
 
 
 

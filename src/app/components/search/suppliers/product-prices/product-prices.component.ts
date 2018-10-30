@@ -4,10 +4,10 @@ import { takeUntil } from 'rxjs/operators';
 /*Services*/
 import { SuppliersServices } from '@core';
 @Component({
-    selector:"food-prices",
-    templateUrl:"./food-prices.component.html"
+    selector:"product-prices",
+    templateUrl:"./product-prices.component.html"
 })
-export class FoodPricesComponent{
+export class ProductPricesComponent{
     unsubscribeAll = new Subject();
     @ViewChild('textModal') textModal;
     loadData:boolean = true;

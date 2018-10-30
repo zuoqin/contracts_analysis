@@ -1,82 +1,59 @@
-import { Component,ViewEncapsulation, OnInit, Input } from '@angular/core';
+import { Component,ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ProductServices } from '@core';
+
 /*Srvices */
 import { SuppliersServices } from '@core';
 
 
 @Component({
-    selector:"product-suplier",
-    templateUrl:"./product-suplier.component.html",
-    styleUrls: ['./product-suplier.component.scss'],
+    selector:"product-supplier",
+    templateUrl:"./product-supplier.component.html",
+    styleUrls: ['./product-supplier.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 
-export class ProductSuplierComponent implements OnInit{
+export class ProductSupplierComponent{
     unsubscribeAll = new Subject();
-
     priceChartsData;
     legendData;
     selectedSupplier;
     selectedProduct;
     priceDynamicsArray;
+    
     constructor(
-        private productServices:ProductServices,
         private suppliersServices:SuppliersServices
     ){
         this.suppliersServices.SelectSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedSupplier)=>{
                 this.priceDynamicsArray = null;
-                this.selectedSupplier = selectedSupplier;
                 this.legendData = null;
                 this.priceChartsData = null;
                 this.selectedProduct = null;
+                this.selectedSupplier = selectedSupplier;
             })
         this.suppliersServices.selectProductSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectProduct=>{
-
                 this.legendData = null;
                 this.priceChartsData = null;
                 this.priceDynamicsArray = null;
                 this.selectedProduct = selectProduct;
                 this.getProductPriceSupplier();
-                
-                // this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
-                //     response => {
-                //         console.log(response)
-                //     },
-                //     err => {
-                //         console.log(err)
-                //     }
-                // );
-
             })
-
-
-
-
-        // setTimeout(()=>{
-    
-        //     this.legendData=this.productServices.priceProductChartsData;
-        //     console.log(this.legendData)
-        // })
    
     }
-    ngOnInit(){
-      
-    }
+
     getProductPriceSupplier(){
 
         
         this.suppliersServices.getProductPriceSupplier(this.selectedSupplier.supplier_id,this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id).subscribe(
             response => {
-  
+
                 this.priceDynamicsArray = response;
-        
                 let priceProductCharts = [];
+
                 priceProductCharts.push(
                     {
                         id: "marketPrice",
@@ -101,7 +78,6 @@ export class ProductSuplierComponent implements OnInit{
                 this.priceChartsData = priceProductCharts;
             },
             err => {
-    
                 console.log(err)
             }
         );

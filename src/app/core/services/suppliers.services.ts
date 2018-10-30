@@ -67,6 +67,12 @@ export class SuppliersServices{
         return this.apiService.get('/commercial_offers_sent',params)
           .pipe(map(data => data));
     }
+    getCommercialOfferSent(offer_line_id:number): Observable<any> {
+        const params = new HttpParams()
+            .set('offer_line_id', offer_line_id.toString())
+        return this.apiService.get('/offer_line_mail',params)
+          .pipe(map(data => data));
+    }
     getSuppliersForProduct(selectedProduct:ProductSearch): Observable<any> {
         let params = this.productServices.getHttpParams(selectedProduct);
         return this.apiService.get('/suppliers',params)

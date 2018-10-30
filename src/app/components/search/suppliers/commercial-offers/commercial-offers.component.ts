@@ -1,10 +1,9 @@
-import { Component,ViewChild,Input,OnInit } from '@angular/core';
+import { Component,ViewChild,OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 /*Services*/
 import { SuppliersServices,ProductServices,FilterServices } from '@core';
 /*Models*/
-import { ProductSearch } from '@core';
 
 import { environment } from '@environments';
 import { CONFIG } from '@config';
@@ -13,7 +12,7 @@ import { CONFIG } from '@config';
     selector:"commercial-offers",
     templateUrl:"./commercial-offers.component.html"
 })
-export class CommercialOffersComponent implements OnInit{
+export class CommercialOffersComponent{
     selectedSupplier;
     unsubscribeAll = new Subject();
     selectedProduct;
@@ -134,13 +133,7 @@ export class CommercialOffersComponent implements OnInit{
                 this.getData()
             })
     }
-    ngOnInit(){
 
- 
-
-        
-
-    }
     getData(){
 
         this.suppliersServices.getCommercialOffersSuppliers(this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id).subscribe(
@@ -148,12 +141,10 @@ export class CommercialOffersComponent implements OnInit{
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;
                 }else{
-                   // this.suppliersServices.suppliersCountSubject.next(response.data.length)
                     this.formatData(response.data)
-                   
                 }
     
-               this.ifLoadData = true;
+                this.ifLoadData = true;
             },
             err => {
                 this.messageResponse.text =  this.messageResponse.error;
@@ -165,15 +156,11 @@ export class CommercialOffersComponent implements OnInit{
     
     
     formatData(data){
-
-
-            let summ = 0;
-            data.map(item=>{
-                summ += item.unitprice;
-            })
-            this.averagePrice = summ/data.length;
-
-
+        let summ = 0;
+        data.map(item=>{
+            summ += item.unitprice;
+        })
+        this.averagePrice = summ/data.length;
 
         data.map(item=>{
             item['percentDiff'] = ((item.unitprice-this.averagePrice)/this.averagePrice)*100
@@ -279,8 +266,8 @@ export class CommercialOffersComponent implements OnInit{
     addSupplier(){
         this.addSupplierModal.open()
     }
-    showSentCPModal(supplier_id){
-        this.sentCPModal.open(supplier_id)
+    showSentCPModal(supplier_id,supplier){
+        this.sentCPModal.open(supplier_id,supplier.offer_line_id)
     }
     showSendingCPModal(supplier){
         this.sendingCPModal.open(supplier.offer_line_id,this.infoSupplier.email)

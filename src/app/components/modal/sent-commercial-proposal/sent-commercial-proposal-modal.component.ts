@@ -65,22 +65,34 @@ export class SentCommercialProposalModalComponent implements OnInit{
     ){}
     
 
-    open(supplier_id){
+    open(supplier_id,offer_line_id?){
         this.ifLoadData = false;
-        console.log(supplier_id)
-        this.suppliersServices.getCommercialOffersSent(supplier_id).subscribe(
-            response => {
-                
-      
-                this.sentCP = response;
-               this.ifLoadData = true;
-            },
-            err => {
-               
-                this.ifLoadData = true;
-                console.log(err)
-            }
-        );
+        if(offer_line_id){
+            this.suppliersServices.getCommercialOfferSent(offer_line_id).subscribe(
+                response => {
+                    this.sentCP = response;
+                    this.ifLoadData = true;
+                },
+                err => {
+                   
+                    this.ifLoadData = true;
+                    console.log(err)
+                }
+            );
+        }else{
+            this.suppliersServices.getCommercialOffersSent(supplier_id).subscribe(
+                response => {
+                    this.sentCP = response;
+                    this.ifLoadData = true;
+                },
+                err => {
+                   
+                    this.ifLoadData = true;
+                    console.log(err)
+                }
+            );
+        }
+     
 
 
         

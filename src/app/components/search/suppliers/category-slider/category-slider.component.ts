@@ -1,4 +1,4 @@
-import { Component,OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, ViewEncapsulation} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 /*Srvices */
@@ -10,7 +10,7 @@ import { SuppliersServices,ProductServices } from '@core';
     styleUrls: ['./category-slider.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CategorySliderComponent implements OnInit{
+export class CategorySliderComponent{
     unsubscribeAll = new Subject();
     categories;
     selectedCategory;
@@ -18,52 +18,42 @@ export class CategorySliderComponent implements OnInit{
     selectedSupplier;
     units;
     currentUnits;
+    slideConfig = {
+        "infinite": false,
+        "slidesToShow": 4, 
+        "slidesToScroll": 1
+    };
     constructor(
             private productServices:ProductServices,
-          private suppliersServices:SuppliersServices
+            private suppliersServices:SuppliersServices
     ){
         this.suppliersServices.SelectSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedSupplier)=>{
-                this.selectedSupplier = selectedSupplier;
+                this.categories = null;
                 this.units = null;
+                this.selectedSupplier = selectedSupplier;
+             
                 this.getCategories()
             })
     }
-      ngOnInit(){
-           // this.getCategories()
-      }
-      getCategories(){
-            this.suppliersServices.getCategoriesSupplier(this.selectedSupplier.supplier_id)
-                .subscribe(
-                    response => {
-                        this.categories = response.data;
-            
-                        //this.categories = request;
-                    },
-                    err => {
-                        
-                    }
-                );
-      }
 
-      slideConfig = {
-        "infinite": false,
-          "slidesToShow": 4, 
-          "slidesToScroll": 1
-        };
-     
+    getCategories(){
+        this.suppliersServices.getCategoriesSupplier(this.selectedSupplier.supplier_id)
+            .subscribe(
+                response => {
+                    this.categories = response.data;
+                },
+                err => {
+                    console.log(err)
+                }
+            );
+    }
      
     selectProduct(category,product){
-  
         this.selectedCategory = category;
         this.selectedProduct = product;
- 
-        console.log(this.selectedProduct)
         this.getUnits()
-
-
-
     }
      
     getUnits(){
@@ -72,8 +62,6 @@ export class CategorySliderComponent implements OnInit{
                 if(response.data.length){
                     this.units = response.data;
                     this.currentUnits = this.units[0].unit_id;
-
-
                     let unit = this.units.filter(unit=>unit.unit_id==this.currentUnits)[0];
                     this.selectedProduct['unit_id'] =  unit.unit_id;
                     this.selectedProduct['unit'] =  unit;
@@ -90,15 +78,10 @@ export class CategorySliderComponent implements OnInit{
         );
     }
     changeUnits(){
-      
-
         let unit = this.units.filter(unit=>unit.unit_id==this.currentUnits)[0];
         this.selectedProduct['unit_id'] =  unit.unit_id;
         this.selectedProduct['unit'] =  unit;
         this.suppliersServices.selectProductSupplierSubject.next(this.selectedProduct)
-    }
-    afterChange(e) {
-        console.log('afterChange');
     }
     ngOnDestroy(): void {
         this.unsubscribeAll.next();

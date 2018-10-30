@@ -69,7 +69,7 @@ export class SearchFilterSupplierComponent implements OnInit{
         if(!this.checkRequired){
             return;
         }
-        console.log('sarch2')
+
         this.suppliersServices.SelectSupplierSubject.next(this.selectedSupplier)
     }
 
