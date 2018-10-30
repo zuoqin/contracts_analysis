@@ -27,6 +27,10 @@ export class AutocompleteFieldComponent implements OnInit{
             this.onSelectedValue.emit(value.originalObject);
         }
        
+        
+    }
+    onPressEnter(value){
+        console.log(value)
     }
     setValue(name: string){
         console.log(1)

@@ -1,49 +1,47 @@
-import { Component, OnInit,Output,EventEmitter,Input,HostListener,ViewChild,ElementRef } from "@angular/core";
+import { Component, OnInit,Output,EventEmitter,HostListener,ViewChild,ElementRef } from "@angular/core";
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CONFIG } from '@config';
-import { environment } from '@environments';
+
+/*Services */
 import { ProductServices } from '@core';
-import { NgOption } from '@ng-select/ng-select';
 /*Models*/
 import { ProductSearch } from '@core';
+/*Plugins */
+import { NgOption } from '@ng-select/ng-select';
+
+import { CONFIG } from '@config';
 @Component({
     selector:'search-filter-product',
     templateUrl:'./search-filter-product.component.html'
 })
 
 export class SearchFilterProduct implements OnInit{
+    @ViewChild("autoCompleteProductInput") autoCompleteProductInput;
+    @Output() showContent: EventEmitter<any> = new EventEmitter<any>();
     unsubscribeAll = new Subject();
     searchForm: FormGroup;
     checkRequired:boolean = true;
-    ifLoadData:boolean = false;
-    seacrhType = CONFIG.seacrhType;
     selectedProduct:ProductSearch;
     selectedAttrs = [];
-    product = null;
-    btnText = {
-        text:"Найти",
-        defaultValue:"Найти",
-        load:"Поиск.."
-    }
     selectedRegions = [];
     units = [];
     attrsProduct = [];
+    shortFilterArray = [];
+    regions: NgOption[] = []
     searchType:string;
     fixedFilter:boolean = false;
     fixedShortFilterShow:boolean = false;
-    heightFilter;
-    shortFilterArray = [];
     ifDisabledProduct:boolean = false;
-    @ViewChild("autoCompleteProductInput") autoCompleteProductInput;
-    regions: NgOption[] = []
+
+    heightFilter;
+
+    seacrhType = CONFIG.seacrhType;
     autocompleteProduct= CONFIG.autocompleteProduct;
     autocompleteSpgz = CONFIG.autocompleteSPGZ;
-    @Input() loadData: boolean;
-    @Output() onLoadData: EventEmitter<any> = new EventEmitter<any>();
-    tempValue;
+
+
     constructor(
         private productServices:ProductServices,
         private formBuilder: FormBuilder,
@@ -53,14 +51,14 @@ export class SearchFilterProduct implements OnInit{
         this.productServices.SearchByNewProductObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectedProduct=>{
+                /*Select new product from catgeries select */
                 this.searchType = 'product';
                 this.searchForm.controls['type'].setValue('product');
-                /*Select new product from catgeries select */
-                console.log(selectedProduct)
-                this.autoCompleteProductInput.setValue(selectedProduct.name)
-                this.selectProduct(selectedProduct);
-                
-            
+                setTimeout(()=>{
+                    this.autoCompleteProductInput.setValue(selectedProduct.name)
+                })
+          
+                this.selectProduct(selectedProduct,true);
             })
     }
     
@@ -82,34 +80,49 @@ export class SearchFilterProduct implements OnInit{
         // this.selectProduct({kpgz_id: 8515, name: "Мясо индейки"})
         // setTimeout(()=>{
         //     this.search()
-        // },500)
-
-
-        
+        // },500)        
 
     }
-    onChangeVolume(){
-        this.onLoadData.emit(false);
+    initForm(){
+        this.searchForm = this.formBuilder.group({
+            type: ['product'],
+            query: ['', [Validators.required]],
+            volumeFrom: [null],
+			volumeTo: [null],
+            unit:[null],
+            region:[false],
+            deliveryFrom:[null],
+            deliveryTo:[null],
+            risk:[false]
+        });
+        this.shortFilterInit()
     }
-    changeType(){
-        this.resetFilters()
-        this.router.navigate(['search',this.searchForm.controls.type.value]);
-    }
-    selectProduct(selected){
+    selectProduct(selected,selectFromCategory?){
+        this.showContent.emit(false);
         this.resetFilters()
         if(selected){
+            if(selectFromCategory){
+                this.selectedProduct.selectedFromCategory = true;
+            }
             this.selectedProduct.name = selected.name;
             this.selectedProduct.kpgz_id = selected.kpgz_id;
             this.searchForm.controls['query'].setValue(this.selectedProduct.name)
             this.checkRequired = true;
-           
-            this.getUnits();
             this.getAttrs();
-            this.getSpgz()
+            this.getUnits();
+       
         }
-        this.onLoadData.emit(false);
         this.shortFilterInit()
     }
+    onChangeVolume(){
+        this.showContent.emit(false);
+    }
+    changeType(){
+        console.log('changeType')
+        this.resetFilters()
+        this.router.navigate(['search',this.searchForm.controls.type.value]);
+    }
+   
     resetFilters(){
         this.attrsProduct = [];
         this.units = [];
@@ -164,51 +177,49 @@ export class SearchFilterProduct implements OnInit{
         return this.productServices.getSpgz(this.selectedProduct.kpgz_id,atrr).subscribe(
             response => {
                 this.selectedProduct.spgz_id = response.data;
-
-                if(response.data.length && this.searchForm.value.unit){
-                    this.ifDisabledProduct = false;
-                  
-                }else{
-                    this.ifDisabledProduct = true;
+                this.checkDisabledProduct();
+                if(this.selectedProduct.selectedFromCategory){
+                    this.search()
                 }
             },
             err => {
                 console.log(err)
             }
         );
+    }
+    checkDisabledProduct(){
+        if(!this.units.length || !this.selectedProduct.spgz_id.length){
+            this.ifDisabledProduct = true;
+        }else{
+            this.ifDisabledProduct = false;
+        }
     }
     getUnits(){
         this.productServices.getUnits(this.selectedProduct.kpgz_id).subscribe(
             response => {
-                console.log(this.selectedProduct)
+                this.units = response.data;
                 if(response.data.length){
-                    this.units = response.data;
-                    this.ifDisabledProduct = false;
                     this.searchForm.controls['unit'].setValue(this.units[0].unit_id);
                 }else{
-                    this.units = [];
-                    this.ifDisabledProduct = true;
                     this.searchForm.controls['unit'].setValue(null)
                 }
+                this.getSpgz()
+
             },
             err => {
                 console.log(err)
             }
         );
     }
-    initForm(){
-        this.searchForm = this.formBuilder.group({
-            type: ['product'],
-            query: ['', [Validators.required]],
-            volumeFrom: [null],
-			volumeTo: [null],
-            unit:[null],
-            region:[false],
-            deliveryFrom:[null],
-            deliveryTo:[null],
-            risk:[false]
-        });
-        this.shortFilterInit()
+    getRegions(){
+        this.productServices.getRegions().subscribe(
+            response => {
+                this.regions = response.data
+            },
+            err => {
+                console.log(err)
+            }
+        );
     }
     selectRegions(value){
         if(value){
@@ -229,15 +240,12 @@ export class SearchFilterProduct implements OnInit{
         })
     }
     search(){
-       if(!this.searchForm.value.unit){
-        this.ifDisabledProduct = true;;
-       }
-       
+        this.checkDisabledProduct()
+
         if(!this.checkRequired || this.ifDisabledProduct){
             return;
         }
-        
-        this.btnText.text = this.btnText.load;
+
         this.hideFixedFilter();
         this.selectedProduct.delivery_from = this.searchForm.value.deliveryFrom;
         this.selectedProduct.delivery_to = this.searchForm.value.deliveryTo;
@@ -249,10 +257,8 @@ export class SearchFilterProduct implements OnInit{
         }
 
         this.selectedProduct.risk = this.searchForm.value.risk.toString();
-        
-        this.ifLoadData = true;
-        this.btnText.text = this.btnText.defaultValue;
-        this.onLoadData.emit(true);
+
+        this.showContent.emit(true);
         this.productServices.SelectProductSubject.next(this.selectedProduct)
 
     }
@@ -395,16 +401,7 @@ export class SearchFilterProduct implements OnInit{
         }
 
     }
-    getRegions(){
-        this.productServices.getRegions().subscribe(
-            response => {
-                this.regions = response.data
-            },
-            err => {
-                console.log(err)
-            }
-        );
-    }
+ 
     ngOnDestroy(): void {
         this.unsubscribeAll.next();
         this.unsubscribeAll.complete();

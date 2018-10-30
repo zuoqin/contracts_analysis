@@ -2,12 +2,14 @@
     [(ngModel)]="initialValue" 
     [datasource]="dataService" 
     [minSearchLength]="3" 
+    [autoHighlight]="true"
     [placeholder]=placeholder
     [clearUnselected]="false"
     textNoResults="Нет результатов"
     textSearching="Загрузка.."
     openOnClick="true"
     (selected)="onSelected($event)"
-    pause="1000"
+    (keyup.enter)="onPressEnter($event)"
+    pause="500"
     >
 </ng2-completer>

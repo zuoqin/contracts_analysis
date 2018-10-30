@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 /*Services*/
 import { ProductServices } from '@core';
 /*Models*/
@@ -10,9 +11,9 @@ import { ProductSearch } from '@core';
     selector:"search",
     templateUrl:"./search-product.component.html"
 })
-export class SearchProductComponent implements OnInit{
+export class SearchProductComponent{
     unsubscribeAll = new Subject();
-    loadData:boolean = false;
+    showContent:boolean = false;
     selectedProduct:ProductSearch;
     purchaseDataArray;
     constructor(
@@ -22,54 +23,29 @@ export class SearchProductComponent implements OnInit{
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
-                console.log('getPurchases')
-                
                 this.purchaseDataArray = null;
-                this.loadData = false;
-                
             })
-            this.productServices.SelectProductObservable
+        this.productServices.SelectProductObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
                 this.selectedProduct = selectedProduct;
                 this.purchaseDataArray = null;
                 this.getPurchases()
-            })
-
-            
-
+            })  
     }
     
-    onLoadData(data){
-        this.selectedProduct = data;
-        
-        this.loadData = data;
+    showContentEvent(value){
+        this.showContent = value;
     }
     getPurchases(){
-   
         this.productServices.getPurchases(this.selectedProduct).subscribe(
             response => {
                 this.purchaseDataArray = response.data;
-                console.log(this.purchaseDataArray)
-                // if(response.data.length){
-                //     this.formatData(response.data)
-                // }else{
-                //     this.messageResponse.text =  this.messageResponse.noData;
-                // }
-              
- 
-                // this.ifLoadData = true;
-
             },
             err => {
-                // this.messageResponse.text =  this.messageResponse.error;
-                // this.ifLoadData = true;
                 console.log(err)
             }
         );
-    }
-    ngOnInit(){
-
     }
     ngOnDestroy(): void {
         this.unsubscribeAll.next();

@@ -334,7 +334,7 @@ export class PurchaseTableComponent implements OnInit{
             str = 'spgz_id='+this.spgzId;
         }else{
             for (var key in this.selectedProduct) {
-                if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
+                if(this.selectedProduct[key] && key!="name" && key!="unit_text"  && key!="kpgz_id"){
                     if(Array.isArray(this.selectedProduct[key])){
                         if(this.selectedProduct[key].length){
                             let string = `${key}=`;
@@ -349,6 +349,8 @@ export class PurchaseTableComponent implements OnInit{
                 }
             }
         }
+        str = str.substring(0, str.length - 1);
+        console.log(environment.apiUrl+'/export_purchases?'+str)
         window.open(environment.apiUrl+'/export_purchases?'+str, '_blank');
     }
 

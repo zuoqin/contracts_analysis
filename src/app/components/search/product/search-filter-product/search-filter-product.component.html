@@ -20,7 +20,6 @@
                             <ng-container *ngIf="searchType=='spgz'">
                                 <div  class="search-form__search__query autocomplete-input">
                                     <autocomplete-field 
-                                        #autoCompleteProductInput
                                         (onSelectedValue)="selectProduct($event)"
                                         [urlSearch]="autocompleteSpgz.url"
                                         [searchFields]="autocompleteSpgz.searchField"
@@ -41,12 +40,43 @@
                                         [titleField]="autocompleteProduct.titleField"
                                         [placeholder]="'Поиск по продукту'"
                                         ></autocomplete-field>
-                                    <div *ngIf="!checkRequired" class="field-error">Выберите продукт</div>
+                                    <div *ngIf="!checkRequired && !ifDisabledProduct" class="field-error">Выберите продукт</div>
                                 </div>
                             </ng-container>
                        
                         </div>
                         <div *ngIf="ifDisabledProduct"  class="input-error" >Такого продукта нет среди закупок, выберите другой продукт из списка.</div>
+                    </fieldset>
+                    <fieldset   class="search-form__right">
+                            <label class="styled-label">СРОК ПОСТАВКИ</label>
+                            <div class="field-3-column">
+                                <input 
+                                    type="text" 
+                                    formControlName="deliveryFrom" 
+                                    class="styled-input" 
+                                    placeholder="От"  
+                                    OnlyNumber="true" 
+                                    [MaxValue]="searchForm.controls['deliveryTo'].value"  
+                                    [FormControl]="searchForm.controls['deliveryFrom']">
+    
+                                <span class="field-3-column__line">-</span>
+                                <input 
+                                    type="text" 
+                                    formControlName="deliveryTo" 
+                                    class="styled-input" 
+                                    placeholder="До" 
+                                    OnlyNumber="true"  
+                                    [MinValue]="searchForm.controls['deliveryFrom'].value" 
+                                    [FormControl]="searchForm.controls['deliveryTo']">
+                                <span class="field-3-column__last">дней</span>
+                            </div>
+                        </fieldset>
+           
+                </div>
+                <div class="search-form__row">
+                    <fieldset class="search-form__left">
+                        <label class="styled-label">РЕГИОН</label>
+                        <regions-tag-selected  *ngIf="regions.length" [regions]="regions" (onSelected)="selectRegions($event)"></regions-tag-selected>
                     </fieldset>
                     <fieldset  *ngIf="units.length" class="search-form__right" >
                             <label class="styled-label">ОБЪЕМ</label>
@@ -74,36 +104,6 @@
                                     <ng-option *ngFor="let unit of units" [value]="unit.unit_id" >{{unit.name}}</ng-option>
                                 </ng-select>
                             </div>
-                    </fieldset>
-                </div>
-                <div class="search-form__row">
-                    <fieldset class="search-form__left">
-                        <label class="styled-label">РЕГИОН</label>
-                        <regions-tag-selected  *ngIf="regions.length" [regions]="regions" (onSelected)="selectRegions($event)"></regions-tag-selected>
-                    </fieldset>
-                    <fieldset   class="search-form__right">
-                        <label class="styled-label">СРОК ПОСТАВКИ</label>
-                        <div class="field-3-column">
-                            <input 
-                                type="text" 
-                                formControlName="deliveryFrom" 
-                                class="styled-input" 
-                                placeholder="От"  
-                                OnlyNumber="true" 
-                                [MaxValue]="searchForm.controls['deliveryTo'].value"  
-                                [FormControl]="searchForm.controls['deliveryFrom']">
-
-                            <span class="field-3-column__line">-</span>
-                            <input 
-                                type="text" 
-                                formControlName="deliveryTo" 
-                                class="styled-input" 
-                                placeholder="До" 
-                                OnlyNumber="true"  
-                                [MinValue]="searchForm.controls['deliveryFrom'].value" 
-                                [FormControl]="searchForm.controls['deliveryTo']">
-                            <span class="field-3-column__last">дней</span>
-                        </div>
                     </fieldset>
                 
                 </div>
@@ -142,7 +142,7 @@
                     <div 
                         [class.disabled]="ifDisabledProduct"
                         class="btn btn--red btn--40" 
-                        (click)="search()">{{btnText.text}}</div>
+                        (click)="search()">Найти</div>
                 </div>
             
             </form>

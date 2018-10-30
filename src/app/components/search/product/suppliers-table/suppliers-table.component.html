@@ -128,7 +128,9 @@
                         <td *ngIf="isColumnActive('name')">
                            {{supplier.name}}
                         </td>
-                        <td *ngIf="isColumnActive('volume')" class="text-center">{{supplier.volume ? (supplier.volume  | thousandsSpace) : '-'}}</td>
+                        <td *ngIf="isColumnActive('volume')" class="text-center">
+                            {{supplier.volume ? ((supplier.volume  | thousandsSpace)+' '+selectedProduct.unit_text) : '-'}}
+                        </td>
                         <td *ngIf="isColumnActive('price_per_unit')" class="text-center">
                      
                             <span 

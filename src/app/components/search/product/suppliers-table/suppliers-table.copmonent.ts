@@ -1,4 +1,4 @@
-import { Component,ViewChild,Input,OnInit } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 /*Services*/
@@ -13,7 +13,7 @@ import { CONFIG } from '@config';
     selector:"suppliers-table",
     templateUrl:"./suppliers-table.component.html"
 })
-export class SuppliersTableComponent implements OnInit{
+export class SuppliersTableComponent{
     unsubscribeAll = new Subject();
     selectedProduct:ProductSearch;
     initalData;
@@ -128,12 +128,13 @@ export class SuppliersTableComponent implements OnInit{
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct:ProductSearch)=>{
                 this.selectedProduct = selectedProduct;
+                this.getData()
             })
     }
-    ngOnInit(){
-
- 
-
+    getData(){
+        this.initalData = null;
+        this.suppliersData = null;
+        console.log(this.selectedProduct)
         this.suppliersServices.getSuppliersForProduct(this.selectedProduct).subscribe(
             response => {
                 
@@ -154,9 +155,7 @@ export class SuppliersTableComponent implements OnInit{
                 console.log(err)
             }
         );
-
     }
-    
     getPriceInfo(){
        
     }
@@ -318,7 +317,7 @@ export class SuppliersTableComponent implements OnInit{
     downloadfile(){
         var str = "";
         for (var key in this.selectedProduct) {
-            if(this.selectedProduct[key] && key!="name" && key!="unit_text"){
+            if(this.selectedProduct[key] && key!="name" && key!="unit_text"&& key!="kpgz_id"){
                 if(Array.isArray(this.selectedProduct[key])){
                     if(this.selectedProduct[key].length){
                         let string = `${key}=`;
@@ -332,7 +331,8 @@ export class SuppliersTableComponent implements OnInit{
                 }
             }
         }
-       
+        str = str.substring(0, str.length - 1);
+        console.log(environment.apiUrl+'/export_suppliers?'+str)
         window.open(environment.apiUrl+'/export_suppliers?'+str, '_blank');
     }
       

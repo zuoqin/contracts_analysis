@@ -15,7 +15,6 @@ export class SearchComponent implements OnInit{
         this.userServices.getEmailManagerList().subscribe(
             response => {
                 this.userServices.managerUserEmailList = response.data;
-               console.log(response)
             },
             err => {
 

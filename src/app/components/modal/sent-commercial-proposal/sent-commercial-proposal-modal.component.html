@@ -28,8 +28,8 @@
                                 class="btn-toggle">
                             </div>
                         </td>
-                        <td>{{cp.send_date}}</td>
-                        <td>{{cp.answer_date}}</td>
+                        <td>{{cp.send_date ? cp.send_date : '-'}}</td>
+                        <td>{{cp.answer_date ? cp.answer_date : '-'}}</td>
                         <td class="break-word">{{cp.email}}</td>
                         <td>{{cp.name ? cp.name : '-'}}</td>
                         <td>{{cp.result}}</td>

@@ -1,5 +1,5 @@
-<search-filter-product  (onLoadData)="onLoadData($event)"  [loadData]="loadData"></search-filter-product>
-<ng-container *ngIf="loadData">
+<search-filter-product  (showContent)="showContentEvent($event)"></search-filter-product>
+<ng-container *ngIf="showContent">
         <category-product></category-product>
         <br> <br>
         <price-product></price-product>
