@@ -26,7 +26,9 @@
                     <td class="w11p break-all">{{product.product_name}}</td>
                     <td class="w7-5p">{{product.id}}</td>
                     <td class="w9p">
-                        <div class="btn-control-audio v-align-middle"><div class="icon icon--play"></div></div>
+                        <ng-container *ngIf="product.call_url">
+                            <audio-player  [src]="product.call_url"></audio-player>
+                        </ng-container>
                     </td>
                     <td class="w11p">{{product.request_date ? product.request_date : '-'}}</td>
                     <td class="w11p">{{product.result ? product.result : '-'}}</td>

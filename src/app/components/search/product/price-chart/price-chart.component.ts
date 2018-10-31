@@ -36,8 +36,6 @@ Highcharts.setOptions({
 export class PriceChartComponent implements OnInit{
 
     @Input() set data(value) {
-        
-        console.log('получил')
         this.priceChartsData = value;
         this.showGraph();
     }

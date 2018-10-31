@@ -13,6 +13,7 @@ import { CONFIG } from '@config';
     templateUrl:"./commercial-offers.component.html"
 })
 export class CommercialOffersComponent{
+
     selectedSupplier;
     unsubscribeAll = new Subject();
     selectedProduct;
@@ -60,7 +61,7 @@ export class CommercialOffersComponent{
             active:true,
             filter:false
         },
-        call_id:{
+        call_url:{
             active:true,
             filter:false
         }
@@ -100,7 +101,7 @@ export class CommercialOffersComponent{
             active:true
         },
         {
-            id:"call_id",
+            id:"call_url",
             text:"Звонки",
             active:true
         },
@@ -273,7 +274,6 @@ export class CommercialOffersComponent{
         this.sendingCPModal.open(supplier.offer_line_id,this.infoSupplier.email)
     }
     downloadfile(){
-        console.log(`${environment.apiUrl}/export_commercial_offers?spgz_id=${this.selectedProduct.spgz_id}&unit_id=${this.selectedProduct.unit_id}`)
         window.open(`${environment.apiUrl}/export_commercial_offers?spgz_id=${this.selectedProduct.spgz_id}&unit_id=${this.selectedProduct.unit_id}`, '_blank');
     }
       

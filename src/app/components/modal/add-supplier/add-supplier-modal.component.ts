@@ -104,7 +104,6 @@ export class AddSupplierModalComponent implements OnInit{
 
     changeType(value){
         this.resetForm()
-        console.log(value)
     }
     resetForm(){
         this.units = [];
@@ -274,7 +273,6 @@ export class AddSupplierModalComponent implements OnInit{
     }
     selectProduct(event){
         this.addSupplierForm.controls['product'].setValue(event)
-        console.log()
         this.selectedProductKpgz = event.kpgz_id;
         this.getUnits();
         this.getAttrs();
@@ -282,7 +280,6 @@ export class AddSupplierModalComponent implements OnInit{
     }
     selectProductSpgz(event){
         this.addSupplierForm.controls['product'].setValue(event)
-        console.log(event)
         this.selectedProductKpgz = event.kpgz_id;
         this.getUnits();
         this.addSupplierForm.controls['spgz_id'].setValue(event.spgz_id)

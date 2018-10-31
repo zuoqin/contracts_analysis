@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProductServices } from '@core';
@@ -12,7 +12,7 @@ import { CONFIG } from '@config';
     templateUrl:"./price-product.component.html"
 })
 
-export class PriceProductComponent  implements OnInit{
+export class PriceProductComponent{
     selectedProduct:ProductSearch;
     priceChartsData;
     legendData;
@@ -25,10 +25,12 @@ export class PriceProductComponent  implements OnInit{
         this.productServices.SelectProductObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe((selectedProduct)=>{
+                this.priceDynamicsArray = null;
                 this.priceChartsData=null;
                 this.selectedProduct = selectedProduct;
                 this.getChartsData();
 
+                
                 this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
                     response => {
                         this.priceDynamicsArray = response.data;
@@ -41,15 +43,13 @@ export class PriceProductComponent  implements OnInit{
                 
                 this.productServices.getPredictionPrice(this.selectedProduct).subscribe(
                     response => {
-                        this.predictionPrice
-                        if(response.data.length){
+                        if(response.data.price){
                             response.data["monthText"] = CONFIG.months[response.data.month-1]
                             response.data["currency"] = this.declOfNum(parseInt(response.data.price), ['рубль', 'рубля', 'рублей']);
                             this.predictionPrice = response.data;
                         }else{
                             this.predictionPrice = null
                         }
-                   
                     },
                     err => {
                         console.log(err)
@@ -59,9 +59,7 @@ export class PriceProductComponent  implements OnInit{
 
             })
     }
-    ngOnInit(){
 
-    }
     declOfNum(number, titles) {  
         let cases = [2, 0, 1, 1, 1, 2];  
         return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  

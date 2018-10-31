@@ -1,11 +1,11 @@
-import { OnInit, Input } from '@angular/core';
+import { Input } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
     selector:"audio-player",
     templateUrl:"./audio-player.component.html"
 })
-export class AudioPlayerComponent implements OnInit{
+export class AudioPlayerComponent{
     @Input('src') src;
     audio;
      ifStopShow:boolean = false;
@@ -13,12 +13,8 @@ export class AudioPlayerComponent implements OnInit{
     constructor(
       
     ){}
-    ngOnInit(){
-      
-    }
 
     playCall(){
-        console.log(this.src)
         if(!this.audio){
             this.audio = new Audio();
             this.audio.src = this.src;

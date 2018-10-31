@@ -99,7 +99,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
         this.suppliersServices.openAddCPModalObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(value=>{
-                console.log(1)
                 this.open();
             })
 
@@ -170,13 +169,13 @@ export class AddCommercialProposalModalComponent implements OnInit{
 		}
 	}
     changeType(value){
-        console.log(value)
+
     }
     selectSupplier(value){
         this.addProposalForm.controls['supplier'].setValue(value.supplier_id)
     }
     selectProduct(value){
-        console.log(value)
+       
         this.addProposalForm.controls['product'].setValue(value.spgz_id);
         /*Решили пока убрать поиск по продукту */
         //this.getAttrs(value.kpgz_id);
@@ -208,7 +207,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
     // getAttrs(productId){
     //     this.productServices.getAttrs(productId).subscribe(
     //         response => {
-    //             console.log(response)
     //             if(response.data.length){
     //                 this.attrsProduct = response.data;
     //             }
@@ -221,8 +219,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
     // }
     addSupplier(){
         this.addCommercialProposalModal.close();
-        
-        console.log('добавить поставщика')
         let that = this;
         setTimeout(()=>{
             that.suppliersServices.addSupplierFromModal.next(true);
@@ -305,7 +301,6 @@ export class AddCommercialProposalModalComponent implements OnInit{
                     this.ifSendSuccess = true;
                     this.addProposalForm.reset();
                     this.answerMessage.text = this.answerMessage.sucess;
-                    console.log(response)
                 },
                 err => {
                     this.ifSubmit = false;

@@ -134,14 +134,13 @@ export class SuppliersTableComponent{
     getData(){
         this.initalData = null;
         this.suppliersData = null;
-        console.log(this.selectedProduct)
         this.suppliersServices.getSuppliersForProduct(this.selectedProduct).subscribe(
             response => {
-                
+                this.suppliersServices.suppliersCountSubject.next(response.data.length)
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;
+               
                 }else{
-                    this.suppliersServices.suppliersCountSubject.next(response.data.length)
                     
                     this.formatData(response.data)
                    
@@ -195,8 +194,6 @@ export class SuppliersTableComponent{
         this.filterArray.volume_count.max = this.filterServices.findMinMax(data,'volume_count','max');
 
         
-        //this.filterArray.comm_offer.value = this.filterServices.findAllDiffValue(data,'comm_offer');
-        console.log(this.filterArray)
         this.initalData = data;
         this.suppliersData = data;
     }
@@ -271,20 +268,12 @@ export class SuppliersTableComponent{
             filtered = true;
             array = array.filter(item=>item.volume_count>=this.filterArray.volume_count.filterMin && item.volume_count<=this.filterArray.volume_count.filterMax)
         }
-        if(array.length){
+        if(this.filterArray.comm_offer.filter && array.length){
             filtered = true;
             array = array.filter(item=>item.comm_offer==this.filterArray.comm_offer.active)
         }
-        if(array.length){
-            filtered = true;
-            if(this.filterArray.calls.active){
-                array = array.filter(item=>item.calls.length>0)
-            }else{
-                array = array.filter(item=>item.calls.length==0)
-            }
-         
-        }
-  
+
+
         
         if(filtered){
             this.suppliersData = array;
@@ -313,6 +302,9 @@ export class SuppliersTableComponent{
     }
     showSendingCPModal(supplier){
         this.sendingCPModal.open(supplier.offer_line_id,supplier.email)
+    }
+    clickSupplier(supplier){
+        window.open(`/search/supplier?supplier_id=${supplier.supplier_id}&supplier_name=${supplier.name}`, "_blank");
     }
     downloadfile(){
         var str = "";

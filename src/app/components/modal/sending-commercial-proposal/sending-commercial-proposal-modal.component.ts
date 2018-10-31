@@ -24,6 +24,7 @@ export class SendingCPModalComponent implements OnInit{
     emailTo;
     messageAfterSubmit;
     ifSucessSubmit:boolean = false;
+    attach_form:boolean = false;
     ckeConfig = {
         extraPlugins:'autogrow,divarea',
         autoGrow_onStartup: true,
@@ -100,7 +101,8 @@ export class SendingCPModalComponent implements OnInit{
             email:['', [Validators.required]],
             from: [null],
             content:['', [Validators.required]],
-            offer_line_id:[null]
+            offer_line_id:[null],
+            attach_form:[false]
         });
     }
     onEditorChange(event){
@@ -112,7 +114,7 @@ export class SendingCPModalComponent implements OnInit{
         
     }
     submit(){
-        console.log(this.commercialProposalForm.value)
+
         this.ifSucessSubmit = false;
         this.messageAfterSubmit = null;
         if (this.commercialProposalForm.invalid) {
@@ -128,6 +130,7 @@ export class SendingCPModalComponent implements OnInit{
             email:this.commercialProposalForm.value.email,
             content:this.commercialProposalForm.value.content,
             topic:this.commercialProposalForm.value.topic,
+            attach_form:this.attach_form,
         };
         this.userServices.sendCpEmail(body).subscribe(
             response => {

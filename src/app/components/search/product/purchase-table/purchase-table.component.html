@@ -123,7 +123,7 @@
                 *ngFor="let purchase of mf.data"
                 [class.red-bg]="!purchase.safety"
                 >
-                    <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date.text}}</td>
+                    <td *ngIf="isColumnActive('date')" class="text-center">{{purchase.date? purchase.date.text : ''}}</td>
                     <td *ngIf="isColumnActive('name')">
                         <ng-container *ngIf="purchase.url && purchase.url.length>5">
                             <a href="{{purchase.url}}" target="_blank">
@@ -193,7 +193,7 @@
                     <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
                     <td *ngIf="isColumnActive('contract_price')" class="text-center">{{purchase.contract_price | thousandsSpace}}</td>
                     <td *ngIf="isColumnActive('contract_status')">{{purchase.contract_status}}</td>
-                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd.text}}</td>
+                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd ? purchase.dateEnd.text:'-' }}</td>
                     <td *ngIf="isColumnActive('complaint')" class="text-center">
                         <ng-container *ngIf="purchase.complaint">да</ng-container>
                         <ng-container *ngIf="!purchase.complaint">нет</ng-container>

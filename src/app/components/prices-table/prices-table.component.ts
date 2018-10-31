@@ -12,9 +12,14 @@ import { ProductSearch } from '@core';
     templateUrl:"./prices-table.component.html"
 })
 export class PriceTableComponent implements OnInit{
+    predictionPriceArray;
     @Input('priceArray') priceArray;
-    @Input('predictionPrice') predictionPrice;
     @Input('isSupplierPage') isSupplierPage;
+    @Input()
+        set predictionPrice(predictionPrice: string) {
+            this.predictionPriceArray = predictionPrice;
+        }
+
     unsubscribeAll = new Subject();
     selectedProduct:ProductSearch;
     pricesDynamics;
@@ -41,7 +46,7 @@ export class PriceTableComponent implements OnInit{
             this.currentDate["monthText"] = CONFIG.months[date.getMonth()];
             this.currentDate["year"] = date.getFullYear()
 
-
+            
 
             this.suppliersServices.suppliersCountObservable
                 .pipe(takeUntil(this.unsubscribeAll))
@@ -52,14 +57,25 @@ export class PriceTableComponent implements OnInit{
 
     }
     ngOnInit(){
-
+      
         if(this.priceArray){
+            this.cutPrice()
             this.getAveragePrice(this.priceArray)
             this.setPriceDifference(this.priceArray);
         }
    
     }
-
+    cutPrice(){
+        this.priceArray.map((item)=>{
+        
+            if(item.market){
+                item.market = parseFloat(item.market.toFixed(2) )
+            }
+            if(item.purchase){
+                item.purchase = parseFloat(item.purchase.toFixed(2) )
+            }
+        })
+    }
     getAveragePrice(data){
         let yearSummMarket = 0;
         let yearSummPurchase = 0;
@@ -122,7 +138,6 @@ export class PriceTableComponent implements OnInit{
         })
    
         this.pricesDynamics = priceArrayTemp;
-        console.log( this.pricesDynamics)
 
     }
     setPriceDifference(data){
@@ -167,11 +182,7 @@ export class PriceTableComponent implements OnInit{
     }
     toggleYearsPrice(value){
         value.active =!value.active;
-        if(value.year!=this.currentDate["year"]){
-           
-        }else{
-            console.log(value)
-        }
+
        
     }
 }

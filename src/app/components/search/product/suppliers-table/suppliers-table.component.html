@@ -22,7 +22,7 @@
             </div>
     </div>
     <div *ngIf="!ifLoadData">{{messageResponse.text}}</div>
-    <ng-container *ngIf="ifLoadData && !suppliersData">{{messageResponse.text}}</ng-container>
+    <ng-container *ngIf="ifLoadData && !suppliersData">Нет данных для отображения</ng-container>
     <ng-container  *ngIf="initalData && initalData.length && ifLoadData" >
         <table  class="styled-table"  [mfData]="suppliersData" #mf="mfDataTable" >
                 <thead>
@@ -108,25 +108,34 @@
                         </th>
                         <th *ngIf="isColumnActive('comm_offer')" class="w120">
                             КП
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <!-- <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                                 <radio-filter (onSelectValue)="onSelectRadioFilter($event,'comm_offer')" [fieldName]="'comm_offer'"></radio-filter>
-                            </div>
+                            </div> -->
                         
                         </th>
                         <th *ngIf="isColumnActive('calls')" class="w130">
                             Звонки
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                            <!-- <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                                 <radio-filter class="filter-right-position" (onSelectValue)="onSelectRadioFilter($event,'calls')" [fieldName]="'calls'"></radio-filter>
-                            </div>
+                            </div> -->
                         </th>
                     </tr>
                 </thead>
                 <tr 
                     *ngFor="let supplier of mf.data"
+                    [class.red-bg]="supplier.risk"
+                   
                     >
                         <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
                         <td *ngIf="isColumnActive('name')">
-                           {{supplier.name}}
+
+                            <a *ngIf="!supplier.risk" (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
+                            <a 
+                                *ngIf="supplier.risk" 
+                                tooltip="Рискованный поставщик" 
+                                [options]="tooltipOptions"
+                                show-delay="500"
+                                (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
                         </td>
                         <td *ngIf="isColumnActive('volume')" class="text-center">
                             {{supplier.volume ? ((supplier.volume  | thousandsSpace)+' '+selectedProduct.unit_text) : '-'}}

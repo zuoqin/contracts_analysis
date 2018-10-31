@@ -91,7 +91,6 @@ export class CategoryProductComponent implements OnInit{
     }
     selectProduct(product){
         this.selectedProduct = product;
-        console.log(this.selectedProduct)
         this.productServices.SearchByNewProductSubject.next(this.selectedProduct)
         this.isOpenProduct = false;
     }

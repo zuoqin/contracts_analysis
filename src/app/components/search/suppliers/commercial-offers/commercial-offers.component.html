@@ -89,7 +89,7 @@
                                     <radio-filter (onSelectValue)="onSelectRadioFilter($event,'result')" [fieldName]="'result'"></radio-filter>
                                 </div> -->
                             </th>
-                            <th *ngIf="isColumnActive('call_id')" class="w130">
+                            <th *ngIf="isColumnActive('call_url')" class="w130">
                                 Звонки
                                 <!-- <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                                     <radio-filter class="filter-right-position" (onSelectValue)="onSelectRadioFilter($event,'call_id')" [fieldName]="'call_id'"></radio-filter>
@@ -143,29 +143,14 @@
                             </td>
                             <td *ngIf="isColumnActive('result')"class="text-center" >
                                 <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier)"></div>
-                                <div *ngIf="supplier.call && supplier.call.length" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(selectedSupplier.supplier_id,supplier)"></div>
+                                <div *ngIf="supplier.result && supplier.result.length" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(selectedSupplier.supplier_id,supplier)"></div>
 
                             </td>
-                            <td *ngIf="isColumnActive('call_id')" class="text-center">
-
-                                    <!-- <ng-container *ngIf="supplier.calls.length">
-                                        <audio-player *ngFor="let call of supplier.calls" [src]="call"></audio-player>
-                                    </ng-container>
-                                    <ng-container *ngIf="!supplier.calls.length">-</ng-container> -->
-
-
-                                <ng-container *ngIf="supplier.call_id && supplier.call_id">
-                                    <div class="btn-control-audio">
-                                        <div class="icon icon--play"></div>
-                                    </div>
-                                    <div class="btn-control-audio">
-                                        <div class="icon icon--stop"></div>
-                                    </div>
-                                    <div class="btn-control-audio">
-                                        <div class="icon icon--pause"></div>
-                                    </div>
+                            <td *ngIf="isColumnActive('call_url')" class="text-center">
+                                <ng-container *ngIf="supplier.call_url">
+                                    <audio-player  [src]="supplier.call_url"></audio-player>
                                 </ng-container>
-                                <ng-container *ngIf="!supplier.call_id">-</ng-container>
+                                <ng-container *ngIf="!supplier.call_url">-</ng-container>
                             </td>
                     </tr>
             </table>

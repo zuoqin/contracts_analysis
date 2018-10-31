@@ -77,6 +77,7 @@ export class SearchFilterProduct implements OnInit{
             this.shortFilterInit()
         })
         this.getRegions()   
+
         // this.selectProduct({kpgz_id: 8515, name: "Мясо индейки"})
         // setTimeout(()=>{
         //     this.search()
@@ -118,7 +119,6 @@ export class SearchFilterProduct implements OnInit{
         this.showContent.emit(false);
     }
     changeType(){
-        console.log('changeType')
         this.resetFilters()
         this.router.navigate(['search',this.searchForm.controls.type.value]);
     }

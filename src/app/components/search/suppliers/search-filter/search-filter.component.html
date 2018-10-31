@@ -17,6 +17,7 @@
                             </ng-select>
                             <div  class="search-form__search__query autocomplete-input">
                                 <autocomplete-field 
+                                    #autoCompleteSupplierInput
                                     (onSelectedValue)="selectSupplier($event)"
                                     [urlSearch]="autocompleteSupplier.url"
                                     [searchFields]="autocompleteSupplier.searchField"

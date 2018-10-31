@@ -167,23 +167,26 @@ export class PurchaseTableComponent implements OnInit{
         data.map(item=>{
 
             item['percentDiff'] = ((item.unitprice-this.averagePrice)/this.averagePrice)*100
+            let dateCurrent;
+            let dateNew;
+            if(item.contract_sign_date){
+                dateCurrent = item.contract_sign_date.split('/');
+                dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
+                item['date'] = {
+                    value:dateNew,
+                    text:dateCurrent.join(".")
+                };
+            }
+           
 
-
-            let dateCurrent = item.contract_sign_date.split('/');
-            let dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
-            item['date'] = {
-                value:dateNew,
-                text:dateCurrent.join(".")
-            };
-
-
-            dateCurrent = item.contract_end_date.split('/');
-            dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
-            item['dateEnd'] = {
-                value:dateNew,
-                text:dateCurrent.join(".")
-            };
-            item['price'] = 9231;
+            if(item.contract_end_date){
+                dateCurrent = item.contract_end_date.split('/');
+                dateNew = new Date(dateCurrent[2],dateCurrent[1]-1,dateCurrent[0]);
+                item['dateEnd'] = {
+                    value:dateNew,
+                    text:dateCurrent.join(".")
+                };
+            }
             item['complaint'] = false;
             item['safety'] = true;
 
@@ -349,6 +352,7 @@ export class PurchaseTableComponent implements OnInit{
                 }
             }
         }
+        console.log()
         str = str.substring(0, str.length - 1);
         console.log(environment.apiUrl+'/export_purchases?'+str)
         window.open(environment.apiUrl+'/export_purchases?'+str, '_blank');

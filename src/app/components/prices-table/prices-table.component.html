@@ -46,7 +46,7 @@
                             <!-- {{price.purchase}} -->
                             <span class="value">{{price.purchase ? (price.purchase.toFixed(2)  | thousandsSpace):0}}</span>
                             <span 
-                                *ngIf="price.diffMarket!=0"
+                                *ngIf="price.diffPurchase!=0"
                                 class="price-table__diff"
                                 [class.down]="price.diffPurchase<0" 
                                 [class.up]="price.diffPurchase>0" 
@@ -72,8 +72,8 @@
     <div class="price-table__row">
         <div class="price-table__title">Год</div>
         <div class="price-table__price">
-            <div>{{averagePrice.year.market | thousandsSpace}}</div>
-            <div>{{averagePrice.year.purchase | thousandsSpace}}</div>
+            <div>{{averagePrice.year.market ? (averagePrice.year.market | thousandsSpace):'-'}}</div>
+            <div>{{averagePrice.year.purchase ? (averagePrice.year.purchase | thousandsSpace):'-' }}</div>
         </div>
     </div>
     <div class="price-table__row">
@@ -85,8 +85,8 @@
     </div>
 </div>
 
-<div class="text-center forecast-price mt25 product-price__left__shift-title" *ngIf="predictionPrice">
-    <div  class="forecast-price__title">Прогнозируемая цена на {{predictionPrice.monthText}}</div>
-    <div class="forecast-price__item">{{predictionPrice.price | thousandsSpace}} {{predictionPrice.currency}} </div>
+<div class="text-center forecast-price mt25 product-price__left__shift-title" *ngIf="predictionPriceArray">
+    <div  class="forecast-price__title">Прогнозируемая цена на {{predictionPriceArray.monthText}}</div>
+    <div class="forecast-price__item">{{predictionPriceArray.price | thousandsSpace}} {{predictionPriceArray.currency}} </div>
     <div *ngIf="suppliersCount" class="forecast-price__item">(На основе анализа  {{suppliersCount}} КП)</div>
 </div>

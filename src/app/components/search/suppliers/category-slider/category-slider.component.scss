@@ -129,5 +129,8 @@
             height: 30px;
             box-sizing: content-box;
         }
+        &__name{
+            max-height: 103px;
+        }
     }
 }

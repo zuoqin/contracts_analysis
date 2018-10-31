@@ -1,7 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import { CONFIG } from '@config';
 
 
@@ -16,27 +15,45 @@ import { SuppliersServices } from '@core';
 })
 
 export class SearchFilterSupplierComponent implements OnInit{
+    @ViewChild("autoCompleteSupplierInput") autoCompleteSupplierInput;
     searchForm: FormGroup;
     checkRequired:boolean = true;
     queryStr: string;
+
     selectedSupplier;
     seacrhType = CONFIG.seacrhType;
     autocompleteSupplier = CONFIG.autocompleteSupplier;
-
+    supplierFromUrl = {
+        supplier_id:null,
+        name:null
+    };
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
-        private suppliersServices: SuppliersServices){}
+        private suppliersServices: SuppliersServices,
+        private activatedRoute: ActivatedRoute){
+            this.activatedRoute.queryParams.subscribe((params: Params) => {
+                if(params.supplier_name && params.supplier_id){
+                    this.supplierFromUrl.supplier_id = params.supplier_id;
+                    this.supplierFromUrl.name = params.supplier_name;
+                    setTimeout(()=>{
+                        this.autoCompleteSupplierInput.setValue(params.supplier_name)
+                    })
+                }
+            });
+        }
 
 
     ngOnInit() {
         this.initForm();
-
+        if(this.supplierFromUrl.supplier_id && this.supplierFromUrl.name){
+            this.selectSupplier({supplier_id: this.supplierFromUrl.supplier_id, name: this.supplierFromUrl.name});
+            window.history.pushState('', 'title', '/search/supplier');
+        }
 
         // setTimeout(()=>{
-        //     this.selectSupplier({supplier_id: 109, name: ' СХП Вдохновение'});
-         
+        //     this.selectSupplier({supplier_id: 2457, name: 'test'})
         // },100)
      
     }
@@ -45,7 +62,6 @@ export class SearchFilterSupplierComponent implements OnInit{
         
     }
     selectSupplier(selected){
-    
         if(selected){
             this.selectedSupplier = selected;
             this.searchForm.controls['query'].setValue(selected.name)

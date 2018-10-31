@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <!---->
-
+  
               
      
             </form>
@@ -56,6 +56,14 @@
                 debounce="500">
             </ckeditor>
             <div class="input-error" *ngIf="commercialProposalForm.get('content').hasError('required') && commercialProposalForm.get('content').touched" >Введите сообщение</div>
+            <div  style="text-align: right;margin-top: 20px;">
+                <label class="styled-checkbox">
+                    <input [(ngModel)]="attach_form" type="checkbox">
+                    <span class="checkmark"></span> Прикрепить анкету
+                </label>
+            </div>
+          
+  
         
         </div>
 

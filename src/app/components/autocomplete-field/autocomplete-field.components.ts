@@ -29,11 +29,8 @@ export class AutocompleteFieldComponent implements OnInit{
        
         
     }
-    onPressEnter(value){
-        console.log(value)
-    }
+
     setValue(name: string){
-        console.log(1)
         this.initialValue = name;
     }
     ngOnInit(){
