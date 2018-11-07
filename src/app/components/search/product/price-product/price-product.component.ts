@@ -30,7 +30,7 @@ export class PriceProductComponent{
                 this.selectedProduct = selectedProduct;
                 this.getChartsData();
 
-                
+
                 this.productServices.getPriceDynamics(this.selectedProduct).subscribe(
                     response => {
                         this.priceDynamicsArray = response.data;
@@ -40,7 +40,7 @@ export class PriceProductComponent{
                     }
                 );
 
-                
+
                 this.productServices.getPredictionPrice(this.selectedProduct).subscribe(
                     response => {
                         if(response.data.price){
@@ -60,9 +60,9 @@ export class PriceProductComponent{
             })
     }
 
-    declOfNum(number, titles) {  
-        let cases = [2, 0, 1, 1, 1, 2];  
-        return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];  
+    declOfNum(number, titles) {
+        let cases = [2, 0, 1, 1, 1, 2];
+        return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ];
     }
     getChartsData(){
         this.productServices.getChartsData(this.selectedProduct)
@@ -70,12 +70,12 @@ export class PriceProductComponent{
                 response => {
 
                     let priceProductCharts = [];
-                    
+
                     priceProductCharts.push(
                         {
                             name: 'Рынок в Москве',
                             id:"marketMoscow",
-                            color: '#EB2424',
+                            color: '#2B657E',
                             lineWidth: 4.5,
                             type:"left",
                             value:true,
@@ -85,13 +85,13 @@ export class PriceProductComponent{
                                 radius: 4
                             },
                             data: this.getDataArrayCharts(response.filter(item=>item.is_msk&&item.is_municipal==undefined&&item.is_federal==undefined),true)
-                            
+
                         },
                     )
                     priceProductCharts.push(
                         {
                             name: 'Закупки в Москве',
-                            color:'#F50671',
+                            color:'#2B8FAB',
                             type:"left",
                             id:"purchasesMoscow",
                             value:false,
@@ -101,7 +101,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Рынок ЦФО',
-                            color:'aqua',
+                            color:'#6EA9C0',
                             type:"left",
                             id:"marketCFO",
                             value:false,
@@ -111,7 +111,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Закупки ЦФО',
-                            color:'blueviolet',
+                            color:'#B12726',
                             type:"left",
                             id:"purchasesCFO",
                             value:false,
@@ -121,7 +121,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Рынок вне ЦФО',
-                            color:'orange',
+                            color:'#B39170',
                             type:"left",
                             id:"marketOutCFO",
                             value:false,
@@ -131,7 +131,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Закупки вне ЦФО',
-                            color:'chocolate',
+                            color:'#D48887',
                             type:"left",
                             id:"purchasesOutCFO",
                             value:false,
@@ -143,7 +143,7 @@ export class PriceProductComponent{
                         {
                             name: 'Рынок выбранной территории',
                             id:"marketSelect",
-                            color:'#298832',
+                            color:'#2C4155',
                             type:"right",
                             lineWidth: 4.5,
                             value:true,
@@ -158,7 +158,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Закупки выбранной территории',
-                            color:'#3B42CE',
+                            color:'#545454',
                             type:"right",
                             id:"purchasesSelect",
                             value:false,
@@ -169,7 +169,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Федералы в Москве',
-                            color:'cornflowerblue',
+                            color:'#ABABAB',
                             type:"right",
                             id:"federalsMoscow",
                             value:false,
@@ -179,7 +179,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Федералы вне Москвы',
-                            color:'orchid',
+                            color:'#ABABAB',
                             type:"right",
                             id:"federalsOutMoscow",
                             value:false,
@@ -189,7 +189,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Муниципалы в Москве',
-                            color:'#b8b838',
+                            color:'#875756',
                             type:"right",
                             id:"municipalsMoscow",
                             value:false,
@@ -199,7 +199,7 @@ export class PriceProductComponent{
                     priceProductCharts.push(
                         {
                             name: 'Муниципалы вне Москвы',
-                            color:'palegreen',
+                            color:'#DE9953',
                             type:"right",
                             id:"municipalsOutMoscow",
                             value:false,
@@ -208,7 +208,7 @@ export class PriceProductComponent{
                     )
                     this.legendData = priceProductCharts;
                     this.priceChartsData = priceProductCharts;
-                    
+
                 },
                 err => {
                     console.log(err)

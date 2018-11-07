@@ -42,14 +42,14 @@
                 margin-right: 111px;
                 margin-bottom: 20px;
             }
-           
+
         }
     }
     &__bottom-btn{
         display: flex;
         justify-content: flex-end;
     }
-  
+
 }
 .catergory-select{
     border-bottom: 2px solid #c2c2c2;
@@ -76,7 +76,7 @@
                 cursor: default;
             }
         }
-      
+
         &:not(:first-child):after{
             content: "";
             position: absolute;
@@ -88,7 +88,7 @@
             top:50%;
             transform: translateY(-50%)
         }
-        
+
     }
     &__item{
         cursor: pointer;
@@ -127,7 +127,7 @@
             transform: rotate(-45deg);
             left: 99px;
         }
-        
+
         &__item{
             @extend .transition;
             border: 1px solid transparent;
@@ -153,10 +153,10 @@
                 border-left-width: 10px;
                 border-left-color:#d8d8d8;
             }
-            
+
             &.no-child{
                 background: rgba(216,216,216,0.35);
-              
+
             }
             &.active{
                 border-color: #979797;
@@ -174,7 +174,7 @@
                 }
             }
         }
-     
+
     }
 }
 
@@ -225,7 +225,7 @@
             &:nth-child(1),&:nth-child(2){
                 display: flex;
             }
-           
+
         }
     }
     .current-year-arrow{
@@ -238,7 +238,7 @@
                 border-left-color: #d8d8d8;
                 left: 8px;
                 top: 2px;
-            
+
             }
             &.active:after{
                 border-left-color: transparent;
@@ -248,7 +248,7 @@
             }
         }
     }
-   
+
     &__row,&__year{
         margin-bottom: 7px;
     }
@@ -258,7 +258,7 @@
         &--head{
             margin-bottom: 16px;
         }
-     
+
     }
     &__title,&__year{
         color: #b12726;
@@ -295,7 +295,7 @@
                 white-space: nowrap;
             }
         }
-        
+
     }
     &__diff{
         white-space: nowrap;
@@ -305,7 +305,7 @@
         position: relative;
         &:after{
             content:"";
-            display: block;   
+            display: block;
             position: absolute;
             right: 0;
             border:6px solid transparent;
@@ -313,13 +313,13 @@
             border-right-width: 3px;
             top: 50%;
             margin-top: -2px;
-            
+
         }
         &.down:after{
             border-top-color: #25ce77;
         }
         &.up:after{
-            border-bottom-color: #b32520;
+            border-bottom-color: #B12726;
             margin-top: -9px;
         }
     }
@@ -334,7 +334,7 @@
         margin-bottom: 15px;
     }
     &__title{
-        color: #b32520;
+        color: #B12726;
         font-family: 'FiraSans';
         font-size: 18px;
         font-weight: 700;
@@ -383,11 +383,11 @@
         width: 100px;
         min-width: 100px;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     .w105{
         min-width: 105px;
         width: 105px;
@@ -439,7 +439,7 @@
     thead{
         background: #f9f9f9;
         th{
-        
+
             color: #787878;
             padding-bottom: 10px;
             font-size: 14px;
@@ -453,7 +453,7 @@
             position: relative;
         }
     }
-    
+
     td,th{
         border: 1px solid #979797;
     }
@@ -475,13 +475,13 @@
         background: #f4dede;
     }
     .red-color{
-        color: #bb3a36;
+        color: #B12726;
     }
     .green-color{
-        color: #12904f;
+        color: #00B050;
     }
     .yellow-color{
-        color: #c0bf2f;
+        color: #E5AF0E;
     }
     &__bottom-filter{
         position: absolute;
@@ -528,7 +528,7 @@
     &__count{
         font-size: 27px;
         line-height: 35px;
-        color: #B32520;
+        color: #B12726;
     }
 }
 .toggle-card{
@@ -582,7 +582,7 @@
     margin-bottom: 7px;
     &__column{
         width: 49.5%;
-        
+
     }
     &__item{
         margin-bottom: 24px;
@@ -706,7 +706,7 @@
 }
 #search-filter{
 
- 
+
     &.hidden{
         .search-form{
             transition: all 0.3s ease;
@@ -717,7 +717,7 @@
             width: 100%;
             z-index: 1;
             transform: translateY(-100%);
-         
+
             &.open{
                 top:0;
                 transform: translateY(0);

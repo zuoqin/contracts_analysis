@@ -22,9 +22,9 @@ export class SearchSuppliersComponent{
         private productServices:ProductServices,
         private suppliersServices:SuppliersServices
     ){
-     
 
-        
+
+
         this.suppliersServices.SelectSupplierObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectedSupplier=>{

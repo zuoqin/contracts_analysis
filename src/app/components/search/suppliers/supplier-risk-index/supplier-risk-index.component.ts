@@ -50,26 +50,26 @@ export class SupplierRiskIndexComponent{
                             chartName:"Заключенные",
                             count:data.progress.count,
                             sum:data.progress.sum,
-                            color:'#2c4155'
+                            color:'#2B657E'
                         },
                         done:{
                             name:"Своевременно исполненные",
                             chartName:"Исполненные",
                             count:data.done.count,
                             sum:data.done.sum,
-                            color:'#c8c8c8'
+                            color:'#2B8FAB'
                         },
-                     
+
                         reject:{
                             name:"Расторгнутые",
                             chartName:"Расторгнутые",
                             count:data.reject.count,
                             sum:data.reject.sum,
-                            color:'#b33434'
+                            color:'#6EA9C0'
                         }
                     };
 
-                  
+
                     for (let key in this.supplierRiskInfoCharts) {
                         let value = this.supplierRiskInfoCharts[key];
                         this.priceChartsData.push({
@@ -92,7 +92,7 @@ export class SupplierRiskIndexComponent{
                 }
             );
     }
-     
+
     chart = new Chart({
         chart: {
             type: 'column',
@@ -134,7 +134,7 @@ export class SupplierRiskIndexComponent{
         },
         plotOptions: {
             series: {
-              
+
                 dataLabels: {
                     enabled: true,
                     format: '{point.y:,.0f}',
@@ -144,19 +144,19 @@ export class SupplierRiskIndexComponent{
                         fontSize: '20px',
                         fontFamily:"Avenir Next",
                         fontWeight:"bold",
-                        
+
                     }
                 },
                 // groupPadding: 0.222,
             }
         },
-    
+
         tooltip: {
             headerFormat: '',
             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> руб.<br/>',
             backgroundColor:"#FFF"
         },
-    
+
         series: [],
         credits: {enabled: false}
     })
@@ -164,10 +164,10 @@ export class SupplierRiskIndexComponent{
         if(this.chart.ref){
             this.removeSerie();
         }
-        this.chart.addSerie({data: this.priceChartsData}) 
+        this.chart.addSerie({data: this.priceChartsData})
     }
 
-    
+
     removeSerie(){
         if(this.chart.ref.series.length){
             this.chart.removeSerie(this.chart.ref.series.length - 1);

@@ -1,10 +1,10 @@
 hr.red{
     border: none;
-    border-top: 2px solid #b32520;
+    border-top: 2px solid #B12726;
     margin: 52px 0 20px;
 }
 .styled-label{
-    color: #b32520;
+    color: #B12726;
     font-size: 13.5px;
     line-height: 24px;
     font-weight: 700;
@@ -43,7 +43,7 @@ hr.red{
 }
 .input-error{
     font: normal 13.5px/20px 'Avenir Next';
-    color: #b32520;
+    color: #B12726;
 }
 textarea.styled-input{
     padding-top: 4.5px;
@@ -75,7 +75,7 @@ textarea.styled-input{
         }
     }
     &.ng-select-opened>.ng-select-container .ng-arrow{
-        border-width: 2.5px 5px 8px; 
+        border-width: 2.5px 5px 8px;
     }
     &.ng-select-single{
         .ng-select-container{
@@ -108,7 +108,7 @@ textarea.styled-input{
             }
             &.ng-option-marked{
                 background: #e2eef2;
-             
+
             }
         }
     }
@@ -126,7 +126,7 @@ textarea.styled-input{
             border-top-color: #e6e6e6;
             padding: 0;
             width: 100%;
-          
+
                 .completer-row,.completer-no-results,.completer-searching{
                     background: none;
                     padding: 6px 16px;
@@ -145,9 +145,9 @@ textarea.styled-input{
                     border-bottom-right-radius: 5px;
                     border-bottom-left-radius: 5px;
                 }
-               
-        
-            
+
+
+
         }
     }
 }
@@ -167,7 +167,7 @@ textarea.styled-input{
         margin: 0 7px;
     }
     &__last{
-      
+
         &:not(.ng-dropdown-panel){
             width: 110px;
             margin-left: 10px;
@@ -284,7 +284,7 @@ textarea.styled-input{
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
         }
-        
+
     }
     input[type="checkbox"]{
         position: absolute;
@@ -303,7 +303,7 @@ textarea.styled-input{
             }
         }
     }
-    
+
 }
 .styled-radio{
     display: inline-block;
@@ -337,7 +337,7 @@ textarea.styled-input{
             border:1px solid #c2c2c2;
             background: white;
         }
-        
+
     }
     input[type="radio"]{
         position: absolute;
@@ -352,7 +352,7 @@ textarea.styled-input{
     }
 }
 .field-error{
-    color: #b32520;
+    color: #B12726;
     font-size: 12px;
     position: absolute;
     top:100%;
@@ -383,7 +383,7 @@ textarea.styled-input{
         background: #d5d5d5;
     }
     &--red{
-        background: #b32520;
+        background: #B12726;
         color: white;
         &:hover{
             background: #99201b;
@@ -443,11 +443,11 @@ textarea.styled-input{
             .checkmark,
             input[type="checkbox"]:checked ~ .checkmark{
                 border: 1px solid #979797;
-                background: #ffffff; 
+                background: #ffffff;
             }
         }
 
-      
+
     }
     &.active &__container{
         display: block;
@@ -494,7 +494,7 @@ textarea.styled-input{
                     .icon{
                         margin-right: 5px;
                     }
-                   
+
                 }
                 &.active{
                     cursor: pointer;
@@ -516,7 +516,7 @@ textarea.styled-input{
                     }
                 }
             }
-          
+
         }
         .popup-form__bottom-btn{
             margin: 0;
@@ -596,7 +596,7 @@ textarea.styled-input{
         .styled-radio__icon{
             top: 0px;
         }
-        
+
     }
 }
 .filter{
@@ -613,29 +613,29 @@ textarea.styled-input{
         }
         &.active{
             background-image: url('/assets/images/icons/filter--active.svg')
-            
+
         }
-      
-    }    
+
+    }
     .popup-form__container{
         transform: translateX(50%);
         margin-top: 3px;
     }
-    
+
 }
 .filter-right-position{
     .filter{
         .popup-form__container{
             transform: translateX(3px);
-        } 
+        }
     }
-    
+
 }
 .filter-left-position{
     .filter{
         .popup-form__container{
             transform: translateX(75%);
-        } 
+        }
     }
 }
 .sorting{
@@ -656,7 +656,7 @@ textarea.styled-input{
         &:before{
             margin-bottom: 1px;
         }
-    
+
     }
     .glyphicon{
         &:after{
@@ -723,7 +723,7 @@ textarea.styled-input{
             width: 47.5%;
             min-width: 47.5%;
 
-            
+
         }
     }
 
@@ -891,7 +891,7 @@ textarea.styled-input{
 }
 .mydp .headerclearbtn,
 .mydp .headerokbtn,
-.mydrp .headerclearbtn, 
+.mydrp .headerclearbtn,
 .mydrp .headerokbtn{
     display: none !important;
 }
@@ -933,7 +933,7 @@ html body .mydp{
         margin-top: 0;
     }
     .daycell{
-      
+
         font-family: 'Avenir Next';
         font-size: 14px;
         font-weight: 400;
@@ -946,15 +946,15 @@ html body .mydp{
     }
     .prevmonth,.nextmonth{
         color: #c2c2c2;
-        
+
     }
     .currmonth{
-      
+
         background-color: transparent;
         &:not(.range):hover{
             background-color: #DDD;
         }
-    
+
     }
     .selecteddaybegin,.currmonth{
         color: #6c6b6b;
@@ -979,7 +979,7 @@ html body .mydp{
             width: 40px  !important;
         }
         .monthlabel,.headerlabelbtn{
-            color: #b32520;
+            color: #B12726;
             font-family: 'FiraSans';
             font-size: 14px;
             line-height: 16px;
@@ -993,7 +993,7 @@ html body .mydp{
         }
     }
     .markcurrday{
-        color: #b32520;
+        color: #B12726;
     }
     .weekdaytitle{
         background: none;
@@ -1036,7 +1036,7 @@ html body .mydp{
             border-bottom: 1px solid #979797;
         }
     }
-   
+
     &__text{
         color: #6C6B6B;
         font-family: 'Avenir Next';
@@ -1129,7 +1129,7 @@ html body .mydp{
     thead{
         tr{
             align-items: center;
-            height: 95px; 
+            height: 95px;
             th{
                 font-weight: bold;
                 text-align: left;
@@ -1153,12 +1153,12 @@ html body .mydp{
         &::-webkit-scrollbar {
             width: 7px;
         }
-           
+
         &::-webkit-scrollbar-thumb {
             background: #C2C2C2;
             border-radius: 7px;
         }
-          
+
         &::-webkit-scrollbar-track {
             background: rgba(216, 216, 216, 0.5);
         }
