@@ -94,7 +94,8 @@ export class SearchFilterProduct implements OnInit{
             region:[false],
             deliveryFrom:[null],
             deliveryTo:[null],
-            risk:[false]
+            risk:[false],
+            overprice:[false]
         });
         this.shortFilterInit()
     }
@@ -132,6 +133,7 @@ export class SearchFilterProduct implements OnInit{
             spgz_id: [],
             kpgz_id: null,
             risk: null,
+            overprice: null,
             region_id: [],
             delivery_from: null,
             delivery_to: null,
@@ -257,6 +259,7 @@ export class SearchFilterProduct implements OnInit{
         }
 
         this.selectedProduct.risk = this.searchForm.value.risk.toString();
+	this.selectedProduct.overprice = this.searchForm.value.overprice.toString();
 
         this.showContent.emit(true);
         this.productServices.SelectProductSubject.next(this.selectedProduct)
@@ -379,6 +382,11 @@ export class SearchFilterProduct implements OnInit{
         this.shortFilterArray.push({
             name:"Учитывать при расчете рисковых поставщиков: ",
             value:this.searchForm.controls['risk'].value ? 'да':'нет'
+        })
+
+        this.shortFilterArray.push({
+            name:"Учитывать только завышенные цены: ",
+            value:this.searchForm.controls['overprice'].value ? 'да':'нет'
         })
     }
     showFixedFilter(){
