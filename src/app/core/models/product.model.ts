@@ -3,6 +3,7 @@ export interface ProductSearch {
     spgz_id: number[];
     kpgz_id: number;
     risk: string;
+    overprice: string;
     region_id: number[];
     delivery_from: string;
     delivery_to: string;
