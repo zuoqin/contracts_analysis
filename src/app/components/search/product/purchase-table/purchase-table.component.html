@@ -218,8 +218,8 @@
                         <ng-container *ngIf="purchase.complaint">да</ng-container>
                         <ng-container *ngIf="!purchase.complaint">нет</ng-container>
                     </td>
-                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.zakup_num ? purchase.zakup_num.text:'-' }}</td>
-                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.contract_num ? purchase.contract_num.text:'-' }}</td>
+                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.zakup_num ? purchase.zakup_num:'-' }}</td>
+                    <td *ngIf="isColumnActive('dateEnd')">{{purchase.contract_num ? purchase.contract_num:'-' }}</td>
             </tr>
         </table>
         <ng-container *ngIf="!purchaseData.length">
