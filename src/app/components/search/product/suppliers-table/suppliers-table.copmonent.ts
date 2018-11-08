@@ -177,6 +177,10 @@ export class SuppliersTableComponent{
             }  
         })
 
+        if(this.selectedProduct.overprice == "true")
+        {
+           data = data.filter(item => item.percentDiff > 30);
+        }
         this.filterArray.date.min = this.filterServices.findMinMaxDate(data,'date','min');
         this.filterArray.date.max = this.filterServices.findMinMaxDate(data,'date','max');
        
