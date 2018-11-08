@@ -86,8 +86,18 @@ export class PurchaseTableComponent implements OnInit{
             value:[],
             filterValue:[],
             filter:false
-        }
-        
+        },
+        zakup_num:{
+            value:[],
+            filterValue:[],
+            filter:false
+        },
+        contract_num:{
+            value:[],
+            filterValue:[],
+            filter:false
+        },
+
     }
 
 
@@ -137,6 +147,17 @@ export class PurchaseTableComponent implements OnInit{
             text:"Наличие жалоб",
             active:true
         },
+        {
+            id:"zakup_num",
+            text:"Номер извещения",
+            active:true
+        },
+        {
+            id:"contract_num",
+            text:"Номер контракта",
+            active:true
+        },
+
     ]
         
     initalData;
@@ -189,7 +210,7 @@ export class PurchaseTableComponent implements OnInit{
             }
             item['complaint'] = false;
             item['safety'] = true;
-
+            //item["zakup_num"] = 
         
         })
 
@@ -215,7 +236,8 @@ export class PurchaseTableComponent implements OnInit{
 
 
         this.filterArray.contract_status.value = this.filterServices.findAllDiffValue(data,'contract_status');
-        
+        this.filterArray.zakup_num.value = this.filterServices.findAllDiffValue(data,'zakup_num');
+        this.filterArray.contract_num.value = this.filterServices.findAllDiffValue(data,'contract_num');
         
    
         this.initalData = data;
