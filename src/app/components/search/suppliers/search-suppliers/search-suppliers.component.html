@@ -4,7 +4,7 @@
         <div class="container">
             <h1 class="title-supplier__title">{{infoSupplier.name}}</h1>
             <div *ngIf="infoSupplier.rating !=null" class="rating title-supplier__rating">
-                <div class="rating__title">Рейтинг риска поставщика</div>
+                <div class="rating__title">Рейтинг добросовестности</div>
                 <div class="rating__count"
 					 [class.red-color]="infoSupplier.rating<30"
 					[class.yellow-color]="infoSupplier.rating>=30 && infoSupplier.rating<70"
