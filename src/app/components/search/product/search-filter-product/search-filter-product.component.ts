@@ -47,7 +47,7 @@ export class SearchFilterProduct implements OnInit{
         private formBuilder: FormBuilder,
         private router: Router,
     ){
-        
+
         this.productServices.SearchByNewProductObservable
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(selectedProduct=>{
@@ -57,11 +57,11 @@ export class SearchFilterProduct implements OnInit{
                 setTimeout(()=>{
                     this.autoCompleteProductInput.setValue(selectedProduct.name)
                 })
-          
+
                 this.selectProduct(selectedProduct,true);
             })
     }
-    
+
 
     ngOnInit() {
         this.initForm();
@@ -76,12 +76,12 @@ export class SearchFilterProduct implements OnInit{
         this.searchForm.valueChanges.subscribe(() => {
             this.shortFilterInit()
         })
-        this.getRegions()   
+        this.getRegions()
 
         // this.selectProduct({kpgz_id: 8515, name: "Мясо индейки"})
         // setTimeout(()=>{
         //     this.search()
-        // },500)        
+        // },500)
 
     }
     initForm(){
@@ -96,7 +96,21 @@ export class SearchFilterProduct implements OnInit{
             deliveryTo:[null],
             risk:[false],
             overprice:[false]
-        });
+		});
+		this.selectedProduct = {
+            name: null,
+            spgz_id: [],
+            kpgz_id: null,
+            risk: null,
+            overprice: null,
+            region_id: [],
+            delivery_from: null,
+            delivery_to: null,
+            volume_from: null,
+            volume_to: null,
+            unit_id: null,
+            unit_text:null
+		};
         this.shortFilterInit()
     }
     selectProduct(selected,selectFromCategory?){
@@ -112,7 +126,7 @@ export class SearchFilterProduct implements OnInit{
             this.checkRequired = true;
             this.getAttrs();
             this.getUnits();
-       
+
         }
         this.shortFilterInit()
     }
@@ -123,25 +137,24 @@ export class SearchFilterProduct implements OnInit{
         this.resetFilters()
         this.router.navigate(['search',this.searchForm.controls.type.value]);
     }
-   
+
     resetFilters(){
         this.attrsProduct = [];
         this.units = [];
-        this.searchForm.controls['unit'].setValue(null)
-        this.selectedProduct = {
-            name: null,
-            spgz_id: [],
-            kpgz_id: null,
-            risk: null,
-            overprice: null,
-            region_id: [],
-            delivery_from: null,
-            delivery_to: null,
-            volume_from: null,
-            volume_to: null,
-            unit_id: null,
-            unit_text:null
-        };
+		this.searchForm.controls['unit'].setValue(null)
+
+		this.selectedProduct.name = null;
+		this.selectedProduct.spgz_id = [];
+		this.selectedProduct.kpgz_id = null;
+		this.selectedProduct.risk = null;
+		this.selectedProduct.overprice = null;
+		this.selectedProduct.delivery_from = null;
+		this.selectedProduct.delivery_to = null;
+		this.selectedProduct.volume_from = null;
+		this.selectedProduct.volume_to = null;
+		this.selectedProduct.unit_id = null;
+		this.selectedProduct.unit_text = null;
+
         this.searchForm.controls['query'].setValue('')
         this.checkRequired = false;
     }
@@ -161,7 +174,7 @@ export class SearchFilterProduct implements OnInit{
         }else{
             this.getSpgz()
         }
-   
+
 
         this.shortFilterInit()
     }
@@ -271,8 +284,8 @@ export class SearchFilterProduct implements OnInit{
     @HostListener("window:scroll", []) onWindowScroll() {
         // do some stuff here when the window is scrolled
             const verticalOffset = window.pageYOffset ||document.documentElement.scrollTop || document.body.scrollTop || 0;
-        
-        
+
+
             let filter = document.getElementById('search-filter')
             if(verticalOffset>this.filter.nativeElement.offsetHeight+100){
                 if(!this.fixedFilter){
@@ -280,9 +293,9 @@ export class SearchFilterProduct implements OnInit{
                     this.heightFilter = this.filter.nativeElement.offsetHeight +'px';
                     filter.classList.add('hidden');
                     filter.classList.remove('visible');
-                  
+
                 }
-            
+
             }else{
 
                 this.fixedFilter = false;
@@ -291,7 +304,7 @@ export class SearchFilterProduct implements OnInit{
                 filter.classList.remove('hidden');
                 this.heightFilter = 'auto';
             }
-          
+
         }
 
 
@@ -301,7 +314,7 @@ export class SearchFilterProduct implements OnInit{
 
 
         let typeSearch = this.seacrhType.filter(item=>item.id==this.searchForm.controls['type'].value)[0];
-      
+
         this.shortFilterArray.push({
             name:"Тип поиска:",
             value:typeSearch.name
@@ -322,7 +335,7 @@ export class SearchFilterProduct implements OnInit{
                 }else{
                     regionText = region.name;
                 }
-              
+
             })
         }else{
             regionText = "По всей России"
@@ -331,7 +344,7 @@ export class SearchFilterProduct implements OnInit{
             name:"Регион:",
             value:regionText
         })
-      
+
 
         if(this.searchForm.controls['volumeFrom'].value || this.searchForm.controls['volumeTo'].value){
             let text = '';
@@ -362,7 +375,7 @@ export class SearchFilterProduct implements OnInit{
             })
         }
 
-        
+
         if(this.selectedAttrs.length){
             let text = '';
             this.selectedAttrs.map(attr=>{
@@ -371,11 +384,11 @@ export class SearchFilterProduct implements OnInit{
                 }else{
                     text = attr.name;
                 }
-              
+
             })
             this.shortFilterArray.push({
                 name:"Характеристики:",
-                value:text 
+                value:text
             })
         }
 
@@ -390,26 +403,26 @@ export class SearchFilterProduct implements OnInit{
         })
     }
     showFixedFilter(){
- 
+
         this.fixedShortFilterShow = false;
         setTimeout(()=>{
             this.fixedFilter = true;
         },500)
- 
+
 
     }
     hideFixedFilter(){
         if(this.fixedFilter){
             this.fixedFilter = false;
-  
+
             setTimeout(()=>{
                 this.fixedShortFilterShow = true;
-            
+
             },500)
         }
 
     }
- 
+
     ngOnDestroy(): void {
         this.unsubscribeAll.next();
         this.unsubscribeAll.complete();
