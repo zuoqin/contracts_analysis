@@ -301,8 +301,8 @@ export class SuppliersTableComponent{
     addSupplier(){
         this.addSupplierModal.open()
     }
-    showSentCPModal(supplier_id){
-        this.sentCPModal.open(supplier_id)
+    showSentCPModal(supplier_id, offer_line_id){
+        this.sentCPModal.open(supplier_id, offer_line_id)
     }
     showSendingCPModal(supplier){
         this.sendingCPModal.open(supplier.offer_line_id,supplier.email)

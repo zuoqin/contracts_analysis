@@ -28,7 +28,7 @@ export class SentCommercialProposalModalComponent implements OnInit{
 
     open(supplier_id,offer_line_id?){
         this.ifLoadData = false;
-        if(offer_line_id){
+        if(supplier_id != -1 && offer_line_id){
             this.suppliersServices.getCommercialOfferSent(offer_line_id).subscribe(
                 response => {
                     this.sentCP = response;
@@ -41,7 +41,7 @@ export class SentCommercialProposalModalComponent implements OnInit{
                 }
             );
         }else{
-            this.suppliersServices.getCommercialOffersSent(supplier_id).subscribe(
+            this.suppliersServices.getCommercialOffersSent(offer_line_id).subscribe(
                 response => {
                     this.sentCP = response;
                     this.ifLoadData = true;

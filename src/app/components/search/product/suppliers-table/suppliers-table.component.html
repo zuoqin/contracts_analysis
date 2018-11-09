@@ -180,7 +180,7 @@
                         </td>
                         <td *ngIf="isColumnActive('comm_offer')"class="text-center" >
                             <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier)"></div>
-                            <div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(supplier.supplier_id)"></div>
+                            <div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(-1, supplier.offer_line_id)"></div>
 
                         </td>
                         <td *ngIf="isColumnActive('calls')" class="text-center">

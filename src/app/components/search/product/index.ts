@@ -4,4 +4,4 @@ export * from './price-product/price-product.component';
 export * from './purchase-table/purchase-table.component';
 export * from './search-filter-product/search-filter-product.component';
 export * from './search-product/search-product.component';
-export * from './suppliers-table/suppliers-table.copmonent';
+export * from './suppliers-table/suppliers-table.component';
