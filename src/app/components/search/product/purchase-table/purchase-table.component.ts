@@ -277,6 +277,24 @@ export class PurchaseTableComponent implements OnInit{
         }
         this.filterData()
     }
+    onEnterZakupNumFilter(value){
+        if(value){
+            this.filterArray.zakup_num.filterValue = value;
+            this.filterArray.zakup_num.filter = true;
+        }else{
+            this.filterArray.zakup_num.filter = false;
+        }
+        this.filterData()
+    }
+    onEnterContractNumFilter(value){
+        if(value){
+            this.filterArray.contract_num.filterValue = value;
+            this.filterArray.contract_num.filter = true;
+        }else{
+            this.filterArray.contract_num.filter = false;
+        }
+        this.filterData()
+    }
 
     onEnterInputRangeFilter(value,field){
         if(value){
@@ -343,8 +361,17 @@ export class PurchaseTableComponent implements OnInit{
             array = array.filter(item=>this.filterArray.contract_status.filterValue.indexOf(item.contract_status)>=0 )
         }
 
+        if(this.filterArray.contract_num.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.contract_num.toLowerCase().indexOf(this.filterArray.contract_num.filterValue)>=0)
+        }
 
-        
+
+        if(this.filterArray.zakup_num.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.zakup_num.toLowerCase().indexOf(this.filterArray.zakup_num.filterValue)>=0)
+        }
+
         
         if(filtered){
             this.purchaseData = array;

@@ -33,7 +33,7 @@
                                     <span class="sorting__default"></span>
                                 </mfDefaultSorter>
                             </div>
-                            <input-filter (onEnterValue)=onEnterNameFilter($event)></input-filter>
+                            <input-filter [placeholder]="'Введите имя заказчика'" (onEnterValue)=onEnterNameFilter($event)></input-filter>
                         </div>
                     </th>
                     <th *ngIf="isColumnActive('contract_value')" class="w87">
@@ -125,6 +125,7 @@
                                     <span class="sorting__default"></span>
                                 </mfDefaultSorter>
                             </div>
+                            <input-filter [placeholder]="'Введите номер извещения'" (onEnterValue)=onEnterZakupNumFilter($event)></input-filter>
                         </div>
                     </th>
                     <th *ngIf="isColumnActive('contract_num')" class="w75">
@@ -135,6 +136,7 @@
                                     <span class="sorting__default"></span>
                                 </mfDefaultSorter>
                             </div>
+                            <input-filter [placeholder]="'Введите реестровый номер'" (onEnterValue)=onEnterContractNumFilter($event)></input-filter>
                         </div>
                     </th>
                 </tr>

@@ -1,4 +1,4 @@
-import { Component,Output,EventEmitter } from '@angular/core';
+import { Component,Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
     selector:"input-filter",
@@ -7,6 +7,7 @@ import { Component,Output,EventEmitter } from '@angular/core';
 export class InputFilterComponent{
     @Output() 
     onEnterValue: EventEmitter<any> = new EventEmitter<any>();
+    @Input('placeholder') placeholder;
     value;
     ifSubmit:boolean = false;
     save(event){
