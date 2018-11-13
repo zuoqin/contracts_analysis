@@ -20,7 +20,7 @@ export class SuppliersTableComponent{
     suppliersData;
     ifLoadData:boolean = false;
     averagePrice;
-    
+
     messageResponse = CONFIG.messageResponse;
     @ViewChild('addCommercialProposalModal') addCommercialProposalModal;
     @ViewChild('addSupplierModal') addSupplierModal;
@@ -65,7 +65,7 @@ export class SuppliersTableComponent{
             filterMin:null,
             filterMax:null,
             filter:false
-        }, 
+        },
         comm_offer:{
             active:true,
             filter:false
@@ -75,7 +75,7 @@ export class SuppliersTableComponent{
             filter:false
         }
 
-        
+
     }
     dataColumns=[
         {
@@ -117,7 +117,27 @@ export class SuppliersTableComponent{
             id:"calls",
             text:"Звонки",
             active:true
-        },
+		},
+		{
+			id: "scale",
+			text: "Масштаб",
+			active: false
+		},
+		{
+			id: "inn_kpp",
+			text: "ИНН/КПП",
+			active: false
+		},
+		{
+			id: "status",
+			text: "Статус",
+			active: false
+		},
+		{
+			id: "region_name",
+			text: "Регион",
+			active: false
+		},
     ]
     constructor(
         private suppliersServices:SuppliersServices,
@@ -139,13 +159,13 @@ export class SuppliersTableComponent{
                 this.suppliersServices.suppliersCountSubject.next(response.data.length)
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;
-               
+
                 }else{
-                    
+
                     this.formatData(response.data)
-                   
+
                 }
-             
+
                this.ifLoadData = true;
             },
             err => {
@@ -156,7 +176,7 @@ export class SuppliersTableComponent{
         );
     }
     getPriceInfo(){
-       
+
     }
     formatData(data){
         let summ = 0;
@@ -174,7 +194,7 @@ export class SuppliersTableComponent{
                     value: new Date(date[2], date[1]-1, date[0]),
                     text:`${date[0]}.${date[1]}.${date[2]}`,
                 }
-            }  
+            }
         })
 
         if(this.selectedProduct.overprice == "true")
@@ -183,7 +203,7 @@ export class SuppliersTableComponent{
         }
         this.filterArray.date.min = this.filterServices.findMinMaxDate(data,'date','min');
         this.filterArray.date.max = this.filterServices.findMinMaxDate(data,'date','max');
-       
+
         this.filterArray.volume.min = this.filterServices.findMinMax(data,'volume','min');
         this.filterArray.volume.max = this.filterServices.findMinMax(data,'volume','max');
 
@@ -197,7 +217,7 @@ export class SuppliersTableComponent{
         this.filterArray.volume_count.min = this.filterServices.findMinMax(data,'volume_count','min');
         this.filterArray.volume_count.max = this.filterServices.findMinMax(data,'volume_count','max');
 
-        
+
         this.initalData = data;
         this.suppliersData = data;
     }
@@ -212,7 +232,7 @@ export class SuppliersTableComponent{
         }
         this.filterData()
     }
-    
+
     onEnterInputRangeFilter(value,field){
         if(value){
             this.filterArray[field].filterMax = value.to;
@@ -223,7 +243,7 @@ export class SuppliersTableComponent{
         }
         this.filterData()
     }
-    
+
     onEnterNameFilter(value){
         if(value){
             this.filterArray.name.filterValue = value;
@@ -278,7 +298,7 @@ export class SuppliersTableComponent{
         }
 
 
-        
+
         if(filtered){
             this.suppliersData = array;
         }else{
@@ -286,7 +306,7 @@ export class SuppliersTableComponent{
         }
 
 
-       
+
     }
 
     isColumnActive(columnId){
@@ -320,7 +340,7 @@ export class SuppliersTableComponent{
                         string +=this.selectedProduct[key].join(',')
                         str +=string;
                         str += "&";
-                    } 
+                    }
                 }else{
                     str += key + "=" + this.selectedProduct[key];
                     str += "&";
@@ -331,10 +351,10 @@ export class SuppliersTableComponent{
         console.log(environment.apiUrl+'/export_suppliers?'+str)
         window.open(environment.apiUrl+'/export_suppliers?'+str, '_blank');
     }
-      
+
     ngOnDestroy(): void {
         this.unsubscribeAll.next();
         this.unsubscribeAll.complete();
     }
- 
+
 }

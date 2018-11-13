@@ -343,7 +343,10 @@
     }
 }
 
-
+.table-container{
+	overflow-y: auto;
+	padding-bottom: 21px;
+}
 .styled-table{
     border-spacing: 0;
     border-collapse: collapse;

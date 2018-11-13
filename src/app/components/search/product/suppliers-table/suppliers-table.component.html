@@ -11,9 +11,9 @@
 
                 <div class="btn btn--icon" (click)="addSupplier()"><div class="icon icon--add"></div>Добавить поставщика</div>
 
-                <div 
-                    *ngIf="suppliersData && suppliersData.length && ifLoadData" 
-                    class="btn btn--icon" 
+                <div
+                    *ngIf="suppliersData && suppliersData.length && ifLoadData"
+                    class="btn btn--icon"
                     (click)="downloadfile()">
                     <div class="icon icon--download"></div>
                     Скачать файл
@@ -24,173 +24,214 @@
     <div *ngIf="!ifLoadData">{{messageResponse.text}}</div>
     <ng-container *ngIf="ifLoadData && !suppliersData">Нет данных для отображения</ng-container>
     <ng-container  *ngIf="initalData && initalData.length && ifLoadData" >
-        <table  class="styled-table"  [mfData]="suppliersData" #mf="mfDataTable" >
-                <thead>
-                    <tr>
-                        <th *ngIf="isColumnActive('date')" class="w95" >
-                            Дата получения цены
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <div class="sorting">
-                                    <mfDefaultSorter by="date.value">
-                                        <span class="sorting__default"></span>
-                                    </mfDefaultSorter>
-                                </div>
-                                <date-range-filter 
-                                    class="filter-left-position" 
-                                    (onSelectedDate)="onSelectedDateRange($event)" 
-                                    [minDate]="filterArray.date.min" 
-                                    [maxDate]="filterArray.date.max" >
-                                </date-range-filter>
-                            </div>
-                        </th>
-                        
-                        <th *ngIf="isColumnActive('name')" class="w275">
-                            Поставщик
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <div class="sorting">
-                                    <mfDefaultSorter by="name">
-                                        <span class="sorting__default"></span>
-                                    </mfDefaultSorter>
-                                </div>
-                                <input-filter (onEnterValue)=onEnterNameFilter($event)></input-filter>
-                            </div>
-                        </th>
-                        <th *ngIf="isColumnActive('volume')" class="w87">
-                            Объем
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <div class="sorting">
-                                    <mfDefaultSorter by="volume">
-                                        <span class="sorting__default"></span>
-                                    </mfDefaultSorter>
-                                </div>
-                                <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'volume')" [minValue]="filterArray.volume.min" [maxValue]="filterArray.volume.max" [placeholder]="'Объем'"></input-filter-range>
-                                
-                            </div>
-                        </th>
-                        <th *ngIf="isColumnActive('price_per_unit')" class="w75">
-                            Цена, руб.
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <div class="sorting">
-                                    <mfDefaultSorter by="price_per_unit">
-                                        <span class="sorting__default"></span>
-                                    </mfDefaultSorter>
-                                </div>
-                                <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'price_per_unit')" [minValue]="filterArray.price_per_unit.min" [maxValue]="filterArray.price_per_unit.max" [placeholder]="'Цена'"></input-filter-range>
-                            </div>
-                        </th>
+		<div class="table-container">
+			<table  class="styled-table"  [mfData]="suppliersData" #mf="mfDataTable" >
+					<thead>
+						<tr>
+							<th *ngIf="isColumnActive('date')" class="w95" >
+								Дата получения цены
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="date.value">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+									<date-range-filter
+										class="filter-left-position"
+										(onSelectedDate)="onSelectedDateRange($event)"
+										[minDate]="filterArray.date.min"
+										[maxDate]="filterArray.date.max" >
+									</date-range-filter>
+								</div>
+							</th>
 
-                        <th *ngIf="isColumnActive('delivery')" class="w70">
-                            Срок поставки
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                    <div class="sorting">
-                                        <mfDefaultSorter by="delivery">
-                                            <span class="sorting__default"></span>
-                                        </mfDefaultSorter>
-                                    </div>
-                                    <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'delivery')" [minValue]="filterArray.delivery.min" [maxValue]="filterArray.delivery.max" [placeholder]="'Дней'"></input-filter-range>
-                                </div>
+							<th *ngIf="isColumnActive('name')" class="w275">
+								Поставщик
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="name">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+									<input-filter (onEnterValue)=onEnterNameFilter($event)></input-filter>
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('volume')" class="w87">
+								Объем
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="volume">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+									<input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'volume')" [minValue]="filterArray.volume.min" [maxValue]="filterArray.volume.max" [placeholder]="'Объем'"></input-filter-range>
 
-                            
-                        </th>
-                        
-                        <th *ngIf="isColumnActive('volume_count')" class="w145">
-                            Участий в закупках
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('price_per_unit')" class="w75">
+								Цена, руб.
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="price_per_unit">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+									<input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'price_per_unit')" [minValue]="filterArray.price_per_unit.min" [maxValue]="filterArray.price_per_unit.max" [placeholder]="'Цена'"></input-filter-range>
+								</div>
+							</th>
 
-                            <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <div class="sorting">
-                                    <mfDefaultSorter by="volume_count">
-                                        <span class="sorting__default"></span>
-                                    </mfDefaultSorter>
-                                </div>
-            
-                                <input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'volume_count')" [minValue]="filterArray.volume_count.min" [maxValue]="filterArray.volume_count.max" [placeholder]="'Участий'"></input-filter-range>
-                            </div>
-                        </th>
-                        <th *ngIf="isColumnActive('comm_offer')" class="w120">
-                            КП
-                            <!-- <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <radio-filter (onSelectValue)="onSelectRadioFilter($event,'comm_offer')" [fieldName]="'comm_offer'"></radio-filter>
-                            </div> -->
-                        
-                        </th>
-                        <th *ngIf="isColumnActive('calls')" class="w130">
-                            Звонки
-                            <!-- <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
-                                <radio-filter class="filter-right-position" (onSelectValue)="onSelectRadioFilter($event,'calls')" [fieldName]="'calls'"></radio-filter>
-                            </div> -->
-                        </th>
-                    </tr>
-                </thead>
-                <tr 
-                    *ngFor="let supplier of mf.data"
-                    [class.red-bg]="supplier.risk"
-                   
-                    >
-                        <td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
-                        <td *ngIf="isColumnActive('name')">
-
-                            <a *ngIf="!supplier.risk" (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
-                            <a 
-                                *ngIf="supplier.risk" 
-                                tooltip="Рискованный поставщик" 
-                                [options]="tooltipOptions"
-                                show-delay="500"
-                                (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
-                        </td>
-                        <td *ngIf="isColumnActive('volume')" class="text-center">
-                            {{supplier.volume ? ((supplier.volume  | thousandsSpace)+' '+selectedProduct.unit_text) : '-'}}
-                        </td>
-                        <td *ngIf="isColumnActive('price_per_unit')" class="text-center">
-                     
-                            <span 
-                                *ngIf="supplier.percentDiff<15" 
-                                class="green-color cursor"
-                                tooltip="Нормальная цена" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.price_per_unit | thousandsSpace}} руб.
-                            </span>
-
-                            <span 
-                                *ngIf="supplier.percentDiff>15 && supplier.percentDiff<30" 
-                                class="yellow-color cursor"
-                                tooltip="Средняя цена" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.price_per_unit | thousandsSpace}} руб.
-                            </span>
-                            <span 
-                                *ngIf="supplier.percentDiff>=30" 
-                                class="red-color cursor"
-                                tooltip="Завышеная цена" 
-                                [options]="tooltipOptions"
-                                show-delay="500">
-                                {{supplier.price_per_unit | thousandsSpace}} руб.
-                            </span>
+							<th *ngIf="isColumnActive('delivery')" class="w70">
+								Срок поставки
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="delivery">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+									<input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'delivery')" [minValue]="filterArray.delivery.min" [maxValue]="filterArray.delivery.max" [placeholder]="'Дней'"></input-filter-range>
+								</div>
 
 
-                            
-                        </td>
-                        <td *ngIf="isColumnActive('delivery')" class="text-center">
-                                {{supplier.delivery ? ((supplier.delivery  | thousandsSpace)+' дней') : '-'}}
-                        </td>
-                        <td *ngIf="isColumnActive('volume_count')" class="text-center">
-                                {{supplier.volume_count ? (supplier.volume_count  | thousandsSpace) : '-'}}
-                        
-                        </td>
-                        <td *ngIf="isColumnActive('comm_offer')"class="text-center" >
-                            <div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier)"></div>
-                            <div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(-1, supplier.offer_line_id)"></div>
+							</th>
 
-                        </td>
-                        <td *ngIf="isColumnActive('calls')" class="text-center">
-                            <ng-container *ngIf="supplier.calls.length">
-                                <audio-player *ngFor="let call of supplier.calls" [src]="call"></audio-player>
-                            </ng-container>
-                            <ng-container *ngIf="!supplier.calls.length">-</ng-container>
-                        </td>
-                </tr>
-        </table>
+							<th *ngIf="isColumnActive('volume_count')" class="w145">
+								Участий в закупках
+
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="volume_count">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+
+									<input-filter-range (onEnterValue)="onEnterInputRangeFilter($event,'volume_count')" [minValue]="filterArray.volume_count.min" [maxValue]="filterArray.volume_count.max" [placeholder]="'Участий'"></input-filter-range>
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('comm_offer')" class="w120">
+								КП
+							</th>
+							<th *ngIf="isColumnActive('calls')" class="w130">
+								Звонки
+							</th>
+							<th *ngIf="isColumnActive('scale')" >
+								Масштаб
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="scale">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('inn_kpp')" >
+								ИНН/КПП
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="inn_kpp">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('status')">
+								Статус
+								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+									<div class="sorting">
+										<mfDefaultSorter by="inn_kpp">
+											<span class="sorting__default"></span>
+										</mfDefaultSorter>
+									</div>
+								</div>
+							</th>
+							<th *ngIf="isColumnActive('region_name')" >
+							Регион
+
+							</th>
+						</tr>
+					</thead>
+					<tr
+						*ngFor="let supplier of mf.data"
+						[class.red-bg]="supplier.risk"
+
+						>
+							<td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
+							<td *ngIf="isColumnActive('name')">
+
+								<a *ngIf="!supplier.risk" (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
+								<a
+									*ngIf="supplier.risk"
+									tooltip="Рискованный поставщик"
+									[options]="tooltipOptions"
+									show-delay="500"
+									(click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
+							</td>
+							<td *ngIf="isColumnActive('volume')" class="text-center">
+								{{supplier.volume ? ((supplier.volume  | thousandsSpace)+' '+selectedProduct.unit_text) : '-'}}
+							</td>
+							<td *ngIf="isColumnActive('price_per_unit')" class="text-center">
+
+								<span
+									*ngIf="supplier.percentDiff<15"
+									class="green-color cursor"
+									tooltip="Нормальная цена"
+									[options]="tooltipOptions"
+									show-delay="500">
+									{{supplier.price_per_unit | thousandsSpace}} руб.
+								</span>
+
+								<span
+									*ngIf="supplier.percentDiff>15 && supplier.percentDiff<30"
+									class="yellow-color cursor"
+									tooltip="Средняя цена"
+									[options]="tooltipOptions"
+									show-delay="500">
+									{{supplier.price_per_unit | thousandsSpace}} руб.
+								</span>
+								<span
+									*ngIf="supplier.percentDiff>=30"
+									class="red-color cursor"
+									tooltip="Завышеная цена"
+									[options]="tooltipOptions"
+									show-delay="500">
+									{{supplier.price_per_unit | thousandsSpace}} руб.
+								</span>
+
+
+
+							</td>
+							<td *ngIf="isColumnActive('delivery')" class="text-center">
+									{{supplier.delivery ? ((supplier.delivery  | thousandsSpace)+' дней') : '-'}}
+							</td>
+							<td *ngIf="isColumnActive('volume_count')" class="text-center">
+									{{supplier.volume_count ? (supplier.volume_count  | thousandsSpace) : '-'}}
+
+							</td>
+							<td *ngIf="isColumnActive('comm_offer')"class="text-center" >
+								<div class="icon icon--chat cursor v-align-top m2" (click)="showSendingCPModal(supplier)"></div>
+								<div *ngIf="supplier.comm_offer" class="icon icon--letter cursor v-align-top m2" (click)="showSentCPModal(-1, supplier.offer_line_id)"></div>
+
+							</td>
+							<td *ngIf="isColumnActive('calls')" class="text-center">
+								<ng-container *ngIf="supplier.calls.length">
+									<audio-player *ngFor="let call of supplier.calls" [src]="call"></audio-player>
+								</ng-container>
+								<ng-container *ngIf="!supplier.calls.length">-</ng-container>
+							</td>
+							<td *ngIf="isColumnActive('scale')" class="text-center">
+							{{supplier.scale ? supplier.scale  : '-'}}
+							</td>
+							<td *ngIf="isColumnActive('inn_kpp')" class="text-center">
+							{{supplier.inn_kpp ? supplier.inn_kpp : '-'}}
+							</td>
+							<td *ngIf="isColumnActive('status')" class="text-center">
+							{{supplier.status ? supplier.status : '-'}}
+							</td>
+							<td *ngIf="isColumnActive('region_name')" class="text-center">
+							{{supplier.region_name ? supplier.region_name : '-'}}
+							</td>
+					</tr>
+			</table>
+		</div>
         <ng-container *ngIf="!suppliersData.length">
             <br>  <br>
             Нет данных для отображения, измените или сбросьте фильтры
