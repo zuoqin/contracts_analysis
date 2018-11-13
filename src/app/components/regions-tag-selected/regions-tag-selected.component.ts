@@ -8,7 +8,7 @@ import { NgOption } from '@ng-select/ng-select';
 
 export class RegionsTagSelectedComponent implements OnInit{
     regionsSelectedModel:string;
-    regionsSelected = [];
+    regionsSelected =  [{id: '80', is_multi: false, name: "Москва"}];
     @Input('regions') regions: NgOption[];
     @Output() onSelected = new EventEmitter<any>();
     ngOnInit() {

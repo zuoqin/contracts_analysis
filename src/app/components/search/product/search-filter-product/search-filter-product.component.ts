@@ -25,7 +25,7 @@ export class SearchFilterProduct implements OnInit{
     checkRequired:boolean = true;
     selectedProduct:ProductSearch;
     selectedAttrs = [];
-    selectedRegions = [];
+    selectedRegions = [{'id': 80, 'is_multi': false, 'name': "Москва"}];
     units = [];
     attrsProduct = [];
     shortFilterArray = [];

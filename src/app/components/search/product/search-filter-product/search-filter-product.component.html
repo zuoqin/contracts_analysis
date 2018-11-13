@@ -114,7 +114,7 @@
                             <ng-container *ngFor="let attr of attrsProduct">
                                 <label class="styled-label">{{attr.name}}</label>
                                 <div class="search-form__character">
-                                    <label class="styled-checkbox"
+                                    <label class="styled-checkbox" style="width:38%"
                                         *ngFor="let item of attr.values">
                                         <input type="checkbox" value="{{item.id}}" (change)="selectAttr($event,item)"/>
                                         <span class="checkmark"></span>
