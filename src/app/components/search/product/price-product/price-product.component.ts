@@ -98,7 +98,7 @@ export class PriceProductComponent{
                             data: this.getDataArrayCharts(response.filter(item=>item.is_msk&&item.is_municipal==undefined&&item.is_federal==undefined),false)
                         },
                     )
-                    priceProductCharts.push(
+                    /*priceProductCharts.push(
                         {
                             name: 'Рынок ЦФО',
                             color:'#6EA9C0',
@@ -137,7 +137,7 @@ export class PriceProductComponent{
                             value:false,
                             data:  this.getDataArrayCharts(response.filter(item=>item.is_cfo==false),false)
                         },
-                    )
+                    )*/
 
                     priceProductCharts.push(
                         {
@@ -166,7 +166,7 @@ export class PriceProductComponent{
                         },
                     )
 
-                    priceProductCharts.push(
+                    /*priceProductCharts.push(
                         {
                             name: 'Федералы в Москве',
                             color:'#ABABAB',
@@ -205,7 +205,7 @@ export class PriceProductComponent{
                             value:false,
                             data: this.getDataArrayCharts(response.filter(item=>item.is_municipal==true&&item.is_msk==false),false)
                         },
-                    )
+                    )*/
                     this.legendData = priceProductCharts;
                     this.priceChartsData = priceProductCharts;
 

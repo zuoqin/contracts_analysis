@@ -104,10 +104,11 @@ export class SuppliersServices{
         return this.apiService.get('/risk_index',params)
           .pipe(map(data => data));
     }
-    getCommercialOffersSuppliers(spgz_id,unit_id): Observable<any> {
+    getCommercialOffersSuppliers(spgz_id,unit_id,supplier_id=-1): Observable<any> {
         const params = new HttpParams()
         .set('product', spgz_id.toString())
         .set('unit_id', unit_id.toString())
+        .set('supplier', supplier_id.toString())
         
         return this.apiService.get('/commercial_offers',params)
           .pipe(map(data => data));

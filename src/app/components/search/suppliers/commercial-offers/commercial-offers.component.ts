@@ -137,7 +137,7 @@ export class CommercialOffersComponent{
 
     getData(){
 
-        this.suppliersServices.getCommercialOffersSuppliers(this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id).subscribe(
+        this.suppliersServices.getCommercialOffersSuppliers(this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id, this.selectedSupplier.supplier_id).subscribe(
             response => {
                 if(!response.data.length){
                     this.messageResponse.text =  this.messageResponse.noData;

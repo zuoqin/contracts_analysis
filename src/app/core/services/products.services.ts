@@ -272,7 +272,7 @@ export class ProductServices{
                 [Date.UTC(2018, 7, 1), 32.1],
             ]
         },
-        {
+        /*{
             name: 'Рынок ЦФО',
             color:'aqua',
             type:"left",
@@ -359,7 +359,7 @@ export class ProductServices{
                 [Date.UTC(2018, 6,  1), 31],
                 [Date.UTC(2018, 7, 1), 31],
             ]
-        },
+        },*/
         {
             name: 'Рынок выбранной территории',
             id:"marketSelect",
@@ -410,7 +410,7 @@ export class ProductServices{
                 [Date.UTC(2018, 7, 1), 32],
             ]
         },
-        {
+        /*{
             name: 'Федералы в Москве',
             color:'cornflowerblue',
             type:"right",
@@ -497,7 +497,7 @@ export class ProductServices{
                 [Date.UTC(2018, 6,  1), 34],
                 [Date.UTC(2018, 7, 1), 30],
             ]
-        }
+        }*/
     ]
 
 }

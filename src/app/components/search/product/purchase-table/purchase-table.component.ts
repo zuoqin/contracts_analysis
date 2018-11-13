@@ -213,7 +213,7 @@ export class PurchaseTableComponent implements OnInit{
             //item["zakup_num"] = 
         
         })
-        if(this.selectedProduct.overprice == "true"){
+        if(this.selectedProduct != null && this.selectedProduct != undefined && this.selectedProduct.overprice == "true"){
             data = data.filter(item => item.percentDiff > 30);
         }
         this.filterArray.date.min = this.filterServices.findMinMaxDate(data,'date','min');
