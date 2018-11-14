@@ -36,7 +36,7 @@
                     <div class="list-info__title list-info__title--longer">Оборот за последний год:</div>
                     <div class="list-info__value">
                         <ng-container *ngIf="aboutSuppliers.turnover">
-                                {{aboutSuppliers.turnover | thousandsSpace}} руб.
+                                {{aboutSuppliers.turnover | thousandsSpace}} руб
                         </ng-container>
                         <ng-container *ngIf="!aboutSuppliers.turnover">
                                -
@@ -69,7 +69,7 @@
                     <div class="list-info__title list-info__title--longer">Сумма контрактов:</div>
                     <div class="list-info__value">
                         <ng-container *ngIf="aboutSuppliers.contracts_value">
-                                {{aboutSuppliers.contracts_value | thousandsSpace}} руб.
+                                {{aboutSuppliers.contracts_value | thousandsSpace}} руб
                         </ng-container>
                         <ng-container *ngIf="!aboutSuppliers.contracts_value">
                               -

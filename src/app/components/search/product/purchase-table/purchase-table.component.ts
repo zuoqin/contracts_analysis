@@ -119,7 +119,7 @@ export class PurchaseTableComponent implements OnInit{
         },
         {
             id:"unitprice",
-            text:"Цена, руб.",
+            text:"Цена, руб",
             active:true
         },
         {
@@ -154,7 +154,7 @@ export class PurchaseTableComponent implements OnInit{
         },
         {
             id:"contract_num",
-            text:"Реестровый номер",
+            text:"Реестровый номер контракта",
             active:false
         },
 

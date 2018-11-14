@@ -153,7 +153,7 @@ export class SupplierRiskIndexComponent{
 
         tooltip: {
             headerFormat: '',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> руб.<br/>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> руб<br/>',
             backgroundColor:"#FFF"
         },
 

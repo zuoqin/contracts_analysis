@@ -55,7 +55,7 @@
                                 </div>
                             </th>
                             <th *ngIf="isColumnActive('unitprice')" class="w75">
-                                Цена, руб.
+                                Цена, руб
                                 <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                                     <div class="sorting">
                                         <mfDefaultSorter by="unitprice">
@@ -112,7 +112,7 @@
                                     tooltip="Нормальная цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace}} руб.
+                                    {{supplier.unitprice | thousandsSpace | numberDot}}
                                 </span>
     
                                 <span 
@@ -121,7 +121,7 @@
                                     tooltip="Средняя цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace}} руб.
+                                    {{supplier.unitprice | thousandsSpace | numberDot}}
                                 </span>
                                 <span 
                                     *ngIf="supplier.percentDiff>=30" 
@@ -129,7 +129,7 @@
                                     tooltip="Завышеная цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace}} руб.
+                                    {{supplier.unitprice | thousandsSpace | numberDot}}
                                 </span>
                                 
                             </td>

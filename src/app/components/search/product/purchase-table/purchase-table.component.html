@@ -49,7 +49,7 @@
                         </div>
                     </th>
                     <th *ngIf="isColumnActive('unitprice')" class="w75">
-                        Цена, руб.
+                        Цена, руб
                         <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                             <div class="sorting">
                                 <mfDefaultSorter by="unitprice">
@@ -73,7 +73,7 @@
                     </th>
             
                     <th *ngIf="isColumnActive('contract_price')" class="w110">
-                        Цена контракта, руб.
+                        Цена контракта, руб
                         <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                             <div class="sorting">
                                 <mfDefaultSorter by="contract_price">
@@ -129,7 +129,7 @@
                         </div>
                     </th>
                     <th *ngIf="isColumnActive('contract_num')" class="w75">
-                        Реестровый номер
+                        Реестровый номер контракта
                         <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
                             <div class="sorting">
                                 <mfDefaultSorter by="contract_num">
@@ -192,7 +192,7 @@
                             tooltip="Нормальная цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace}} руб.
+                            {{purchase.unitprice | thousandsSpace | numberDot}}
                         </span>
 
                         <span 
@@ -201,7 +201,7 @@
                             tooltip="Средняя цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace}} руб.
+                            {{purchase.unitprice | thousandsSpace | numberDot}}
                         </span>
                         <span 
                             *ngIf="purchase.percentDiff>=30" 
@@ -209,11 +209,11 @@
                             tooltip="Завышеная цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace}} руб.
+                            {{purchase.unitprice | thousandsSpace | numberDot}}
                         </span>
                     </td>
                     <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>
-                    <td *ngIf="isColumnActive('contract_price')" class="text-center">{{purchase.contract_price | thousandsSpace}}</td>
+                    <td *ngIf="isColumnActive('contract_price')" class="text-center">{{purchase.contract_price | thousandsSpace | numberDot}}</td>
                     <td *ngIf="isColumnActive('contract_status')">{{purchase.contract_status}}</td>
                     <td *ngIf="isColumnActive('dateEnd')">{{purchase.dateEnd ? purchase.dateEnd.text:'-' }}</td>
                     <td *ngIf="isColumnActive('complaint')" class="text-center">

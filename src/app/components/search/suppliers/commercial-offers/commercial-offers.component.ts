@@ -82,7 +82,7 @@ export class CommercialOffersComponent{
         },
         {
             id:"unitprice",
-            text:"Цена, руб.",
+            text:"Цена, руб",
             active:true
         },
         {

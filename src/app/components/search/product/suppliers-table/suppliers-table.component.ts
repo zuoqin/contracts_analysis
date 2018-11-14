@@ -95,7 +95,7 @@ export class SuppliersTableComponent{
         },
         {
             id:"price_per_unit",
-            text:"Цена, руб.",
+            text:"Цена, руб",
             active:true
         },
         {

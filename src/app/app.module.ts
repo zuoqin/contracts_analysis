@@ -64,7 +64,7 @@ import { MaxValue } from './directives/maxValue.directive';
 import { MinValue }from './directives/minValue.directive';
 /*Pipes */
 import { ThousandsSpacePipe } from './pipes/thousands.pipe';
-
+import { NumberDotPipe } from './pipes/numberDot.pipe';
 
 /*Moduls*/
 import { AppRoutingModule } from './app-routing.module';
@@ -132,6 +132,7 @@ import { SlickModule } from 'ngx-slick';
 		MinValue,
 		TriggerActiveDirective,
 		ThousandsSpacePipe,
+                NumberDotPipe,
 		Autosize
 	],
 	imports: [

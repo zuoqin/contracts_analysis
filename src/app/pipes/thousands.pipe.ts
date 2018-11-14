@@ -19,9 +19,9 @@ export class ThousandsSpacePipe implements PipeTransform {
       }else{
         value = parseFloat(value.toFixed(2)).toString();
       }
-      return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ").replace(/\./g, ",");
     }else{
-      return value;
+      return value.toString().replace(/\./g, ",");
     }
  
   }

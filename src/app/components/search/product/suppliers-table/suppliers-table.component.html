@@ -69,7 +69,7 @@
 								</div>
 							</th>
 							<th *ngIf="isColumnActive('price_per_unit')" class="w75">
-								Цена, руб.
+								Цена, руб
 								<div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
 									<div class="sorting">
 										<mfDefaultSorter by="price_per_unit">
@@ -157,13 +157,30 @@
 							<td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
 							<td *ngIf="isColumnActive('name')">
 
-								<a *ngIf="!supplier.risk" (click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
+								<a *ngIf="!supplier.risk  && supplier.trust_index > 50 && supplier.trust_index <= 70"
+                                                                        (click)="clickSupplier(supplier)" class="yellow-color cursor"> {{supplier.name}}</a>
+                                                                <a *ngIf="!supplier.risk  && supplier.trust_index > 70"
+                                                                        (click)="clickSupplier(supplier)" class="red-color cursor"> {{supplier.name}}</a>
+                                                                <a *ngIf="!supplier.risk  && supplier.trust_index <= 50"
+                                                                        (click)="clickSupplier(supplier)" class="green-color cursor"> {{supplier.name}}</a>
 								<a
-									*ngIf="supplier.risk"
+									*ngIf="supplier.risk && supplier.trust_index > 70"
 									tooltip="Рискованный поставщик"
 									[options]="tooltipOptions"
 									show-delay="500"
-									(click)="clickSupplier(supplier)" class="cursor"> {{supplier.name}}</a>
+									(click)="clickSupplier(supplier)" class="red-color cursor"> {{supplier.name}}</a>
+                                                                <a
+                                                                        *ngIf="supplier.risk && supplier.trust_index <= 50"
+                                                                        tooltip="Рискованный поставщик"
+                                                                        [options]="tooltipOptions"
+                                                                        show-delay="500"
+                                                                        (click)="clickSupplier(supplier)" class="green-color cursor"> {{supplier.name}}</a>
+                                                                <a
+                                                                        *ngIf="supplier.risk && supplier.trust_index > 50 && supplier.trust_index <= 70"
+                                                                        tooltip="Рискованный поставщик"
+                                                                        [options]="tooltipOptions"
+                                                                        show-delay="500"
+                                                                        (click)="clickSupplier(supplier)" class="yellow-color cursor"> {{supplier.name}}</a>
 							</td>
 							<td *ngIf="isColumnActive('volume')" class="text-center">
 								{{supplier.volume ? ((supplier.volume  | thousandsSpace)+' '+selectedProduct.unit_text) : '-'}}
@@ -176,7 +193,7 @@
 									tooltip="Нормальная цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace}} руб.
+									{{supplier.price_per_unit | thousandsSpace | numberDot}}
 								</span>
 
 								<span
@@ -185,7 +202,7 @@
 									tooltip="Средняя цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace}} руб.
+									{{supplier.price_per_unit | thousandsSpace | numberDot}}
 								</span>
 								<span
 									*ngIf="supplier.percentDiff>=30"
@@ -193,7 +210,7 @@
 									tooltip="Завышеная цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace}} руб.
+									{{supplier.price_per_unit | thousandsSpace | numberDot}}
 								</span>
 
 
