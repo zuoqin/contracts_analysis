@@ -143,6 +143,17 @@
 									</div>
 								</div>
 							</th>
+                                                        <th *ngIf="isColumnActive('product_url')">
+                                                                Источник цены
+                                                                <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                                                                        <div class="sorting">
+                                                                                <mfDefaultSorter by="inn_kpp">
+                                                                                        <span class="sorting__default"></span>
+                                                                                </mfDefaultSorter>
+                                                                        </div>
+                                                                </div>
+                                                        </th>
+
 							<th *ngIf="isColumnActive('region_name')" >
 							Регион
 
@@ -157,26 +168,26 @@
 							<td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
 							<td *ngIf="isColumnActive('name')">
 
-								<a *ngIf="!supplier.risk  && supplier.trust_index > 50 && supplier.trust_index <= 70"
+								<a *ngIf="!supplier.risk  && supplier.trust_index > 50 && supplier.trust_index < 80"
                                                                         (click)="clickSupplier(supplier)" class="yellow-color cursor"> {{supplier.name}}</a>
-                                                                <a *ngIf="!supplier.risk  && supplier.trust_index > 70"
-                                                                        (click)="clickSupplier(supplier)" class="red-color cursor"> {{supplier.name}}</a>
                                                                 <a *ngIf="!supplier.risk  && supplier.trust_index <= 50"
+                                                                        (click)="clickSupplier(supplier)" class="red-color cursor"> {{supplier.name}}</a>
+                                                                <a *ngIf="!supplier.risk  && supplier.trust_index >= 80"
                                                                         (click)="clickSupplier(supplier)" class="green-color cursor"> {{supplier.name}}</a>
 								<a
-									*ngIf="supplier.risk && supplier.trust_index > 70"
+									*ngIf="supplier.risk && supplier.trust_index <= 50"
 									tooltip="Рискованный поставщик"
 									[options]="tooltipOptions"
 									show-delay="500"
 									(click)="clickSupplier(supplier)" class="red-color cursor"> {{supplier.name}}</a>
                                                                 <a
-                                                                        *ngIf="supplier.risk && supplier.trust_index <= 50"
+                                                                        *ngIf="supplier.risk && supplier.trust_index >= 80"
                                                                         tooltip="Рискованный поставщик"
                                                                         [options]="tooltipOptions"
                                                                         show-delay="500"
                                                                         (click)="clickSupplier(supplier)" class="green-color cursor"> {{supplier.name}}</a>
                                                                 <a
-                                                                        *ngIf="supplier.risk && supplier.trust_index > 50 && supplier.trust_index <= 70"
+                                                                        *ngIf="supplier.risk && supplier.trust_index > 50 && supplier.trust_index < 80"
                                                                         tooltip="Рискованный поставщик"
                                                                         [options]="tooltipOptions"
                                                                         show-delay="500"
@@ -193,7 +204,7 @@
 									tooltip="Нормальная цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace | numberDot}}
+									{{supplier.price_per_unit | thousandsSpace | numberDot}} руб
 								</span>
 
 								<span
@@ -202,7 +213,7 @@
 									tooltip="Средняя цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace | numberDot}}
+									{{supplier.price_per_unit | thousandsSpace | numberDot}} руб
 								</span>
 								<span
 									*ngIf="supplier.percentDiff>=30"
@@ -210,7 +221,7 @@
 									tooltip="Завышеная цена"
 									[options]="tooltipOptions"
 									show-delay="500">
-									{{supplier.price_per_unit | thousandsSpace | numberDot}}
+									{{supplier.price_per_unit | thousandsSpace | numberDot}} руб
 								</span>
 
 
@@ -243,6 +254,9 @@
 							<td *ngIf="isColumnActive('status')" class="text-center">
 							{{supplier.status ? supplier.status : '-'}}
 							</td>
+                                                        <td *ngIf="isColumnActive('product_url')" class="text-center">
+                                                        <a href="{{supplier.product_url}}" target="_blank">Перейти</a>
+                                                        </td>
 							<td *ngIf="isColumnActive('region_name')" class="text-center">
 							{{supplier.region_name ? supplier.region_name : '-'}}
 							</td>

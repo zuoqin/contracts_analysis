@@ -95,6 +95,9 @@
                                     <radio-filter class="filter-right-position" (onSelectValue)="onSelectRadioFilter($event,'call_id')" [fieldName]="'call_id'"></radio-filter>
                                 </div> -->
                             </th>
+                            <th *ngIf="isColumnActive('product_url')" class="w130">
+                                Источник цены
+                            </th>
                         </tr>
                     </thead>
                     <tr 
@@ -112,7 +115,7 @@
                                     tooltip="Нормальная цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace | numberDot}}
+                                    {{supplier.unitprice | thousandsSpace | numberDot}} руб
                                 </span>
     
                                 <span 
@@ -121,7 +124,7 @@
                                     tooltip="Средняя цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace | numberDot}}
+                                    {{supplier.unitprice | thousandsSpace | numberDot}} руб
                                 </span>
                                 <span 
                                     *ngIf="supplier.percentDiff>=30" 
@@ -129,7 +132,7 @@
                                     tooltip="Завышеная цена" 
                                     [options]="tooltipOptions"
                                     show-delay="500">
-                                    {{supplier.unitprice | thousandsSpace | numberDot}}
+                                    {{supplier.unitprice | thousandsSpace | numberDot}} руб
                                 </span>
                                 
                             </td>
@@ -151,6 +154,9 @@
                                     <audio-player  [src]="supplier.call_url"></audio-player>
                                 </ng-container>
                                 <ng-container *ngIf="!supplier.call_url">-</ng-container>
+                            </td>
+                            <td *ngIf="isColumnActive('product_url')" class="text-center">
+                                <a href="{{supplier.product_url}}" target="_blank">Перейти</a>
                             </td>
                     </tr>
             </table>

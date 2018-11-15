@@ -73,8 +73,11 @@ export class SuppliersTableComponent{
         calls:{
             active:true,
             filter:false
+        },
+        product_url:{
+            activate:false,
+            filter:false
         }
-
 
     }
     dataColumns=[
@@ -138,6 +141,11 @@ export class SuppliersTableComponent{
 			text: "Регион",
 			active: false
 		},
+                {
+                        id: "product_url",
+                        text: "Источник цены",
+                        active: false
+                },
     ]
     constructor(
         private suppliersServices:SuppliersServices,

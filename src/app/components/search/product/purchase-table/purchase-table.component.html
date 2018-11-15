@@ -192,7 +192,7 @@
                             tooltip="Нормальная цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace | numberDot}}
+                            {{purchase.unitprice | thousandsSpace | numberDot}} руб
                         </span>
 
                         <span 
@@ -201,7 +201,7 @@
                             tooltip="Средняя цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace | numberDot}}
+                            {{purchase.unitprice | thousandsSpace | numberDot}} руб
                         </span>
                         <span 
                             *ngIf="purchase.percentDiff>=30" 
@@ -209,7 +209,7 @@
                             tooltip="Завышеная цена" 
                             [options]="tooltipOptions"
                             show-delay="500">
-                            {{purchase.unitprice | thousandsSpace | numberDot}}
+                            {{purchase.unitprice | thousandsSpace | numberDot}} руб
                         </span>
                     </td>
                     <td *ngIf="isColumnActive('days')" class="text-center">{{purchase.days}} дней</td>

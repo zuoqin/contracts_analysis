@@ -64,6 +64,10 @@ export class CommercialOffersComponent{
         call_url:{
             active:true,
             filter:false
+        },
+        product_url:{
+            active:false,
+            filter:false
         }
 
         
@@ -104,6 +108,11 @@ export class CommercialOffersComponent{
             id:"call_url",
             text:"Звонки",
             active:true
+        },
+        {
+            id:"product_url",
+            text:"Источник цены",
+            active:false
         },
     ]
     constructor(

@@ -103,7 +103,7 @@ export class SearchFilterProduct implements OnInit{
             kpgz_id: null,
             risk: null,
             overprice: null,
-            region_id: [],
+            region_id: [80],
             delivery_from: null,
             delivery_to: null,
             volume_from: null,
