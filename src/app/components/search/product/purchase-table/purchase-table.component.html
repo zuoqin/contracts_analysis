@@ -11,6 +11,7 @@
 
     <div *ngIf="!purchaseData">{{messageResponse.text}}</div>
     <ng-container  *ngIf="initalData && initalData.length" >
+        <div class="table-container">
         <table class="styled-table" [mfData]="purchaseData" #mf="mfDataTable">
             <thead>
                 <tr>
@@ -224,6 +225,7 @@
                     <td *ngIf="isColumnActive('contract_num')">{{purchase.contract_num ? purchase.contract_num:'-' }}</td>
             </tr>
         </table>
+        </div>
         <ng-container *ngIf="!purchaseData.length">
             <br>  <br>
             Нет данных для отображения, измените или сбросьте фильтры

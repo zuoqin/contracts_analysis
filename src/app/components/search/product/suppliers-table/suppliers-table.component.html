@@ -255,7 +255,8 @@
 							{{supplier.status ? supplier.status : '-'}}
 							</td>
                                                         <td *ngIf="isColumnActive('product_url')" class="text-center">
-                                                        <a href="{{supplier.product_url}}" target="_blank">Перейти</a>
+                                                        <a href="{{supplier.product_url}}" target="_blank">
+                                                            <div class="icon icon--link cursor v-align-middle"></div></a>
                                                         </td>
 							<td *ngIf="isColumnActive('region_name')" class="text-center">
 							{{supplier.region_name ? supplier.region_name : '-'}}
