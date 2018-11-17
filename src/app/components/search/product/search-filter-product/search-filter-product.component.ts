@@ -96,8 +96,8 @@ export class SearchFilterProduct implements OnInit{
             deliveryTo:[null],
             risk:[false],
             overprice:[false]
-		});
-		this.selectedProduct = {
+	});
+	this.selectedProduct = {
             name: null,
             spgz_id: [],
             kpgz_id: null,
@@ -110,7 +110,7 @@ export class SearchFilterProduct implements OnInit{
             volume_to: null,
             unit_id: null,
             unit_text:null
-		};
+	};
         this.shortFilterInit()
     }
     selectProduct(selected,selectFromCategory?){

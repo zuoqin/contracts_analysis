@@ -6,10 +6,11 @@
             <div *ngIf="infoSupplier.rating !=null" class="rating title-supplier__rating">
                 <div class="rating__title">Рейтинг добросовестности</div>
                 <div class="rating__count"
-					 [class.red-color]="infoSupplier.rating<30"
-					[class.yellow-color]="infoSupplier.rating>=30 && infoSupplier.rating<70"
-					 [class.green-color]="infoSupplier.rating>=70"
-				>{{infoSupplier.rating}} из 100</div>
+                    [class.red-color]="infoSupplier.rating<30"
+		    [class.yellow-color]="infoSupplier.rating>=30 && infoSupplier.rating<70"
+		    [class.green-color]="infoSupplier.rating>=70">
+                    {{infoSupplier.rating.toFixed(0)}} из 100
+                </div>
             </div>
         </div>
     </div>

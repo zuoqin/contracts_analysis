@@ -162,9 +162,7 @@
 					</thead>
 					<tr
 						*ngFor="let supplier of mf.data"
-						[class.red-bg]="supplier.risk"
-
-						>
+						[class.red-bg]="supplier.risk">
 							<td *ngIf="isColumnActive('date')" class="text-center">{{supplier.date ? supplier.date.text :'-'}}</td>
 							<td *ngIf="isColumnActive('name')">
 
