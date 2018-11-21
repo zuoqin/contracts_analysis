@@ -23,7 +23,10 @@ export class AddSupplierModalComponent implements OnInit{
     addSupplierModal: BsModalComponent;
     addSupplierForm: FormGroup;
     autocompleteProduct = CONFIG.autocompleteProduct;
-    autocompleteSPGZ = CONFIG.autocompleteSPGZ;
+	autocompleteSPGZ = CONFIG.autocompleteSPGZ;
+	autocompleteSPGZ_Name = CONFIG.autocompleteSPGZ_Name;
+
+
     maskPhoneSettings = CONFIG.maskPhoneSettings;
     numberMaskOptions = CONFIG.numberMaskOptions;
     numberDecimalSpaceMaskOptions = CONFIG.numberDecimalSpaceMaskOptions;

@@ -28,7 +28,13 @@ export const CONFIG = {
 		urlFullSearch: '/autocomplete/spgz?full_search=true&query=',
         titleField:"name",
         searchField:"name"
-    },
+	},
+	autocompleteSPGZ_Name: {
+		url: '/autocomplete/spgz_name?query=',
+		urlFullSearch: '/autocomplete/spgz_name?full_search=true&query=',
+		titleField: "name",
+		searchField: "name"
+	},
     messageResponse:{
         text:'Загрузка...',
         loading:'Загрузка...',

@@ -211,7 +211,8 @@
                                     class="styled-form__select-type--selected"
                                     >
                                     <ng-option value="product" selected>Продукт</ng-option>
-                                    <ng-option value="spgz">ID SPGZ</ng-option>
+									<ng-option value="spgz">ID SPGZ</ng-option>
+									<ng-option value="spgz_name">Имя ID SPGZ</ng-option>
                                 </ng-select>
                                 <div class="styled-form__select-type--input">
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product'">
@@ -234,7 +235,18 @@
                                                 [titleField]="autocompleteSPGZ.titleField"
                                                 [placeholder]="'Поиск по ID СПГЗ'"
                                             ></autocomplete-field>
-                                    </ng-container>
+									</ng-container>
+									<ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='spgz_name'">
+										<autocomplete-field
+										class="autocomplete-input"
+										(onSelectedValue)="selectProductSpgz($event)"
+										[urlSearch]="autocompleteSPGZ_Name.urlFullSearch"
+										[searchFields]="autocompleteSPGZ_Name.searchField"
+										[titleField]="autocompleteSPGZ_Name.titleField"
+										[placeholder]="'Поиск по имени ID СПГЗ '"></autocomplete-field>
+									</ng-container>
+
+
                                     <div class="input-error" *ngIf="addSupplierForm.get('product').hasError('required') && addSupplierForm.get('product').touched" >Выберите продутк</div>
                                 </div>
                             </div>
