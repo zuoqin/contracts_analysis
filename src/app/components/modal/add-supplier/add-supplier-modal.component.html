@@ -212,7 +212,7 @@
                                     >
                                     <ng-option value="product" selected>Продукт</ng-option>
 									<ng-option value="spgz">ID SPGZ</ng-option>
-									<ng-option value="spgz_name">Имя ID SPGZ</ng-option>
+									<ng-option value="spgz_name">Имя СПГЗ</ng-option>
                                 </ng-select>
                                 <div class="styled-form__select-type--input">
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product'">
@@ -243,7 +243,7 @@
 										[urlSearch]="autocompleteSPGZ_Name.urlFullSearch"
 										[searchFields]="autocompleteSPGZ_Name.searchField"
 										[titleField]="autocompleteSPGZ_Name.titleField"
-										[placeholder]="'Поиск по имени ID СПГЗ '"></autocomplete-field>
+										[placeholder]="'Поиск по имени СПГЗ '"></autocomplete-field>
 									</ng-container>
 
 
