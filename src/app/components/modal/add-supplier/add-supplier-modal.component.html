@@ -29,28 +29,28 @@
                         <div class="styled-form__row">
                             <label class="styled-form__left-label styled-form__left-label--w165">ИНН</label>
                             <div class="styled-form__right-value">
-                                <input 
+                                <input
                                     formControlName="inn"
-                                    [textMask]="numberMaskOptions" 
-                                    type="text" 
+                                    [textMask]="numberMaskOptions"
+                                    type="text"
                                     (blur)="onBulrInn()"
                                     (keyup.enter)="onBulrInn()"
-                                    class="styled-input" 
+                                    class="styled-input"
                                         />
                                 <div  *ngIf="addSupplierForm.get('inn').hasError('required') && addSupplierForm.get('inn').touched" >Введите ИНН</div>
                                 <div class="input-error" *ngIf="isSupplierExists && !ifLoadInn"  style="position: absolute;">Этот поставщик уже добавлен, введите ИНН другого поставщика</div>
                                 <div *ngIf="ifLoadInn" style="position: absolute;">Загрузка ...</div>
                             </div>
-                          
+
                         </div>
                         <div *ngIf="ifCheckInn" class="styled-form__row">
                             <label class="styled-form__left-label styled-form__left-label--width-auto">КПП</label>
                             <div class="styled-form__right-value">
-                                <input 
+                                <input
                                     formControlName="kpp"
                                     [textMask]="numberMaskOptions"
-                                    type="text" 
-                                    class="styled-input" 
+                                    type="text"
+                                    class="styled-input"
                                         />
                                 <div class="input-error" *ngIf="addSupplierForm.get('kpp').hasError('required') && addSupplierForm.get('kpp').touched" >Введите КПП</div>
                             </div>
@@ -62,21 +62,21 @@
                                 <div class="switch__text">
                                     Редактировать данные об организации
                                 </div>
-                        
+
                             </label>
                         </div>
-                     
+
                     </div>
-                    
+
                     <!---->
                     <!---->
                     <div class="styled-form__row">
                         <label class="styled-form__left-label styled-form__left-label--w165">Название компании</label>
                         <div class="styled-form__right-value">
-                            <input 
-                                type="text" 
-                                class="styled-input" 
-                                formControlName="name" 
+                            <input
+                                type="text"
+                                class="styled-input"
+                                formControlName="name"
                             placeholder="Введите название компании"/>
                             <div class="input-error" *ngIf="addSupplierForm.get('name').hasError('required') && addSupplierForm.get('name').touched" >Введите ссылку</div>
                         </div>
@@ -87,12 +87,12 @@
                     <div class="styled-form__row">
                         <label class="styled-form__left-label styled-form__left-label--w165">Адрес</label>
                         <div class="styled-form__right-value">
-                            <textarea 
-                                class="styled-input" 
-                                formControlName="addres" 
+                            <textarea
+                                class="styled-input"
+                                formControlName="addres"
                                 rows="1"
-                                autosize 
-                                [minHeight]="32" 
+                                autosize
+                                [minHeight]="32"
                                 [maxHeight]="260"
                                     placeholder="Укажите адрес"
                                     ></textarea>
@@ -105,18 +105,18 @@
                         <div class="styled-form__row styled-form__row--w49">
                             <label class="styled-form__left-label styled-form__left-label--w165">Сайт</label>
                             <div class="styled-form__right-value styled-form__right-value--pr0">
-                                <input 
-                                    type="text" 
-                                    class="styled-input" 
+                                <input
+                                    type="text"
+                                    class="styled-input"
                                     formControlName="site"/>
                             </div>
                         </div>
                         <div class="styled-form__row styled-form__row--w51">
                             <label class="styled-form__left-label styled-form__left-label--w150">Email</label>
                             <div class="styled-form__right-value ">
-                                <input 
-                                    type="text" 
-                                    class="styled-input " 
+                                <input
+                                    type="text"
+                                    class="styled-input "
                                     formControlName="email"/>
                                 <div class="input-error" *ngIf="addSupplierForm.get('email').hasError('required') && addSupplierForm.get('email').touched" >Введите email</div>
                             </div>
@@ -128,13 +128,13 @@
                         <div class="styled-form__row styled-form__row--w49">
                             <label class="styled-form__left-label styled-form__left-label--w165">Номер телефона</label>
                             <div class="styled-form__right-value">
-                                    <input 
-                                    formControlName="phone" 
-                                    [textMask]="maskPhoneSettings" 
-                                    type="text" 
-                                    class="styled-input" 
+                                    <input
+                                    formControlName="phone"
+                                    [textMask]="maskPhoneSettings"
+                                    type="text"
+                                    class="styled-input"
                                     [placeholder]="maskPhoneSettings.placeholder"
-                                    (blur)="onBlurMaskPhone()" 
+                                    (blur)="onBlurMaskPhone()"
                                     />
                                     <div class="input-error" *ngIf="addSupplierForm.get('phone').hasError('required') && addSupplierForm.get('phone').touched" >Введите телефон</div>
                             </div>
@@ -146,10 +146,10 @@
                                     <my-date-picker name="dataRegistration" [options]="myDatePickerOptions"
                                     formControlName="dataRegistration"></my-date-picker>
                                 </div>
-<!-- 
-                                <input 
-                                    type="text" 
-                                    class="styled-input w115" 
+<!--
+                                <input
+                                    type="text"
+                                    class="styled-input w115"
                                     formControlName="dataRegistration"/> -->
                                 <div class="input-error" *ngIf="addSupplierForm.get('dataRegistration').hasError('required') && addSupplierForm.get('dataRegistration').touched" >Введите дату</div>
                             </div>
@@ -165,22 +165,21 @@
                         <div class="styled-form__row styled-form__row--w47">
                                 <label class="styled-form__left-label styled-form__left-label--w165">Обороты за год</label>
                                 <div class="styled-form__right-value">
-                                    <input 
-                                        [textMask]="numberDecimalSpaceMaskOptions" 
-                                        type="text" 
-                                        class="styled-input" 
-                                        formControlName="year_value" 
+                                    <input
+                                        [textMask]="numberDecimalSpaceMaskOptions"
+                                        type="text"
+                                        class="styled-input"
+                                        formControlName="year_value"
                                         placeholder="В рублях"/>
-                                    <div class="input-error" *ngIf="addSupplierForm.get('year_value').hasError('required') && addSupplierForm.get('year_value').touched" >Введите обороты</div>
                                 </div>
                         </div>
                         <div class="styled-form__row styled-form__row--w31">
                             <label class="styled-form__left-label styled-form__left-label--width-auto">Масштаб</label>
                             <div class="styled-form__right-value">
-                                <ng-select 
-                                    [searchable]="false" 
+                                <ng-select
+                                    [searchable]="false"
                                     [clearable]="false"
-                                    formControlName="scale" 
+                                    formControlName="scale"
                                     >
                                         <ng-option value="1">Мелкий</ng-option>
                                         <ng-option value="2">Средний</ng-option>
@@ -204,19 +203,19 @@
                         <label class="styled-form__left-label styled-form__left-label--w165">Продукт</label>
                         <div class="styled-form__right-value">
                             <div class="styled-form__select-type">
-                                <ng-select 
-                                    [searchable]="false" 
+                                <ng-select
+                                    [searchable]="false"
                                     [clearable]="false"
-                                    formControlName="typeProduct" 
+                                    formControlName="typeProduct"
                                     (change)="changeType($event)"
                                     class="styled-form__select-type--selected"
                                     >
-                                    <!-- <ng-option value="product" selected>Продукт</ng-option> -->
+                                    <ng-option value="product" selected>Продукт</ng-option>
                                     <ng-option value="spgz">ID SPGZ</ng-option>
                                 </ng-select>
                                 <div class="styled-form__select-type--input">
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product'">
-                                            <autocomplete-field 
+                                            <autocomplete-field
                                             class="autocomplete-input"
                                                 (onSelectedValue)="selectProduct($event)"
                                                 [urlSearch]="autocompleteProduct.url"
@@ -227,7 +226,7 @@
                                             <div *ngIf="ifDisabledProduct"  class="input-error" >Такого продукта нет среди закупок, выберите другой продукт из списка.</div>
                                     </ng-container>
                                     <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='spgz'">
-                                            <autocomplete-field 
+                                            <autocomplete-field
                                             class="autocomplete-input"
                                                 (onSelectedValue)="selectProductSpgz($event)"
                                                 [urlSearch]="autocompleteSPGZ.url"
@@ -242,7 +241,7 @@
 
                             <ng-container *ngIf="this.addSupplierForm.controls['typeProduct'].value=='product' && attrsProduct">
                                 <div   *ngIf="attrsProduct.length" class="mt20" >
-                                
+
                                     <ng-container *ngFor="let attr of attrsProduct">
                                         <label class="styled-label">{{attr.name}}</label>
                                         <div class="styled-form__character">
@@ -254,7 +253,7 @@
                                             </label>
                                         </div>
                                     </ng-container>
-                             
+
                                 </div>
                             </ng-container>
                         </div>
@@ -266,11 +265,11 @@
                         <div class="styled-form__row styled-form__row--w39">
                             <label class="styled-form__left-label styled-form__left-label--w165">Объем</label>
                             <div class="styled-form__right-value">
-                                <input 
-                                    type="text" 
-                                    class="styled-input" 
-                                    [textMask]="numberDecimalSpaceMaskOptions" 
-                                    formControlName="value" 
+                                <input
+                                    type="text"
+                                    class="styled-input"
+                                    [textMask]="numberDecimalSpaceMaskOptions"
+                                    formControlName="value"
                                     placeholder="В {{volumeUnitPlaceholder}}"
                                     />
                                 <div class="input-error" *ngIf="addSupplierForm.get('value').hasError('required') && addSupplierForm.get('value').touched" >Введите объем</div>
@@ -279,12 +278,12 @@
                         <div class="styled-form__row styled-form__row--w33">
                             <label class="styled-form__left-label styled-form__left-label--width-auto">Цена&nbsp;за&nbsp;единицу, руб</label>
                             <div class="styled-form__right-value">
-                                    <input 
-                                    formControlName="price_per_unit" 
-                                    [textMask]="numberDecimalSpaceMaskOptions" 
-                                    type="text" 
-                                    class="styled-input" 
-                                    
+                                    <input
+                                    formControlName="price_per_unit"
+                                    [textMask]="numberDecimalSpaceMaskOptions"
+                                    type="text"
+                                    class="styled-input"
+
                                     />
                                     <div class="input-error" *ngIf="addSupplierForm.get('price_per_unit').hasError('required') && addSupplierForm.get('price_per_unit').touched" >Введите цену</div>
                             </div>
@@ -292,24 +291,24 @@
                         <div class="styled-form__row">
                                 <label class="styled-form__left-label styled-form__left-label--width-auto">Единица измерения</label>
                             <div class="styled-form__right-value ">
-                                <ng-select 
-                                    [searchable]="false" 
+                                <ng-select
+                                    [searchable]="false"
                                     [clearable]="false"
-                                    formControlName="unit_id" 
+                                    formControlName="unit_id"
                                     (change)="changeVolumeUnit()"
                                     >
                                     <ng-option *ngFor="let unit of units" [value]="unit.unit_id" >{{unit.name}}</ng-option>
                                 </ng-select>
                             </div>
-                                
+
                         </div>
                     </div>
                     <!---->
                 </div>
             </div>
-            <div *ngIf="this.answerMessage.text" class="alertMessage"><br>{{answerMessage.text}}</div>  
+            <div *ngIf="this.answerMessage.text" class="alertMessage"><br>{{answerMessage.text}}</div>
         </form>
-       
+
     </bs-modal-body>
     <bs-modal-footer>
             <div *ngIf="ifSendSuccess" class="btn btn--icon" (click)="close()">Закрыть</div>
@@ -320,6 +319,6 @@
                         {{ifSubmit ? 'Отправка...':'Отправить'}}
                     </div>
             </ng-container>
-    
+
     </bs-modal-footer>
 </bs-modal>

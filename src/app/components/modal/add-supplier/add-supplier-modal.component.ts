@@ -56,7 +56,7 @@ export class AddSupplierModalComponent implements OnInit{
         showTodayBtn:false,
         openSelectorOnInputClick:true
     };
-   
+
     // Initialized to specific date (09.10.2018).
     public model: any = { date: { year: 2018, month: 10, day: 9 } };
 
@@ -65,10 +65,10 @@ export class AddSupplierModalComponent implements OnInit{
         sucess:"Поставщик успешно добавлен",
         error:"Ошибка, попробуйте позже"
     }
-    
 
-    
-    constructor(      
+
+
+    constructor(
         private formBuilder: FormBuilder,
         private suppliersServices:SuppliersServices,
         private productServices:ProductServices
@@ -123,7 +123,7 @@ export class AddSupplierModalComponent implements OnInit{
             email:[{value:'',disabled:true}, [Validators.required]],
             phone:[{value:'',disabled:true}, [Validators.required]],
             dataRegistration:[{value:null,disabled:true}, [Validators.required]],
-            year_value:['', [Validators.required]],
+            year_value:[''],
             scale:['1', [Validators.required]],
             product:[null, [Validators.required]],
             has_warehouse :[false],
@@ -135,7 +135,7 @@ export class AddSupplierModalComponent implements OnInit{
         });
 
 
-        
+
     }
     setDate(): void {
         // Set today date using the patchValue function
@@ -184,7 +184,7 @@ export class AddSupplierModalComponent implements OnInit{
             return;
         }
         this.ifLoadInn = true;
-  
+
         this.lastLoadedInn = this.addSupplierForm.controls['inn'].value;
         this.suppliersServices
             .getCompanyInfo(this.addSupplierForm.controls['inn'].value)
@@ -192,8 +192,8 @@ export class AddSupplierModalComponent implements OnInit{
                 response => {
                     this.ifCheckInn = true;
                     this.ifLoadInn = false;
-                 
-                    
+
+
                     if(response.result && !response.data.inn_exists){
                         this.isSupplierExists = false;
                         this.supplierInfo = response.data;
@@ -206,18 +206,18 @@ export class AddSupplierModalComponent implements OnInit{
                                 this.addSupplierForm.controls['addres'].setValue(this.supplierInfo.address);
                             }
                         }
-                   
+
                         this.addSupplierForm.controls['site'].setValue(this.supplierInfo.site);
                         this.addSupplierForm.controls['email'].setValue(this.supplierInfo.email);
                         this.addSupplierForm.controls['phone'].setValue(this.supplierInfo.phones[0]);
                         let date;
                         if(this.supplierInfo.regdate){
-                      
+
                             let regDate =  this.supplierInfo.regdate.split('-')
                             date ={
                                     date:{
                                         year: parseInt(regDate[0]),
-                                        month: parseInt(regDate[1]), 
+                                        month: parseInt(regDate[1]),
                                         day: parseInt(regDate[2])
                                     }
                                 }
@@ -303,7 +303,7 @@ export class AddSupplierModalComponent implements OnInit{
                 }else{
                     this.ifDisabledProduct = false;
                 }
-                
+
             },
             err => {
                 console.log(err)
@@ -346,10 +346,10 @@ export class AddSupplierModalComponent implements OnInit{
         }else{
             this.getSpgz()
         }
-   
+
     }
     submit(){
-   
+
         if(this.ifDisabledProduct || this.ifSubmit || this.isSupplierExists){
             return;
         }
@@ -372,8 +372,8 @@ export class AddSupplierModalComponent implements OnInit{
                 .forEach(controlName => controls[controlName].markAsTouched());
                 return;
         }
-  
-  
+
+
         let reg_date = this.formatDate(this.addSupplierForm.controls['dataRegistration'].value.date);
         let body = {
             supplier_type:this.addSupplierForm.value.supplier_type,//текст, только 'producer' или 'provider'
