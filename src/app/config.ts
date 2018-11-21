@@ -24,7 +24,8 @@ export const CONFIG = {
         searchField:"name"
     },
     autocompleteSPGZ:{
-        url:'/autocomplete/spgz?query=',
+		url:'/autocomplete/spgz?query=',
+		urlFullSearch: '/autocomplete/spgz?full_search=true&query=',
         titleField:"name",
         searchField:"name"
     },
@@ -40,7 +41,7 @@ export const CONFIG = {
         showMask:false,
         placeholder:"+7 (___) ___-__-__"
     },
-    
+
 
     numberDecimalSpaceMaskOptions:{
 		mask: createNumberMask({
@@ -82,5 +83,5 @@ export const CONFIG = {
             allowLeadingZeroes: true
         }),
     },
-   
+
 }
