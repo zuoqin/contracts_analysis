@@ -114,14 +114,14 @@ export class SuppliersServices{
           .pipe(map(data => data));
     }
         
-        getProductPriceSupplier(supplier_id,spgz_id,unit_id): Observable<any> {
+    getProductPriceSupplier(supplier_id,spgz_id,unit_id): Observable<any> {
         const params = new HttpParams()
             .set('supplier_id', supplier_id.toString())
             .set('spgz_id', spgz_id.toString())
             .set('unit_id', unit_id.toString())
             
         
-        return this.apiService.get('/price_history',params)
+        return this.apiService.get('/supplier_price_history',params)
           .pipe(map(data => data));
     }
     

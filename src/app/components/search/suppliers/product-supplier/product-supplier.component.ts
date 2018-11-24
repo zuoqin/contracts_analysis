@@ -51,7 +51,7 @@ export class ProductSupplierComponent{
         this.suppliersServices.getProductPriceSupplier(this.selectedSupplier.supplier_id,this.selectedProduct.spgz_id,this.selectedProduct.unit.unit_id).subscribe(
             response => {
 
-                this.priceDynamicsArray = response;
+                this.priceDynamicsArray = response.map(x=>{var res = x;x.purchase=x.current;return x});
                 let priceProductCharts = [];
 
                 priceProductCharts.push(
