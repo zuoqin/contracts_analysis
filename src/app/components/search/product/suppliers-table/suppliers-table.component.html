@@ -155,8 +155,17 @@
                                                         </th>
 
 							<th *ngIf="isColumnActive('region_name')" >
-							Регион
+                                                                Регион
 
+                                                                <div class="styled-table__bottom-filter" *ngIf="initalData.length>1">
+                                                                        <div class="sorting">
+                                                                                <mfDefaultSorter by="region">
+                                                                                        <span class="sorting__default"></span>
+                                                                                </mfDefaultSorter>
+                                                                        </div>
+
+                                                                        <input-filter (onEnterValue)="onEnterRegionFilter($event)"></input-filter>
+                                                                </div>
 							</th>
 						</tr>
 					</thead>

@@ -118,7 +118,7 @@
                                         *ngFor="let item of attr.values">
                                         <input type="checkbox" value="{{item.id}}" (change)="selectAttr($event,item)"/>
                                         <span class="checkmark"></span>
-                                        {{item.name}}
+                                        {{item.name}} <span>({{item.count}})</span>
                                     </label>
                                 </div>
                             </ng-container>

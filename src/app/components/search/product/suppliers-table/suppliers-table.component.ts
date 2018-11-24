@@ -78,6 +78,10 @@ export class SuppliersTableComponent{
             activate:false,
             filter:false
         }
+        region:{
+            filterValue:null,
+            filter:false
+        },
 
     }
     dataColumns=[
@@ -261,6 +265,15 @@ export class SuppliersTableComponent{
         }
         this.filterData()
     }
+    onEnterRegionFilter(value){
+        if(value){
+            this.filterArray.region.filterValue = value;
+            this.filterArray.region.filter = true;
+        }else{
+            this.filterArray.region.filter = false;
+        }
+        this.filterData()
+    }
     onSelectRadioFilter(value,field){
         this.filterArray[field].active = value;
         this.filterData()
@@ -303,6 +316,10 @@ export class SuppliersTableComponent{
         if(this.filterArray.comm_offer.filter && array.length){
             filtered = true;
             array = array.filter(item=>item.comm_offer==this.filterArray.comm_offer.active)
+        }
+        if(this.filterArray.region.filter && array.length){
+            filtered = true;
+            array = array.filter(item=>item.region_name.toLowerCase().indexOf(this.filterArray.region.filterValue)>=0)
         }
 
 
