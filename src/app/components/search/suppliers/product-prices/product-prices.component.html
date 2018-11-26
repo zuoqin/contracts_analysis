@@ -10,12 +10,12 @@
             <thead>
                 <tr>
                     <th class="w11p text-center">Товар</th>
-                    <th class="w7-5p text-center">ID</th>
+                    <!--<th class="w7-5p text-center">ID</th>-->
                     <th class="w9p text-center">Звонок</th>
                     <th class="w11p text-center">Дата<br>запроса</th>
                     <th class="w11p text-center">Запрос<br>статуса КП</th>
                     <th class="w7p text-center">Ответ</th>
-                    <th class="w13p" style="text-align:center;">Дата<br>получения<br>цены</th>
+                    <th class="w20p" style="text-align:center;">Дата<br>получения<br>цены</th>
                     <th class="w9p text-center">Цена,<br>руб</th>
                     <th class="w18p text-center">Комментарий<br>аналитика </th>
                     <th class="w13p text-center">Ссылка<br>на<br>товар</th>
@@ -25,7 +25,7 @@
             <tbody>
                 <tr *ngFor="let product of productsArray">
                     <td class="w11p break-all">{{product.product_name}}</td>
-                    <td class="w7-5p">{{product.id}}</td>
+                    <!--<td class="w7-5p">{{product.id}}</td>-->
                     <td class="w9p">
                         <ng-container *ngIf="product.call_url">
                             <audio-player  [src]="product.call_url"></audio-player>
@@ -37,7 +37,7 @@
                         <ng-container  *ngIf="!product.answer">-</ng-container>
                         <div *ngIf="product.answer" (click)="showAnswer(product.answer)" class="icon icon--letter  cursor v-align-middle"></div>
                     </td>
-                    <td class="w13p">{{product.answer_date ? product.answer_date : '-'}}</td>
+                    <td class="w20p">{{product.answer_date ? product.answer_date : '-'}}</td>
                     <td class="w9p">{{product.unit_price | thousandsSpace | numberDot}}</td>
                     <td class="w18p" style="text-align: center;">{{product.comment ? product.comment : '-'}}</td>
                     <td class="w13p text-center">

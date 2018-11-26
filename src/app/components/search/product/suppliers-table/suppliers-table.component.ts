@@ -77,12 +77,11 @@ export class SuppliersTableComponent{
         product_url:{
             activate:false,
             filter:false
-        }
+        },
         region:{
             filterValue:null,
             filter:false
         },
-
     }
     dataColumns=[
         {
